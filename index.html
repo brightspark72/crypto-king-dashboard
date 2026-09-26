@@ -303,6 +303,47 @@
       padding: 0.2rem 0.55rem; border-radius: 999px; border: 1px solid rgba(212, 160, 23, 0.25);
     }
     .token-slot .slot-note { font-size: 0.7rem; color: var(--text-dim); margin-top: 0.35rem; line-height: 1.35; }
+
+    .tk-grid { grid-template-columns: repeat(3, 1fr); align-items: start; }
+    @media (max-width: 1000px) { .tk-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px) { .tk-grid { grid-template-columns: 1fr; } }
+    .tk-card { padding: 0; overflow: hidden; border-top: 3px solid var(--border); }
+    .tk-card.tk-buy { border-top-color: var(--green); }
+    .tk-card.tk-wait { border-top-color: var(--gold); }
+    .tk-card.tk-watch { border-top-color: var(--blue); }
+    .tk-card.tk-skip { border-top-color: var(--red); }
+    .tk-card summary { list-style: none; cursor: pointer; padding: 0.95rem 1rem 0.7rem; }
+    .tk-card summary::-webkit-details-marker { display: none; }
+    .tk-top { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; }
+    .tk-ticker { font-size: 1.1rem; font-weight: 800; letter-spacing: 0.04em; }
+    .tk-verdict { font-size: 0.66rem; font-weight: 700; padding: 0.2rem 0.55rem; border-radius: 999px; border: 1px solid; white-space: nowrap; }
+    .v-buy { color: var(--green); background: var(--green-dim); border-color: rgba(34,197,94,0.35); }
+    .v-wait { color: var(--gold-bright); background: var(--gold-dim); border-color: rgba(212,160,23,0.35); }
+    .v-watch { color: #7fb0ff; background: rgba(59,130,246,0.12); border-color: rgba(59,130,246,0.35); }
+    .v-skip { color: var(--red); background: var(--red-dim); border-color: rgba(230,57,70,0.35); }
+    .tk-name { font-size: 0.75rem; color: var(--text-muted); margin: 0.15rem 0 0.55rem; }
+    .tk-kpis { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem 0.75rem; margin-bottom: 0.6rem; }
+    .tk-kpis div { display: flex; flex-direction: column; background: var(--bg-elevated); border-radius: 6px; padding: 0.3rem 0.5rem; }
+    .tk-kpis span { font-size: 0.6rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.06em; }
+    .tk-kpis b { font-size: 0.8rem; font-family: var(--mono); font-weight: 600; }
+    .tk-line { font-size: 0.74rem; color: var(--text-muted); line-height: 1.4; padding: 0.35rem 0 0.35rem 0.6rem; border-left: 3px solid var(--border); margin-bottom: 0.35rem; }
+    .tk-line span { display: block; font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim); }
+    .tk-line.l-ok { border-left-color: var(--green); }
+    .tk-line.l-warn { border-left-color: var(--gold); }
+    .tk-line.l-bad { border-left-color: var(--red); }
+    .tk-bn { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.3rem; }
+    .tk-more { font-size: 0.66rem; color: var(--gold); margin-top: 0.45rem; text-align: right; }
+    .tk-card[open] .tk-more { visibility: hidden; }
+    .tk-body { padding: 0 1rem 1rem; border-top: 1px solid var(--border-subtle); }
+    .tk-body p { font-size: 0.76rem; color: var(--text-muted); margin-top: 0.55rem; line-height: 1.45; }
+    .tk-body p b { color: var(--text); }
+    .tk-body .tk-why { color: var(--text); }
+    .tk-body ul { margin: 0.25rem 0 0 1.1rem; font-size: 0.74rem; color: var(--text-muted); }
+    .tk-src { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.7rem; }
+    .tk-src a { font-size: 0.66rem; color: var(--gold-bright); text-decoration: none; border: 1px solid var(--border); border-radius: 999px; padding: 0.15rem 0.5rem; }
+    .tk-src a:hover { border-color: var(--gold); }
+    .tk-panel-btn { margin-top: 0.7rem; font: inherit; font-size: 0.7rem; color: var(--text); background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 6px; padding: 0.3rem 0.65rem; cursor: pointer; }
+    .tk-asof { font-size: 0.62rem; color: var(--text-dim); margin-top: 0.55rem; }
     .tokenomics-note {
       margin-top: 0.75rem; font-size: 0.78rem; color: var(--text-muted); padding: 0.75rem 1rem;
       background: var(--bg-elevated); border-radius: var(--radius-sm); border-left: 3px solid var(--gold);
@@ -641,39 +682,170 @@
     <div class="view" id="view-tokenomics" role="tabpanel" aria-labelledby="tab-tokenomics" hidden>
       <section class="section" aria-labelledby="token-title">
         <div class="section-head">
-          <h2 id="token-title">Tokenomics Deep-Dive Queue</h2>
-          <span class="hint">Upcoming invest research · click to open detail</span>
+          <h2 id="token-title">Tokenomics Reviews</h2>
+          <span class="hint">As of 26 Sep 2026 · tap a card to expand</span>
         </div>
-        <div class="tokenomics-grid">
-          <button type="button" class="card token-slot" data-open-id="render-token">
-            <div class="slot-ticker">RENDER</div>
-            <div class="slot-status">Armed · pending deep-dive</div>
-            <div class="slot-note">Leg-one primary · supply · unlocks · burns</div>
-          </button>
-          <button type="button" class="card token-slot" data-open-id="virtual-protocol">
-            <div class="slot-ticker">VIRTUAL</div>
-            <div class="slot-status">Pending deep-dive</div>
-            <div class="slot-note">AI agents · supply · unlocks</div>
-          </button>
-          <button type="button" class="card token-slot" data-open-id="geodnet">
-            <div class="slot-ticker">GEOD</div>
-            <div class="slot-status">Pending deep-dive</div>
-            <div class="slot-note">DePIN GNSS · liquidity check</div>
-          </button>
-          <button type="button" class="card token-slot" data-open-id="aioz-network">
-            <div class="slot-ticker">AIOZ</div>
-            <div class="slot-status">Needs tokenomics</div>
-            <div class="slot-note">DePIN/AI streaming · heater-adjacent</div>
-          </button>
-          <button type="button" class="card token-slot" data-open-id="cap-4">
-            <div class="slot-ticker">CAP</div>
-            <div class="slot-status">Needs tokenomics</div>
-            <div class="slot-note">DeFi credit · FDV overhang</div>
-          </button>
+        <div class="tokenomics-grid tk-grid">
+          <details class="card tk-card tk-buy" data-token="render-token">
+            <summary>
+              <div class="tk-top"><span class="tk-ticker">RENDER</span><span class="tk-verdict v-buy">Buy-ready on pullback</span></div>
+              <div class="tk-name">Render · $2.01</div>
+              <div class="tk-kpis">
+                <div><span>MC</span><b>$1.04B</b></div>
+                <div><span>FDV</span><b>$1.07B</b></div>
+                <div><span>FDV/MC</span><b>1.03× (1.24× at max)</b></div>
+                <div><span>Circ</span><b>97.2% of total · 80.5% of max</b></div>
+              </div>
+              <div class="tk-line l-warn"><span>Burn/sink</span>BME live: jobs burn RENDER. 90d: 333k burned vs 1.49M emitted, so net +0.22%. The sink is real but small.</div>
+              <div class="tk-line l-ok"><span>Unlocks</span>No cliffs. Monthly mint of 492k (next 23 Oct / 23 Nov / 23 Dec). Year-4 emission vote expected before year-end.</div>
+              <div class="tk-bn">Binance Spot: <b>Yes · RENDERUSDT</b> · 24h $9.33M</div>
+              <div class="tk-more">Tap for details ▾</div>
+            </summary>
+            <div class="tk-body">
+              <p class="tk-why"><b>Verdict:</b> Clean supply (~97% circulating, ~1%/yr capped emissions), a real if small sink, liquid Binance Spot. Price is +28% on the week, so wait for a dip that gives ≥2R. It is the one AI slot.</p>
+              <p><b>Supply:</b> 518.8M circ / 533.5M total / 644.2M max</p>
+              <p><b>Utility:</b> Payment token for decentralised GPU rendering and AI compute. Jobs are priced in fiat and settled by burning RENDER. Node operators are paid from a governance-set emission (Burn-Mint Equilibrium). No staking.</p>
+              <p><b>Allocation:</b> Original 2017: 25% sale · 65% escrow/dev fund · 10% reserve. OTOY vault holds ~81.9M (~15.8% of circ), dormant.</p>
+              <p><b>Red flags:</b></p><ul><li>Burns ~4.5× below emissions</li><li>OTOY vault overhang</li><li>Year-4 emission size unknown</li><li>Extended: +28% 7d / +27% 30d</li></ul>
+              <div class="tk-src"><a href="https://know.rendernetwork.com/basics/burn-mint-equilibrium" target="_blank" rel="noopener">Render BME docs</a><a href="https://stats.renderfoundation.com/" target="_blank" rel="noopener">Foundation stats</a><a href="https://github.com/rendernetwork/RNPs" target="_blank" rel="noopener">RNPs (RNP-022/023)</a><a href="https://mrnasdog.com/research/render/inflation" target="_blank" rel="noopener">On-chain inflation analysis</a><a href="https://dune.com/pyor_xyz/render-network" target="_blank" rel="noopener">Dune burns/mints</a><a href="https://www.coingecko.com/en/coins/render-token" target="_blank" rel="noopener">CoinGecko</a></div>
+              <button type="button" class="tk-panel-btn" data-open-id="render-token">Open live panel</button>
+              <div class="tk-asof">As of 26 Sep 2026 · CoinGecko + Binance data-api snapshot</div>
+            </div>
+          </details>
+          <details class="card tk-card tk-watch" data-token="virtual-protocol">
+            <summary>
+              <div class="tk-top"><span class="tk-ticker">VIRTUAL</span><span class="tk-verdict v-watch">Watch only</span></div>
+              <div class="tk-name">Virtuals Protocol · $0.790</div>
+              <div class="tk-kpis">
+                <div><span>MC</span><b>$520M</b></div>
+                <div><span>FDV</span><b>$790M</b></div>
+                <div><span>FDV/MC</span><b>1.52×</b></div>
+                <div><span>Circ</span><b>65.8%</b></div>
+              </div>
+              <div class="tk-line l-bad"><span>Burn/sink</span>No VIRTUAL burn. The 2025 buyback (13M VIRTUAL of fees) burned agent tokens, not VIRTUAL, and was a one-off.</div>
+              <div class="tk-line l-warn"><span>Unlocks</span>Fully vested, no scheduled unlocks. But the 35% DAO treasury (350M) can emit up to ~35M/yr by governance.</div>
+              <div class="tk-bn">Binance Spot: <b>Yes · VIRTUALUSDT</b> · 24h $8.30M</div>
+              <div class="tk-more">Tap for details ▾</div>
+            </summary>
+            <div class="tk-body">
+              <p class="tk-why"><b>Verdict:</b> Liquid on Binance Spot but has no real sink, a large discretionary treasury and weak revenue. It would also double the AI risk alongside RENDER.</p>
+              <p><b>Supply:</b> 658.4M circ / 1B max</p>
+              <p><b>Utility:</b> Base currency of the AI-agent launchpad (Base/Solana). Agent bonding curves and LPs are paired with VIRTUAL, and it pays for inference and Agent Commerce. Value accrues indirectly as the pair asset.</p>
+              <p><b>Allocation:</b> Public 60% · Ecosystem treasury 35% · Liquidity pool 5%.</p>
+              <p><b>Red flags:</b></p><ul><li>35% multisig treasury overhang</li><li>Revenue reportedly well off peak (unverified)</li><li>Whale concentration</li><li>Correlated AI beta</li></ul>
+              <div class="tk-src"><a href="https://tokenomist.ai/virtual-protocol/buyback" target="_blank" rel="noopener">Tokenomist</a><a href="https://whitepaper.virtuals.io/" target="_blank" rel="noopener">Whitepaper</a><a href="https://unrollnow.com/status/1879474894007927189" target="_blank" rel="noopener">Buyback announcement</a><a href="https://index.envelop.is/reports/virtual_audit.html" target="_blank" rel="noopener">Audit/holder review</a><a href="https://www.coingecko.com/en/coins/virtual-protocol" target="_blank" rel="noopener">CoinGecko</a></div>
+              <button type="button" class="tk-panel-btn" data-open-id="virtual-protocol">Open live panel</button>
+              <div class="tk-asof">As of 26 Sep 2026 · CoinGecko + Binance data-api snapshot</div>
+            </div>
+          </details>
+          <details class="card tk-card tk-watch" data-token="geodnet">
+            <summary>
+              <div class="tk-top"><span class="tk-ticker">GEOD</span><span class="tk-verdict v-watch">Watch only</span></div>
+              <div class="tk-name">Geodnet · $0.258</div>
+              <div class="tk-kpis">
+                <div><span>MC</span><b>$119M</b></div>
+                <div><span>FDV</span><b>$248M</b></div>
+                <div><span>FDV/MC</span><b>2.08×</b></div>
+                <div><span>Circ</span><b>46.2% of max</b></div>
+              </div>
+              <div class="tk-line l-ok"><span>Burn/sink</span>Best in set: 80% of revenue buys and burns GEOD on-chain (~$7.9M/yr annualised). Q3 buybacks $1.55M vs mining rewards $1.23M.</div>
+              <div class="tk-line l-warn"><span>Unlocks</span>Continuous team/investor vesting, no cliff. ~22.6M/mo estimate (unverified). Mining halved 30 Jun (now 6 GEOD/day).</div>
+              <div class="tk-bn">Binance Spot: <b>No spot pair</b> · 24h — (CG all-venue $3.95M)</div>
+              <div class="tk-more">Tap for details ▾</div>
+            </summary>
+            <div class="tk-body">
+              <p class="tk-why"><b>Verdict:</b> Cleanest real-revenue-into-burn model, but it is not on Binance Spot and liquidity is thin, so it fails leg-one rules. Revisit if Binance lists it or once investor vesting ends.</p>
+              <p><b>Supply:</b> 462.4M circ / 961.4M total / 1B max</p>
+              <p><b>Utility:</b> Rewards for RTK/GNSS base-station operators. Enterprises pay USD for cm-level positioning data, and 80% of that revenue buys back and burns GEOD, 20% goes to the Foundation.</p>
+              <p><b>Allocation:</b> Mining 35% · Team 25% · Investors 25% · Ecosystem 10% · Vendor/Mktg 3% · Public 2%.</p>
+              <p><b>Red flags:</b></p><ul><li>No Binance Spot</li><li>Thin liquidity</li><li>FDV 2× MC, ongoing vesting</li><li>Burn threshold rises with price</li></ul>
+              <div class="tk-src"><a href="https://docs.geodnet.com/geod-token/tokenomics" target="_blank" rel="noopener">GEOD docs</a><a href="https://blockworks.com/token-transparency/filing/geodnet" target="_blank" rel="noopener">Blockworks filing</a><a href="https://defillama.com/protocol/geodnet" target="_blank" rel="noopener">DefiLlama revenue</a><a href="https://defillama.com/unlocks/geodnet" target="_blank" rel="noopener">DefiLlama unlocks</a><a href="https://www.coingecko.com/en/coins/geodnet" target="_blank" rel="noopener">CoinGecko</a></div>
+              <button type="button" class="tk-panel-btn" data-open-id="geodnet">Open live panel</button>
+              <div class="tk-asof">As of 26 Sep 2026 · CoinGecko + Binance data-api snapshot</div>
+            </div>
+          </details>
+          <details class="card tk-card tk-skip" data-token="aioz-network">
+            <summary>
+              <div class="tk-top"><span class="tk-ticker">AIOZ</span><span class="tk-verdict v-skip">Skip</span></div>
+              <div class="tk-name">AIOZ Network · $0.123</div>
+              <div class="tk-kpis">
+                <div><span>MC</span><b>$158M</b></div>
+                <div><span>FDV</span><b>$158M</b></div>
+                <div><span>FDV/MC</span><b>1.00×</b></div>
+                <div><span>Circ</span><b>~100% (no max cap)</b></div>
+              </div>
+              <div class="tk-line l-bad"><span>Burn/sink</span>On paper: 50% of tx fees and 5% of DePIN/infra/dApp revenue. In practice supply grew 4.44M in 21 days (≈6%/yr), so burns are negligible.</div>
+              <div class="tk-line l-bad"><span>Unlocks</span>No cliffs, but structural inflation of 6%, falling to 5% on 25 Dec 2026. Half of it goes to the treasury.</div>
+              <div class="tk-bn">Binance Spot: <b>No spot pair</b> · 24h — (CG all-venue $8.71M)</div>
+              <div class="tk-more">Tap for details ▾</div>
+            </summary>
+            <div class="tk-body">
+              <p class="tk-why"><b>Verdict:</b> Not on Binance Spot, perpetual inflation, the sink does not show up in supply, and it is +103% in 30d.</p>
+              <p><b>Supply:</b> 1.2806B native (live LCD) · no max</p>
+              <p><b>Utility:</b> Native coin of the AIOZ DePIN chain (Cosmos/EVM): gas, staking, and payment for storage/streaming/AI edge services. ETH/BNB tokens are bridge wrappers.</p>
+              <p><b>Allocation:</b> Genesis allocation unverified. Treasury receives 50% of ongoing inflation.</p>
+              <p><b>Red flags:</b></p><ul><li>No Binance Spot</li><li>~5–6%/yr inflation</li><li>Owner-mintable bridge wrappers</li><li>Chased: +103% 30d</li></ul>
+              <div class="tk-src"><a href="https://docs.aioz.network/overview/aioz-tokenomics" target="_blank" rel="noopener">Tokenomics 2.0</a><a href="https://aioz.network/aioz-whitepaper-v2.0.pdf" target="_blank" rel="noopener">Whitepaper v2</a><a href="https://lcd-dataseed.aioz.network/cosmos/bank/v1beta1/supply/by_denom?denom=attoaioz" target="_blank" rel="noopener">Live supply (LCD)</a><a href="https://coinyq.com/coins/aioz-network" target="_blank" rel="noopener">Evidence review</a><a href="https://www.coingecko.com/en/coins/aioz-network" target="_blank" rel="noopener">CoinGecko</a></div>
+              <button type="button" class="tk-panel-btn" data-open-id="aioz-network">Open live panel</button>
+              <div class="tk-asof">As of 26 Sep 2026 · CoinGecko + Binance data-api snapshot</div>
+            </div>
+          </details>
+          <details class="card tk-card tk-skip" data-token="cap-4">
+            <summary>
+              <div class="tk-top"><span class="tk-ticker">CAP</span><span class="tk-verdict v-skip">Skip</span></div>
+              <div class="tk-name">Cap (Cap Labs) · $0.0511</div>
+              <div class="tk-kpis">
+                <div><span>MC</span><b>$79.7M</b></div>
+                <div><span>FDV</span><b>$511M</b></div>
+                <div><span>FDV/MC</span><b>6.41×</b></div>
+                <div><span>Circ</span><b>15.6%</b></div>
+              </div>
+              <div class="tk-line l-bad"><span>Burn/sink</span>Docs promise only “discretionary buybacks”. None verified, no burn, staking TBD.</div>
+              <div class="tk-line l-bad"><span>Unlocks</span>Nothing in the next 6 months. Cliff 26 Jun 2027: ~1.08B (10.8% of supply, ~69% of MC), then monthly to 2030.</div>
+              <div class="tk-bn">Binance Spot: <b>No spot pair (perp only, reported)</b> · 24h — (CG all-venue $7.85M)</div>
+              <div class="tk-more">Tap for details ▾</div>
+            </summary>
+            <div class="tk-body">
+              <p class="tk-why"><b>Verdict:</b> Not on Binance Spot, extreme FDV overhang (84% locked), no live sink. Fails every leg-one rule.</p>
+              <p><b>Supply:</b> 1.56B circ / 10B max</p>
+              <p><b>Utility:</b> Governance token of the Cap on-chain credit protocol (cUSD / yield-bearing stcUSD with delegator-backed institutional loans). Staking utility is still TBD.</p>
+              <p><b>Allocation:</b> Ecosystem 47.37% · Investors ≤20% · Team ≤20% · ICO 5% · TVL deals 3.75% · Echo 3.28% · MM 0.6%.</p>
+              <p><b>Red flags:</b></p><ul><li>FDV/MC 6.4×</li><li>Jun 2027 cliff</li><li>Utility mostly TBD</li><li>Downtrend −27% 30d</li></ul>
+              <div class="tk-src"><a href="https://docs.cap.app/overview/tokenomics" target="_blank" rel="noopener">Cap docs: tokenomics</a><a href="https://app.tokenomics.com/tokenomics/cap/unlocks" target="_blank" rel="noopener">Unlock schedule</a><a href="https://www.gate.com/news/detail/cap-labs-cap-token-launches-june-26-with-156-initial-circulation-22069740" target="_blank" rel="noopener">TGE details</a><a href="https://jrkripto.com/en/news/what-is-cap" target="_blank" rel="noopener">Explainer</a><a href="https://www.coingecko.com/en/coins/cap-4" target="_blank" rel="noopener">CoinGecko</a></div>
+              <button type="button" class="tk-panel-btn" data-open-id="cap-4">Open live panel</button>
+              <div class="tk-asof">As of 26 Sep 2026 · CoinGecko + Binance data-api snapshot</div>
+            </div>
+          </details>
+          <details class="card tk-card tk-wait" data-token="bittensor">
+            <summary>
+              <div class="tk-top"><span class="tk-ticker">TAO</span><span class="tk-verdict v-wait">Wait</span></div>
+              <div class="tk-name">Bittensor · $318.75</div>
+              <div class="tk-kpis">
+                <div><span>MC</span><b>$3.62B</b></div>
+                <div><span>FDV</span><b>$6.70B</b></div>
+                <div><span>FDV/MC</span><b>1.85×</b></div>
+                <div><span>Circ</span><b>54.0%</b></div>
+              </div>
+              <div class="tk-line l-bad"><span>Burn/sink</span>No meaningful permanent sink. Registration and fees are recycled (re-emittable), which only delays the halving.</div>
+              <div class="tk-line l-warn"><span>Unlocks</span>No vesting (fair launch). Emissions ~3,600 TAO/day ≈ 11.6%/yr of circ. Next halving at 15.75M issued (~3+ yrs, estimate).</div>
+              <div class="tk-bn">Binance Spot: <b>Yes · TAOUSDT</b> · 24h $54.87M</div>
+              <div class="tk-more">Tap for details ▾</div>
+            </summary>
+            <div class="tk-body">
+              <p class="tk-why"><b>Verdict:</b> Deepest Binance liquidity and fair distribution, but heavy emissions, no sink, and it is correlated with RENDER. Consider it only instead of RENDER, on a proper pullback.</p>
+              <p><b>Supply:</b> 11.34M circ / 21M max</p>
+              <p><b>Utility:</b> Base asset of Bittensor&#x27;s decentralised ML network. Block emissions are split across subnets by alpha-token price (dTAO), 41/41/18 to miners/validators/owner. Staked into subnet pools.</p>
+              <p><b>Allocation:</b> Fair launch: no premine, no team/investor allocation. 100% via emissions.</p>
+              <p><b>Red flags:</b></p><ul><li>~11.6%/yr inflation</li><li>Correlated AI beta</li><li>Extended: +22% 7d</li><li>Awkward lot size</li></ul>
+              <div class="tk-src"><a href="https://www.bittensor.com/docs/concepts/emissions" target="_blank" rel="noopener">Emissions docs</a><a href="https://docs.taostats.io/docs/tao" target="_blank" rel="noopener">Taostats TAO docs</a><a href="https://bittensorhalving.com/" target="_blank" rel="noopener">Halving tracker</a><a href="https://taopedia.org/wiki/recycling/" target="_blank" rel="noopener">Recycling</a><a href="https://www.coingecko.com/en/coins/bittensor" target="_blank" rel="noopener">CoinGecko</a></div>
+              <button type="button" class="tk-panel-btn" data-open-id="bittensor">Open live panel</button>
+              <div class="tk-asof">As of 26 Sep 2026 · CoinGecko + Binance data-api snapshot</div>
+            </div>
+          </details>
         </div>
         <p class="tokenomics-note">
-          Crypto King delivers supply schedules, unlock calendars, burn mechanics, and whitepaper notes before invest.
-          RENDER is the armed leg-one candidate; VIRTUAL / GEOD / AIOZ / CAP are queued. FET is skip-primary (rebrand/Ocean/exploit) — kept as AI thermometer only, not a primary slot.
+          Reviews as of <b>26 Sep 2026</b> (prices ~11:30 BST). AI-correlated names (RENDER, TAO, VIRTUAL, partly AIOZ) count as <b>one risk</b>, and RENDER holds that slot.
+          Only RENDER, VIRTUAL and TAO have Binance Spot USDT pairs. FET stays skip-primary (not reviewed). Full notes are in TOKENOMICS_2026-09-26.md. Research only, not advice.
         </p>
       </section>
     </div>
@@ -816,14 +988,14 @@
     "avalanche-2":  { ticker: "AVAX",   name: "Avalanche",         short: "AVAX", sectors: ["l1"], status: "core", binance: "Yes", sleeve: "core", narrative: "L1 relative-value sleeve. Desk context core alongside NEAR/SOL." },
     uniswap:        { ticker: "UNI",    name: "Uniswap",           short: "UNI",  sectors: ["defi"], status: "core", binance: "Yes", sleeve: "core", narrative: "Governance / liquidity beta for selective DeFi. Desk context core." },
     zcash:          { ticker: "ZEC",    name: "Zcash",             short: "ZEC",  sectors: ["privacy"], status: "core", binance: "Yes", sleeve: "core", narrative: "Privacy + institutional/ETF-style flow sleeve. Desk context core." },
-    "virtual-protocol": { ticker: "VIRTUAL", name: "Virtual Protocol", short: "VIR", sectors: ["ai"], status: "watch", binance: "Yes", sleeve: "rank", why: "AI agents narrative; ~$470M mcap; Binance spot listed.", narrative: "Rank climber — AI agents. Watch sleeve; Binance spot Yes. Research-only until tokenomics/liquidity/pullback clear." },
-    geodnet:        { ticker: "GEOD",   name: "Geodnet",           short: "GEO",  sectors: ["depin"], status: "watch", binance: "Unknown", sleeve: "rank", why: "DePIN GNSS; ~$118M; Binance listing unknown.", narrative: "Rank climber — DePIN GNSS. Watch; confirm Binance spot liquidity before any sizing." },
+    "virtual-protocol": { ticker: "VIRTUAL", name: "Virtual Protocol", short: "VIR", sectors: ["ai"], status: "watch", binance: "Yes", sleeve: "rank", why: "Reviewed 26 Sep: Watch only. No VIRTUAL burn; 35% treasury overhang.", narrative: "Rank climber — AI agents. Watch sleeve; Binance spot Yes. Research-only until tokenomics/liquidity/pullback clear." },
+    geodnet:        { ticker: "GEOD",   name: "Geodnet",           short: "GEO",  sectors: ["depin"], status: "watch", binance: "No (spot)", sleeve: "rank", why: "Reviewed 26 Sep: Watch only. Best burn (80% rev), but no Binance Spot.", narrative: "Rank climber — DePIN GNSS. Watch; confirm Binance spot liquidity before any sizing." },
     grass:          { ticker: "GRASS",  name: "Grass",             short: "GRS",  sectors: ["depin", "ai"], status: "watch", binance: "No", sleeve: "rank", why: "DePIN AI bandwidth; ~$302M; futures only on Binance.", narrative: "Rank climber — DePIN AI bandwidth. Binance spot No (futures only) — stay research-only; spot rail required for leg-one." },
-    "aioz-network": { ticker: "AIOZ",   name: "AIOZ Network",      short: "AIZ",  sectors: ["depin", "ai"], status: "needs", binance: "Unknown", sleeve: "rank", why: "DePIN/AI streaming; heater-adjacent; needs tokenomics.", narrative: "Rank climber — DePIN/AI streaming, heater-adjacent. Needs tokenomics clarity before arming." },
-    "cap-4":        { ticker: "CAP",    name: "Cap",               short: "CAP",  sectors: ["defi"], status: "needs", binance: "Unknown", sleeve: "rank", why: "DeFi credit; FDV overhang; needs tokenomics.", narrative: "Rank climber — DeFi credit. Needs tokenomics; FDV overhang is the key risk to map before any ticket." },
+    "aioz-network": { ticker: "AIOZ",   name: "AIOZ Network",      short: "AIZ",  sectors: ["depin", "ai"], status: "skip", binance: "No (spot)", sleeve: "rank", why: "Reviewed 26 Sep: Skip. ~6% inflation, no Binance Spot.", narrative: "Rank climber — DePIN/AI streaming, heater-adjacent. Needs tokenomics clarity before arming." },
+    "cap-4":        { ticker: "CAP",    name: "Cap",               short: "CAP",  sectors: ["defi"], status: "skip", binance: "No (spot)", sleeve: "rank", why: "Reviewed 26 Sep: Skip. FDV/MC 6.4x, 2027 cliff, no Binance Spot.", narrative: "Rank climber — DeFi credit. Needs tokenomics; FDV overhang is the key risk to map before any ticket." },
     "fetch-ai":     { ticker: "FET",    name: "Fetch.ai",          short: "FET",  sectors: ["ai"], status: "skip", binance: "Yes", sleeve: "rank", why: "AI thermometer only; skip-primary (rebrand/Ocean/exploit).", narrative: "Skip primary — rebrand / Ocean / exploit overhang. Keep on list as AI thermometer only; not a leg-one candidate." },
-    "render-token": { ticker: "RENDER", name: "Render",            short: "RNDR", sectors: ["ai"], status: "armed", binance: "Yes", sleeve: "ai-primary", why: "Primary leg-one: RENDERUSDT on dip; Binance spot Yes.", narrative: "Armed candidate / primary leg-one — RENDERUSDT on dip. Research only until tokenomics, liquidity, and pullback are clear. Binance spot Yes · 4–5% risk · no leverage." },
-    bittensor:      { ticker: "TAO",    name: "Bittensor",         short: "TAO",  sectors: ["ai"], status: "watch", binance: "Yes", sleeve: "rank", why: "Watch pullback; Binance Yes (awkward lot size).", narrative: "Rank climber — watch pullback. Binance spot Yes but awkward lot size; size carefully if ever armed." }
+    "render-token": { ticker: "RENDER", name: "Render",            short: "RNDR", sectors: ["ai"], status: "armed", binance: "Yes", sleeve: "ai-primary", why: "Reviewed 26 Sep: Buy-ready on pullback. Clean supply; BME burn small.", narrative: "Armed candidate / primary leg-one — RENDERUSDT on dip. Research only until tokenomics, liquidity, and pullback are clear. Binance spot Yes · 4–5% risk · no leverage." },
+    bittensor:      { ticker: "TAO",    name: "Bittensor",         short: "TAO",  sectors: ["ai"], status: "watch", binance: "Yes", sleeve: "rank", why: "Reviewed 26 Sep: Wait. ~11.6%/yr emissions; correlated with RENDER.", narrative: "Rank climber — watch pullback. Binance spot Yes but awkward lot size; size carefully if ever armed." }
   };
 
   const RANK_CLIMBER_IDS = [
