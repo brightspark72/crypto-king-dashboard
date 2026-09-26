@@ -445,6 +445,50 @@
       .brand h1 { font-size: 1.15rem; }
       .panel-stats { grid-template-columns: 1fr; }
     }
+    /* ---- Portfolio (local-only) ---- */
+    .pf-privacy { font-size: 0.78rem; color: var(--text-muted); padding: 0.75rem 1rem; background: var(--bg-elevated); border-radius: var(--radius-sm); border-left: 3px solid var(--green); margin-bottom: 1rem; }
+    .pf-privacy b { color: var(--text); }
+    .pf-box textarea { width: 100%; min-height: 110px; resize: vertical; appearance: none; border: 1px solid var(--border); background: var(--bg-elevated); color: var(--text); border-radius: var(--radius-sm); padding: 0.65rem 0.75rem; font-family: var(--mono); font-size: 0.75rem; line-height: 1.4; }
+    .pf-box textarea:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212,160,23,0.15); }
+    .pf-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.65rem; align-items: center; }
+    .pf-btn { appearance: none; border: 1px solid var(--border); background: var(--bg-card); color: var(--text); padding: 0.55rem 0.95rem; border-radius: var(--radius-sm); font: inherit; font-size: 0.8125rem; font-weight: 600; cursor: pointer; min-height: 40px; }
+    .pf-btn:hover { border-color: var(--gold); color: var(--gold-bright); }
+    .pf-btn.primary { background: linear-gradient(145deg, var(--red), #8b1a24); border-color: transparent; color: #fff; }
+    .pf-btn.danger { color: #f87171; }
+    .pf-msg { font-size: 0.78rem; margin-top: 0.5rem; min-height: 1.1em; }
+    .pf-msg.err { color: #f87171; } .pf-msg.ok { color: var(--green); }
+    .pf-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin-bottom: 1rem; }
+    @media (max-width: 800px) { .pf-summary { grid-template-columns: repeat(2, 1fr); } }
+    .pf-src { font-size: 0.7rem; color: var(--text-dim); margin-top: 0.2rem; }
+    .pf-src.snap { color: var(--gold-bright); }
+    .pf-alloc-bar { display: flex; height: 16px; border-radius: 999px; overflow: hidden; background: var(--bg-elevated); border: 1px solid var(--border-subtle); }
+    .pf-alloc-bar span { display: block; height: 100%; }
+    .pf-legend { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; margin-top: 0.65rem; font-size: 0.78rem; color: var(--text-muted); }
+    .pf-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 0.35rem; vertical-align: middle; }
+    .pf-legend b { color: var(--text); font-variant-numeric: tabular-nums; }
+    .pf-bk { display: inline-block; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.15rem 0.5rem; border-radius: 999px; border: 1px solid; white-space: nowrap; }
+    .pf-bk.core { color: var(--green); background: var(--green-dim); border-color: rgba(34,197,94,0.35); }
+    .pf-bk.review { color: #7fb0ff; background: rgba(59,130,246,0.12); border-color: rgba(59,130,246,0.35); }
+    .pf-bk.recycle { color: var(--gold-bright); background: var(--gold-dim); border-color: rgba(212,160,23,0.35); }
+    .pf-bk.dust { color: var(--text-muted); background: rgba(139,147,167,0.1); border-color: var(--border); }
+    table.pf-table td.verdict { white-space: normal; min-width: 240px; font-size: 0.78rem; color: var(--text-muted); }
+    table.pf-table tbody tr { cursor: default; }
+    .pf-cards { display: none; }
+    .pf-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius); padding: 0.8rem 0.9rem; margin-bottom: 0.6rem; }
+    .pf-card .r1 { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; }
+    .pf-card .tk { font-weight: 800; letter-spacing: 0.03em; }
+    .pf-card .val { font-weight: 700; font-variant-numeric: tabular-nums; }
+    .pf-card .r2 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.35rem; margin: 0.5rem 0; }
+    .pf-card .r2 div { background: var(--bg-elevated); border-radius: 6px; padding: 0.25rem 0.4rem; }
+    .pf-card .r2 span { display: block; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim); }
+    .pf-card .r2 b { font-size: 0.76rem; font-family: var(--mono); font-weight: 600; }
+    .pf-card .vd { font-size: 0.76rem; color: var(--text-muted); line-height: 1.4; }
+    @media (max-width: 700px) { .pf-table-wrap { display: none; } .pf-cards { display: block; } }
+    .pf-plan { counter-reset: step; list-style: none; }
+    .pf-plan li { position: relative; padding: 0.7rem 0.9rem 0.7rem 2.6rem; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); margin-bottom: 0.5rem; font-size: 0.82rem; color: var(--text-muted); }
+    .pf-plan li b { color: var(--text); }
+    .pf-plan li::before { counter-increment: step; content: counter(step); position: absolute; left: 0.8rem; top: 0.7rem; width: 1.3rem; height: 1.3rem; border-radius: 50%; background: var(--gold-dim); color: var(--gold-bright); font-size: 0.72rem; font-weight: 800; display: grid; place-items: center; }
+    .pf-hidden { display: none !important; }
   </style>
 </head>
 <body>
@@ -474,6 +518,7 @@
         <button type="button" class="nav-tab" role="tab" aria-selected="false" data-view="narratives" id="tab-narratives">Narratives</button>
         <button type="button" class="nav-tab" role="tab" aria-selected="false" data-view="tokenomics" id="tab-tokenomics">Tokenomics</button>
         <button type="button" class="nav-tab" role="tab" aria-selected="false" data-view="projects" id="tab-projects">New Projects</button>
+        <button type="button" class="nav-tab" role="tab" aria-selected="false" data-view="portfolio" id="tab-portfolio">Portfolio</button>
       </nav>
     </div>
     <div class="api-banner" id="apiBanner" role="status"></div>
@@ -885,6 +930,66 @@
             </p>
           </article>
         </div>
+      </section>
+    </div>
+
+    <div class="view" id="view-portfolio" role="tabpanel" aria-labelledby="tab-portfolio" hidden>
+      <section class="section" aria-labelledby="pf-title">
+        <div class="section-head">
+          <h2 id="pf-title">Portfolio</h2>
+          <span class="hint" id="pfHint">Stored only in this browser</span>
+        </div>
+        <div class="pf-privacy"><b>Private by design.</b> This public page contains no holdings. Anything you import is saved only in this browser's local storage on this device and never uploaded. Prices are fetched live from CoinGecko. Use <b>Clear</b> on shared devices.</div>
+
+        <div class="card pf-box" id="pfImportBox">
+          <div class="section-head" style="margin-bottom:0.5rem"><h2 style="font-size:0.8rem" id="pfBoxTitle">Import holdings</h2><span class="hint">Paste your private import code (or JSON)</span></div>
+          <textarea id="pfInput" spellcheck="false" autocomplete="off" autocapitalize="off" placeholder="Paste import code here…" aria-label="Import code"></textarea>
+          <div class="pf-actions">
+            <button type="button" class="pf-btn primary" id="pfImportBtn">Import</button>
+            <button type="button" class="pf-btn pf-hidden" id="pfCancelBtn">Cancel</button>
+          </div>
+          <div class="pf-msg" id="pfMsg" role="status"></div>
+        </div>
+
+        <div id="pfData" class="pf-hidden">
+          <div class="pf-summary">
+            <div class="card stat-card accent-gold"><div class="label">Total value</div><div class="value" id="pfTotal">—</div><div class="pf-src" id="pfSrc">—</div></div>
+            <div class="card stat-card accent-green" style="border-top:2px solid var(--green)"><div class="label">24h change</div><div class="value" id="pfChg">—</div><div class="pf-src">value-weighted</div></div>
+            <div class="card stat-card accent-red"><div class="label">Largest position</div><div class="value" id="pfTop">—</div><div class="pf-src" id="pfTopSub">—</div></div>
+            <div class="card stat-card accent-btc"><div class="label">Top-4 share</div><div class="value" id="pfTop4">—</div><div class="pf-src" id="pfCount">—</div></div>
+          </div>
+          <div class="card" style="margin-bottom:1rem">
+            <div class="section-head" style="margin-bottom:0.6rem"><h2 style="font-size:0.8rem">Allocation by bucket</h2><span class="hint">CORE · KEEP-REVIEW · RECYCLE · DUST</span></div>
+            <div class="pf-alloc-bar" id="pfBar" role="img" aria-label="Allocation by bucket"></div>
+            <div class="pf-legend" id="pfLegend"></div>
+          </div>
+          <div class="pf-actions" style="margin:0 0 0.8rem">
+            <button type="button" class="pf-btn" id="pfRefreshBtn">↻ Refresh prices</button>
+            <button type="button" class="pf-btn" id="pfEditBtn">Edit</button>
+            <button type="button" class="pf-btn danger" id="pfClearBtn">Clear from this device</button>
+          </div>
+          <div class="table-wrap pf-table-wrap">
+            <table class="watchlist pf-table">
+              <thead><tr><th>Token</th><th class="num">Qty</th><th class="num">Value</th><th class="num">% port</th><th class="num">24h</th><th class="num">vs ATH</th><th>Binance</th><th>Bucket</th><th>Verdict</th></tr></thead>
+              <tbody id="pfBody"></tbody>
+            </table>
+          </div>
+          <div class="pf-cards" id="pfCards"></div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="pf-plan-title">
+        <div class="section-head"><h2 id="pf-plan-title">Action plan</h2><span class="hint">General framework · not financial advice</span></div>
+        <ol class="pf-plan">
+          <li><b>Stop the bleed first.</b> No new buys and no averaging down into any losing thesis until the book is cleaned up.</li>
+          <li><b>Recycle dead trades.</b> Anything that fails the rules (not liquid on Binance Spot, broken thesis, exploit, delisting/Monitoring Tag, heavy unlock overhang) gets sold, ideally into green days or relief bounces, and parked in USDT.</li>
+          <li><b>Correlated names = one risk.</b> Keep the single best name per narrative (e.g. one L2, one L1 alt) and recycle the rest.</li>
+          <li><b>Fix concentration.</b> No single alt above ~15% of the book; trim oversized winners into strength rather than all at once.</li>
+          <li><b>Rebuild the core.</b> Target roughly BTC 30–35%, ETH 20–25%, stables 15–20% dry powder, and 3–4 liquid narrative names at 25–30% combined.</li>
+          <li><b>Redeploy only on rules.</b> Tokenomics checked first (FDV/MC, unlocks, emissions), Binance Spot liquidity confirmed, spot only, no leverage, staged entries.</li>
+          <li><b>Dust.</b> Positions under ~£5 are not worth fees or time; use Binance "Convert small balances" where supported or ignore them.</li>
+          <li><b>UK tax: worth checking.</b> Realised losses can generally offset gains for Capital Gains Tax if reported to HMRC. Keep records of every disposal and check the rules (or ask an adviser) before year-end. This is not tax advice.</li>
+        </ol>
       </section>
     </div>
 
@@ -1723,6 +1828,193 @@
   setInterval(function () {
     if (document.visibilityState === "visible") refresh(false);
   }, 3 * 60 * 1000);
+})();
+  </script>
+  <script>
+(function () {
+  "use strict";
+  var KEY = "ck_portfolio_local_v1";
+  var PKEY = "ck_portfolio_prices_v1";
+  var STABLE = { tether: 1, "usd-coin": 1, "first-digital-usd": 1, dai: 1, "ethena-usde": 1 };
+  var BUCKETS = [
+    { id: "CORE KEEP", cls: "core", color: "#22c55e" },
+    { id: "KEEP-REVIEW", cls: "review", color: "#3b82f6" },
+    { id: "RECYCLE", cls: "recycle", color: "#d4a017" },
+    { id: "DUST", cls: "dust", color: "#6b7280" }
+  ];
+  function $(id) { return document.getElementById(id); }
+  if (!$("view-portfolio")) return;
+  var data = null, prices = null, priceSrc = "none", editing = false;
+
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function gbp(n) {
+    if (n == null || !isFinite(n)) return "—";
+    var d = Math.abs(n) >= 100 ? 0 : 2;
+    return "£" + n.toLocaleString("en-GB", { minimumFractionDigits: d, maximumFractionDigits: d });
+  }
+  function qty(n) {
+    if (n == null || !isFinite(n)) return "—";
+    if (Math.abs(n) >= 1000) return n.toLocaleString("en-GB", { maximumFractionDigits: 0 });
+    if (Math.abs(n) >= 1) return n.toLocaleString("en-GB", { maximumFractionDigits: 3 });
+    return n.toPrecision(3);
+  }
+  function pct(n, signed) {
+    if (n == null || !isFinite(n)) return "—";
+    return (signed && n > 0 ? "+" : "") + n.toFixed(1) + "%";
+  }
+  function cls(n) { return n == null || !isFinite(n) ? "flat" : n > 0.05 ? "up" : n < -0.05 ? "down" : "flat"; }
+  function bucketOf(b) {
+    var u = String(b || "").toUpperCase().replace(/_/g, "-");
+    if (u.indexOf("CORE") === 0) return BUCKETS[0];
+    if (u.indexOf("KEEP") === 0 || u === "REVIEW") return BUCKETS[1];
+    if (u.indexOf("RECYCLE") === 0) return BUCKETS[2];
+    if (u.indexOf("DUST") === 0) return BUCKETS[3];
+    return { id: u || "UNSET", cls: "dust", color: "#444" };
+  }
+  function msg(t, kind) { var m = $("pfMsg"); m.textContent = t || ""; m.className = "pf-msg" + (kind ? " " + kind : ""); }
+
+  function decode(text) {
+    var t = String(text || "").trim();
+    if (!t) throw new Error("Paste an import code first.");
+    var json;
+    if (t.charAt(0) === "{" || t.charAt(0) === "[") json = t;
+    else {
+      var bin = atob(t.replace(/\s+/g, "").replace(/-/g, "+").replace(/_/g, "/"));
+      var bytes = new Uint8Array(bin.length);
+      for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      json = new TextDecoder().decode(bytes);
+    }
+    var obj = JSON.parse(json);
+    if (Array.isArray(obj)) obj = { v: 1, h: obj };
+    if (!obj || !Array.isArray(obj.h) || !obj.h.length) throw new Error("No holdings found in code.");
+    obj.h = obj.h.map(function (x) {
+      var q = Number(x.q);
+      if (!x.t || !x.id || !isFinite(q) || q < 0) throw new Error("Invalid row: " + JSON.stringify(x).slice(0, 60));
+      return { t: String(x.t).toUpperCase().slice(0, 12), id: String(x.id).toLowerCase().replace(/[^a-z0-9-]/g, ""), q: q, b: bucketOf(x.b).id, v: String(x.v || "").slice(0, 300), sp: Number(x.sp) || null, ath: x.ath != null && isFinite(Number(x.ath)) ? Number(x.ath) : null, bn: x.bn === 1 || x.bn === true || x.bn === "Yes" };
+    });
+    return obj;
+  }
+  function encode(obj) {
+    var bytes = new TextEncoder().encode(JSON.stringify(obj));
+    var bin = ""; for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    return btoa(bin);
+  }
+  function load() { try { var r = localStorage.getItem(KEY); return r ? decode(r) : null; } catch (e) { return null; } }
+  function save(obj) { localStorage.setItem(KEY, JSON.stringify(obj)); }
+
+  async function fetchPrices() {
+    var ids = data.h.map(function (h) { return h.id; }).filter(function (v, i, a) { return a.indexOf(v) === i; });
+    var out = {};
+    for (var i = 0; i < ids.length; i += 200) {
+      var url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=gbp&per_page=250&sparkline=false&price_change_percentage=24h&ids=" + encodeURIComponent(ids.slice(i, i + 200).join(","));
+      var ctrl = new AbortController(); var tm = setTimeout(function () { ctrl.abort(); }, 12000);
+      try {
+        var res = await fetch(url, { signal: ctrl.signal, headers: { Accept: "application/json" } });
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        (await res.json()).forEach(function (c) { out[c.id] = { p: c.current_price, c24: c.price_change_percentage_24h_in_currency != null ? c.price_change_percentage_24h_in_currency : c.price_change_percentage_24h, ath: c.ath_change_percentage }; });
+      } finally { clearTimeout(tm); }
+    }
+    return out;
+  }
+
+  async function refreshPrices() {
+    if (!data) return;
+    $("pfSrc").textContent = "Fetching live prices…"; $("pfSrc").className = "pf-src";
+    try {
+      prices = await fetchPrices(); priceSrc = "live";
+      try { localStorage.setItem(PKEY, JSON.stringify({ at: Date.now(), p: prices })); } catch (e) {}
+    } catch (e) {
+      var c = null; try { c = JSON.parse(localStorage.getItem(PKEY) || "null"); } catch (x) {}
+      if (c && c.p && Date.now() - c.at < 6 * 3600 * 1000) { prices = c.p; priceSrc = "cached"; priceSrc_at = c.at; }
+      else { prices = {}; priceSrc = "snapshot"; }
+    }
+    render();
+  }
+  var priceSrc_at = 0;
+
+  function render() {
+    var box = $("pfImportBox"), dv = $("pfData");
+    if (!data || editing) {
+      box.classList.remove("pf-hidden");
+      $("pfBoxTitle").textContent = editing ? "Edit holdings (JSON)" : "Import holdings";
+      $("pfImportBtn").textContent = editing ? "Save" : "Import";
+      $("pfCancelBtn").classList.toggle("pf-hidden", !editing);
+      dv.classList.toggle("pf-hidden", !data || editing);
+      $("pfHint").textContent = "Stored only in this browser";
+      if (!data) return;
+    } else {
+      box.classList.add("pf-hidden"); dv.classList.remove("pf-hidden");
+    }
+    var anySnap = false, anyMissing = false;
+    var rows = data.h.map(function (h) {
+      var m = (prices || {})[h.id] || {};
+      var p = m.p, src = priceSrc;
+      if (p == null) { p = h.sp; src = "snapshot"; if (p != null) anySnap = true; else anyMissing = true; }
+      return { h: h, p: p, v: p != null ? p * h.q : null, c24: m.c24, ath: STABLE[h.id] ? null : (m.ath != null ? m.ath : h.ath), src: src, bk: bucketOf(h.b) };
+    });
+    var total = rows.reduce(function (s, r) { return s + (r.v || 0); }, 0);
+    rows.sort(function (a, b) { return (b.v || 0) - (a.v || 0); });
+    var w24 = 0, wv = 0;
+    rows.forEach(function (r) { if (r.v && r.c24 != null) { var prev = r.v / (1 + r.c24 / 100); w24 += r.v - prev; wv += prev; } });
+    $("pfTotal").textContent = gbp(total);
+    var snapLbl = "snapshot " + (data.asOf && /^\d{4}-\d{2}-\d{2}$/.test(data.asOf) ? +data.asOf.slice(8, 10) + " " + "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" ")[+data.asOf.slice(5, 7) - 1] : "");
+    var srcTxt = priceSrc === "live" ? (anySnap ? "Live CoinGecko · some rows " + snapLbl : "Live CoinGecko · " + new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })) :
+      priceSrc === "cached" ? "Cached prices · " + new Date(priceSrc_at).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" }) : "Prices: " + snapLbl + " (live unavailable)";
+    $("pfSrc").textContent = srcTxt + (anyMissing ? " · some prices missing" : "");
+    $("pfSrc").className = "pf-src" + (priceSrc !== "live" || anySnap ? " snap" : "");
+    var chg = wv ? (w24 / wv) * 100 : null;
+    $("pfChg").textContent = wv ? (w24 >= 0 ? "+" : "−") + gbp(Math.abs(w24)).replace("£", "£") : "—";
+    $("pfChg").className = "value"; $("pfChg").style.color = chg == null ? "" : chg >= 0 ? "var(--green)" : "var(--red)";
+    if (rows[0] && total) { $("pfTop").textContent = rows[0].h.t; $("pfTopSub").textContent = pct(rows[0].v / total * 100) + " of portfolio"; }
+    var top4 = rows.slice(0, 4).reduce(function (s, r) { return s + (r.v || 0); }, 0);
+    $("pfTop4").textContent = total ? pct(top4 / total * 100) : "—";
+    $("pfCount").textContent = rows.length + " positions";
+    $("pfHint").textContent = "Local only · " + rows.length + " positions";
+    var bt = {}; rows.forEach(function (r) { bt[r.bk.id] = (bt[r.bk.id] || 0) + (r.v || 0); });
+    var order = BUCKETS.slice(); Object.keys(bt).forEach(function (k) { if (!order.some(function (b) { return b.id === k; })) order.push(bucketOf(k)); });
+    $("pfBar").innerHTML = order.map(function (b) { var s = total ? (bt[b.id] || 0) / total * 100 : 0; return s > 0 ? '<span style="width:' + s.toFixed(2) + "%;background:" + b.color + '" title="' + esc(b.id) + " " + s.toFixed(1) + '%"></span>' : ""; }).join("");
+    $("pfLegend").innerHTML = order.map(function (b) { var v = bt[b.id] || 0; if (!v && BUCKETS.indexOf(b) < 0) return ""; return '<span><i style="background:' + b.color + '"></i>' + esc(b.id) + " <b>" + gbp(v) + "</b> · " + pct(total ? v / total * 100 : 0) + "</span>"; }).join("");
+    var badge = function (r) { return '<span class="pf-bk ' + r.bk.cls + '">' + esc(r.bk.id) + "</span>"; };
+    $("pfBody").innerHTML = rows.map(function (r) {
+      var share = total && r.v != null ? r.v / total * 100 : null;
+      return "<tr><td><b>" + esc(r.h.t) + "</b>" + (r.src === "snapshot" && priceSrc === "live" ? ' <span class="pf-src snap" style="display:inline">snap</span>' : "") + "</td>" +
+        '<td class="num">' + qty(r.h.q) + '</td><td class="num">' + gbp(r.v) + '</td><td class="num">' + pct(share) + "</td>" +
+        '<td class="num ' + cls(r.c24) + '">' + pct(r.c24, true) + '</td><td class="num down">' + pct(r.ath) + "</td>" +
+        "<td>" + (r.h.bn ? "Yes" : "No") + "</td><td>" + badge(r) + '</td><td class="verdict">' + esc(r.h.v) + "</td></tr>";
+    }).join("");
+    $("pfCards").innerHTML = rows.map(function (r) {
+      var share = total && r.v != null ? r.v / total * 100 : null;
+      return '<div class="pf-card"><div class="r1"><span class="tk">' + esc(r.h.t) + "</span>" + badge(r) + '<span class="val">' + gbp(r.v) + "</span></div>" +
+        '<div class="r2"><div><span>Qty</span><b>' + qty(r.h.q) + "</b></div><div><span>% port</span><b>" + pct(share) + '</b></div><div><span>24h</span><b class="' + cls(r.c24) + '" style="color:' + (r.c24 > 0 ? "var(--green)" : r.c24 < 0 ? "var(--red)" : "inherit") + '">' + pct(r.c24, true) + "</b></div><div><span>vs ATH</span><b>" + pct(r.ath) + "</b></div></div>" +
+        '<div class="vd"><b style="color:var(--text-dim);font-size:0.65rem">BINANCE: ' + (r.h.bn ? "YES" : "NO") + "</b> · " + esc(r.h.v) + "</div></div>";
+    }).join("");
+  }
+
+  $("pfImportBtn").addEventListener("click", function () {
+    try {
+      var obj = decode($("pfInput").value);
+      save(obj); data = obj; editing = false; $("pfInput").value = "";
+      msg("Imported " + obj.h.length + " holdings. Saved to this device only.", "ok");
+      render(); refreshPrices();
+    } catch (e) {
+      var why = e && e.name === "InvalidCharacterError" || e instanceof SyntaxError ? "that doesn't look like a valid import code. Check it was copied in full." : (e && e.message ? e.message : "invalid code");
+      msg("Could not import: " + why, "err");
+    }
+  });
+  $("pfCancelBtn").addEventListener("click", function () { editing = false; $("pfInput").value = ""; msg(""); render(); });
+  $("pfEditBtn").addEventListener("click", function () { editing = true; $("pfInput").value = JSON.stringify(data, null, 1); msg("Edit quantities / buckets / verdicts, then Save.", ""); render(); $("pfInput").focus(); });
+  $("pfClearBtn").addEventListener("click", function () {
+    if (!window.confirm("Remove holdings from this browser? You will need your import code to restore them.")) return;
+    try { localStorage.removeItem(KEY); localStorage.removeItem(PKEY); } catch (e) {}
+    data = null; prices = null; editing = false; msg("Cleared from this device.", "ok"); render();
+  });
+  $("pfRefreshBtn").addEventListener("click", refreshPrices);
+  var rb = $("refreshBtn"); if (rb) rb.addEventListener("click", function () { if (data) refreshPrices(); });
+  window.ckPortfolioExport = function () { return data ? encode(data) : null; };
+
+  data = load();
+  render();
+  if (data) refreshPrices();
 })();
   </script>
 </body>
