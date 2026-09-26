@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crypto King — Command Center</title>
+  <style>
+    :root {
+      --bg: #0a0b0f;
+      --bg-elevated: #12141c;
+      --bg-card: #161922;
+      --bg-card-hover: #1c2030;
+      --border: #2a2f3d;
+      --border-subtle: #1e2330;
+      --text: #e8eaef;
+      --text-muted: #8b93a7;
+      --text-dim: #5c6578;
+      --red: #e63946;
+      --red-dim: rgba(230, 57, 70, 0.15);
+      --red-glow: rgba(230, 57, 70, 0.35);
+      --gold: #d4a017;
+      --gold-bright: #f0c040;
+      --gold-dim: rgba(212, 160, 23, 0.12);
+      --green: #22c55e;
+      --green-dim: rgba(34, 197, 94, 0.12);
+      --blue: #3b82f6;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+      --font: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+      --mono: "SF Mono", "Cascadia Code", "Consolas", "Liberation Mono", monospace;
+      --panel-w: min(420px, 100vw);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+      background-image:
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(230, 57, 70, 0.12), transparent),
+        radial-gradient(ellipse 60% 40% at 100% 0%, rgba(212, 160, 23, 0.06), transparent);
+    }
+    body.panel-open { overflow: hidden; }
+    .container { max-width: 1280px; margin: 0 auto; padding: 1.25rem 1.5rem 2.5rem; }
+    .sticky-chrome {
+      position: sticky; top: 0; z-index: 40;
+      background: rgba(10, 11, 15, 0.92);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-subtle);
+      margin: -1.25rem -1.5rem 1.25rem; padding: 0.85rem 1.5rem 0;
+    }
+    header.app-header {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      gap: 1rem; padding: 0.85rem 1.1rem;
+      background: linear-gradient(135deg, var(--bg-elevated) 0%, #1a0f14 100%);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      box-shadow: var(--shadow); position: relative; overflow: hidden;
+    }
+    header.app-header::before {
+      content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--red), var(--gold), var(--red));
+    }
+    .brand { display: flex; align-items: center; gap: 0.875rem; }
+    .brand-mark {
+      width: 42px; height: 42px; border-radius: 10px;
+      background: linear-gradient(145deg, var(--red), #8b1a24);
+      display: grid; place-items: center; font-weight: 800; font-size: 1.1rem;
+      color: #fff; box-shadow: 0 0 20px var(--red-glow); letter-spacing: -0.02em;
+    }
+    .brand h1 {
+      font-size: 1.45rem; font-weight: 700; letter-spacing: -0.02em;
+      background: linear-gradient(90deg, #fff 40%, var(--gold-bright));
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .brand .subtitle { font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.04em; text-transform: uppercase; }
+    .header-meta { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .updated { font-size: 0.8125rem; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+    .updated strong { color: var(--text); font-weight: 600; }
+    .status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--text-dim); margin-right: 0.4rem; vertical-align: middle; }
+    .status-dot.live { background: var(--green); box-shadow: 0 0 8px var(--green); }
+    .status-dot.cached { background: var(--gold); }
+    .status-dot.error { background: var(--red); }
+    button.refresh-btn, button.panel-close {
+      appearance: none; border: 1px solid var(--border); background: var(--bg-card); color: var(--text);
+      padding: 0.5rem 1rem; border-radius: var(--radius-sm); font-size: 0.8125rem; font-weight: 600;
+      cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;
+      transition: background 0.15s, border-color 0.15s, transform 0.1s, color 0.15s; font-family: inherit;
+    }
+    button.refresh-btn:hover, button.panel-close:hover { background: var(--bg-card-hover); border-color: var(--gold); color: var(--gold-bright); }
+    button.refresh-btn:active, button.panel-close:active { transform: scale(0.97); }
+    button.refresh-btn:disabled { opacity: 0.6; cursor: wait; }
+    button.refresh-btn .spin { display: inline-block; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .nav-tabs { display: flex; gap: 0.25rem; overflow-x: auto; padding: 0.75rem 0 0; scrollbar-width: none; }
+    .nav-tabs::-webkit-scrollbar { display: none; }
+    .nav-tab {
+      appearance: none; border: none; background: transparent; color: var(--text-muted);
+      padding: 0.65rem 1rem; font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.02em;
+      cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; font-family: inherit;
+      transition: color 0.15s, border-color 0.15s, background 0.15s; border-radius: 6px 6px 0 0;
+    }
+    .nav-tab:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+    .nav-tab.active { color: var(--gold-bright); border-bottom-color: var(--gold); }
+    .view { display: none; animation: fadeIn 0.25s ease; }
+    .view.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    .section { margin-bottom: 1.75rem; }
+    .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.875rem; flex-wrap: wrap; }
+    .section-head h2 { font-size: 0.9375rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); }
+    .section-head .hint { font-size: 0.75rem; color: var(--text-dim); }
+
+    .overview-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.875rem; }
+    @media (max-width: 1100px) { .overview-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 640px) { .overview-grid { grid-template-columns: repeat(2, 1fr); } }
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius);
+      padding: 1rem 1.1rem; transition: border-color 0.15s, background 0.15s, transform 0.15s, box-shadow 0.15s;
+    }
+    .card:hover { border-color: var(--border); background: var(--bg-card-hover); }
+    .stat-card .label { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.35rem; }
+    .stat-card .value { font-size: 1.25rem; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; color: var(--text); }
+    .stat-card .change { font-size: 0.8125rem; font-weight: 600; margin-top: 0.25rem; font-variant-numeric: tabular-nums; }
+    .change.up { color: var(--green); }
+    .change.down { color: var(--red); }
+    .change.flat { color: var(--text-muted); }
+    .stat-card.accent-btc { border-top: 2px solid #f7931a; }
+    .stat-card.accent-eth { border-top: 2px solid #627eea; }
+    .stat-card.accent-sol { border-top: 2px solid #9945ff; }
+    .stat-card.accent-gold { border-top: 2px solid var(--gold); }
+    .stat-card.accent-red { border-top: 2px solid var(--red); }
+    .heat-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.875rem; }
+    @media (max-width: 1000px) { .heat-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 640px) { .heat-grid { grid-template-columns: 1fr 1fr; } }
+    .heat-card {
+      position: relative; padding: 1rem; min-height: 140px; display: flex; flex-direction: column;
+      cursor: pointer; text-align: left; width: 100%; font-family: inherit; color: inherit;
+    }
+    .heat-card:hover { border-color: var(--gold); box-shadow: 0 0 0 1px rgba(212, 160, 23, 0.25), var(--shadow); transform: translateY(-2px); }
+    .heat-card:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+    .heat-card.active-filter {
+      border-color: var(--gold); box-shadow: 0 0 0 1px rgba(212, 160, 23, 0.4);
+      background: linear-gradient(160deg, var(--bg-card-hover), rgba(212, 160, 23, 0.08));
+    }
+    .heat-card .click-hint { font-size: 0.625rem; color: var(--text-dim); margin-top: 0.4rem; opacity: 0; transition: opacity 0.15s; }
+    .heat-card:hover .click-hint { opacity: 1; color: var(--gold); }
+    .heat-badge {
+      display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.625rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase; padding: 0.2rem 0.5rem; border-radius: 999px;
+      width: fit-content; margin-bottom: 0.6rem;
+    }
+    .heat-badge.hot { background: var(--red-dim); color: var(--red); border: 1px solid rgba(230, 57, 70, 0.35); }
+    .heat-badge.warm { background: var(--gold-dim); color: var(--gold-bright); border: 1px solid rgba(212, 160, 23, 0.35); }
+    .heat-badge.watch { background: rgba(59, 130, 246, 0.12); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+    .heat-card h3 { font-size: 0.9375rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .heat-card p { font-size: 0.78rem; color: var(--text-muted); flex: 1; }
+    .heat-card .tickers { margin-top: 0.65rem; font-size: 0.6875rem; color: var(--text-dim); font-family: var(--mono); letter-spacing: 0.02em; }
+    .watch-toolbar { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; margin-bottom: 0.875rem; }
+    .search-wrap { position: relative; flex: 1; min-width: 200px; max-width: 360px; }
+    .search-wrap input {
+      width: 100%; appearance: none; border: 1px solid var(--border); background: var(--bg-elevated); color: var(--text);
+      padding: 0.55rem 0.85rem 0.55rem 2.25rem; border-radius: var(--radius-sm); font-size: 0.875rem; font-family: inherit;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .search-wrap input::placeholder { color: var(--text-dim); }
+    .search-wrap input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212, 160, 23, 0.15); }
+    .search-wrap .search-icon { position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: var(--text-dim); font-size: 0.85rem; pointer-events: none; }
+    .filter-chip {
+      display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; font-weight: 600;
+      color: var(--gold-bright); background: var(--gold-dim); border: 1px solid rgba(212, 160, 23, 0.35);
+      padding: 0.35rem 0.55rem 0.35rem 0.75rem; border-radius: 999px;
+    }
+    .filter-chip.hidden { display: none; }
+    .filter-chip button {
+      appearance: none; border: none; background: rgba(0,0,0,0.25); color: var(--gold-bright);
+      width: 20px; height: 20px; border-radius: 50%; cursor: pointer; font-size: 0.75rem; line-height: 1;
+      display: grid; place-items: center; transition: background 0.15s;
+    }
+    .filter-chip button:hover { background: var(--red); color: #fff; }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--border-subtle); border-radius: var(--radius); background: var(--bg-card); }
+    table.watchlist { width: 100%; border-collapse: collapse; font-size: 0.875rem; font-variant-numeric: tabular-nums; }
+    table.watchlist th {
+      text-align: left; padding: 0.75rem 1rem; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--text-muted); border-bottom: 1px solid var(--border);
+      background: var(--bg-elevated); white-space: nowrap;
+    }
+    table.watchlist th.num, table.watchlist td.num { text-align: right; }
+    table.watchlist td { padding: 0.7rem 1rem; border-bottom: 1px solid var(--border-subtle); white-space: nowrap; }
+    table.watchlist tr:last-child td { border-bottom: none; }
+    table.watchlist tbody tr { cursor: pointer; transition: background 0.12s; }
+    table.watchlist tbody tr:hover { background: rgba(212, 160, 23, 0.06); }
+    table.watchlist tbody tr:focus-visible { outline: 2px solid var(--gold); outline-offset: -2px; }
+    table.watchlist tbody tr.selected { background: rgba(212, 160, 23, 0.1); }
+    table.watchlist tbody tr.hidden-row { display: none; }
+    .ticker-cell { display: flex; align-items: center; gap: 0.6rem; font-weight: 700; }
+    .ticker-cell .sym {
+      width: 28px; height: 28px; border-radius: 50%; background: var(--bg-elevated); border: 1px solid var(--border);
+      display: grid; place-items: center; font-size: 0.55rem; font-weight: 800; color: var(--gold);
+    }
+    .ticker-cell .name { font-size: 0.75rem; font-weight: 400; color: var(--text-dim); display: block; }
+    .row-hint { font-size: 0.65rem; color: var(--text-dim); margin-left: 0.35rem; opacity: 0; transition: opacity 0.15s; }
+    table.watchlist tbody tr:hover .row-hint { opacity: 1; color: var(--gold); }
+
+    /* Desk watchlist: banner, rank climbers, badges, filter pills */
+    .desk-banner {
+      margin-bottom: 1rem; padding: 1rem 1.2rem;
+      background: linear-gradient(135deg, rgba(230,57,70,0.1), rgba(212,160,23,0.08));
+      border: 1px solid rgba(212,160,23,0.35); border-radius: var(--radius);
+      border-left: 3px solid var(--gold);
+    }
+    .desk-banner .db-label {
+      display: inline-block; font-size: 0.625rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--gold-bright); margin-bottom: 0.45rem;
+    }
+    .desk-banner h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.45rem; color: var(--text); }
+    .desk-banner p { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.35rem; line-height: 1.45; }
+    .desk-banner ul { list-style: none; padding: 0; margin-top: 0.5rem; display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; }
+    .desk-banner li {
+      font-size: 0.75rem; color: var(--text-muted); padding-left: 0.85rem; position: relative;
+    }
+    .desk-banner li::before {
+      content: ""; position: absolute; left: 0; top: 0.45rem; width: 5px; height: 5px;
+      border-radius: 50%; background: var(--gold);
+    }
+    .rank-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin-bottom: 1rem;
+    }
+    @media (max-width: 1100px) { .rank-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .rank-grid { grid-template-columns: 1fr; } }
+    .rank-card {
+      text-align: left; cursor: pointer; padding: 0.9rem 1rem; font-family: inherit; color: inherit;
+      width: 100%; transition: border-color 0.15s, transform 0.15s, opacity 0.2s, box-shadow 0.15s;
+    }
+    .rank-card:hover {
+      border-color: var(--gold); transform: translateY(-2px);
+      box-shadow: 0 0 0 1px rgba(212,160,23,0.2), var(--shadow);
+    }
+    .rank-card:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+    .rank-card.dimmed { opacity: 0.38; }
+    .rank-card .rc-top { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.35rem; }
+    .rank-card .rc-ticker { font-size: 1rem; font-weight: 800; letter-spacing: 0.02em; }
+    .rank-card .rc-sector { font-size: 0.65rem; color: var(--text-dim); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 0.35rem; }
+    .rank-card .rc-why { font-size: 0.75rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 0.45rem; }
+    .rank-card .rc-binance { font-size: 0.65rem; color: var(--text-dim); font-family: var(--mono); }
+    .wl-badge {
+      display: inline-flex; align-items: center; font-size: 0.625rem; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase; padding: 0.18rem 0.5rem; border-radius: 999px;
+      white-space: nowrap;
+    }
+    .wl-badge.watch { background: rgba(59,130,246,0.12); color: #60a5fa; border: 1px solid rgba(59,130,246,0.35); }
+    .wl-badge.needs { background: var(--gold-dim); color: var(--gold-bright); border: 1px solid rgba(212,160,23,0.4); }
+    .wl-badge.skip { background: rgba(139,147,167,0.12); color: var(--text-muted); border: 1px solid var(--border); }
+    .wl-badge.armed { background: var(--red-dim); color: var(--red); border: 1px solid rgba(230,57,70,0.4); }
+    .wl-badge.core { background: rgba(34,197,94,0.1); color: var(--green); border: 1px solid rgba(34,197,94,0.3); }
+    .filter-pills { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.875rem; }
+    .filter-pill {
+      appearance: none; border: 1px solid var(--border); background: var(--bg-elevated); color: var(--text-muted);
+      padding: 0.35rem 0.75rem; border-radius: 999px; font-size: 0.75rem; font-weight: 600;
+      cursor: pointer; font-family: inherit; transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+    .filter-pill:hover { border-color: var(--gold); color: var(--text); }
+    .filter-pill.active {
+      background: var(--gold-dim); border-color: rgba(212,160,23,0.5); color: var(--gold-bright);
+    }
+
+    .empty-filter { display: none; text-align: center; padding: 2rem 1rem; color: var(--text-muted); font-size: 0.875rem; }
+    .empty-filter.visible { display: block; }
+    .two-col { display: grid; grid-template-columns: 1.2fr 1fr; gap: 0.875rem; }
+    @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+    .briefing-card { padding: 1.25rem 1.4rem; }
+    .briefing-card .tag {
+      display: inline-block; font-size: 0.625rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--red); background: var(--red-dim); padding: 0.2rem 0.55rem; border-radius: 999px;
+      margin-bottom: 0.75rem; border: 1px solid rgba(230, 57, 70, 0.3);
+    }
+    .briefing-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.65rem; color: var(--text); }
+    .briefing-card p { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.75rem; }
+    .briefing-card ul { list-style: none; padding: 0; }
+    .briefing-card li {
+      font-size: 0.8125rem; color: var(--text-muted); padding: 0.35rem 0 0.35rem 1rem;
+      position: relative; border-bottom: 1px solid var(--border-subtle);
+    }
+    .briefing-card li:last-child { border-bottom: none; }
+    .briefing-card li::before {
+      content: ""; position: absolute; left: 0; top: 0.75rem; width: 5px; height: 5px;
+      border-radius: 50%; background: var(--gold);
+    }
+
+    .tokenomics-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.75rem; }
+    @media (max-width: 1000px) { .tokenomics-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 640px) { .tokenomics-grid { grid-template-columns: 1fr 1fr; } }
+    .token-slot {
+      padding: 1rem; border-style: dashed; text-align: center; min-height: 120px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 0.35rem; cursor: pointer;
+    }
+    .token-slot:hover { border-style: solid; border-color: var(--gold); transform: translateY(-2px); }
+    .token-slot .slot-ticker { font-size: 1.05rem; font-weight: 800; letter-spacing: 0.04em; }
+    .token-slot .slot-status {
+      font-size: 0.7rem; font-weight: 600; color: var(--gold); background: var(--gold-dim);
+      padding: 0.2rem 0.55rem; border-radius: 999px; border: 1px solid rgba(212, 160, 23, 0.25);
+    }
+    .token-slot .slot-note { font-size: 0.7rem; color: var(--text-dim); margin-top: 0.35rem; line-height: 1.35; }
+    .tokenomics-note {
+      margin-top: 0.75rem; font-size: 0.78rem; color: var(--text-muted); padding: 0.75rem 1rem;
+      background: var(--bg-elevated); border-radius: var(--radius-sm); border-left: 3px solid var(--gold);
+    }
+    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.875rem; }
+    @media (max-width: 800px) { .projects-grid { grid-template-columns: 1fr; } }
+    .project-card { padding: 1.1rem 1.2rem; position: relative; }
+    .project-card .spec-badge {
+      position: absolute; top: 0.85rem; right: 0.85rem; font-size: 0.6rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--red); background: var(--red-dim);
+      padding: 0.15rem 0.45rem; border-radius: 4px; border: 1px solid rgba(230, 57, 70, 0.3);
+    }
+    .project-card h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.2rem; padding-right: 5rem; }
+    .project-card .meta { font-size: 0.7rem; color: var(--gold); margin-bottom: 0.55rem; font-weight: 600; }
+    .project-card p { font-size: 0.8rem; color: var(--text-muted); }
+    footer.app-footer {
+      margin-top: 2rem; padding-top: 1.25rem; border-top: 1px solid var(--border-subtle);
+      text-align: center; font-size: 0.75rem; color: var(--text-dim);
+    }
+    footer.app-footer .disclaimer { color: var(--text-muted); margin-bottom: 0.25rem; }
+    .skeleton {
+      background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--bg-card-hover) 50%, var(--bg-elevated) 75%);
+      background-size: 200% 100%; animation: shimmer 1.2s ease-in-out infinite;
+      border-radius: 4px; color: transparent !important; min-height: 1.2em;
+    }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    .api-banner {
+      display: none; margin-bottom: 1rem; padding: 0.65rem 1rem; border-radius: var(--radius-sm);
+      font-size: 0.8rem; background: var(--gold-dim); border: 1px solid rgba(212, 160, 23, 0.35); color: var(--gold-bright);
+    }
+    .api-banner.visible { display: block; }
+    .api-banner.error { background: var(--red-dim); border-color: rgba(230, 57, 70, 0.35); color: #f87171; }
+    .panel-backdrop {
+      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.55); z-index: 90;
+      opacity: 0; visibility: hidden; transition: opacity 0.28s ease, visibility 0.28s;
+    }
+    .panel-backdrop.open { opacity: 1; visibility: visible; }
+    .side-panel {
+      position: fixed; top: 0; right: 0; width: var(--panel-w); height: 100%;
+      background: var(--bg-elevated); border-left: 1px solid var(--border); z-index: 100;
+      box-shadow: -8px 0 40px rgba(0, 0, 0, 0.5);
+      transform: translateX(100%); transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+      display: flex; flex-direction: column; overflow: hidden;
+    }
+    .side-panel.open { transform: translateX(0); }
+    .panel-header {
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;
+      padding: 1.25rem 1.35rem; border-bottom: 1px solid var(--border-subtle);
+      background: linear-gradient(135deg, #1a0f14 0%, var(--bg-elevated) 100%); position: relative;
+    }
+    .panel-header::before {
+      content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--red), var(--gold));
+    }
+    .panel-header .ph-left { display: flex; align-items: center; gap: 0.75rem; }
+    .panel-header .ph-sym {
+      width: 44px; height: 44px; border-radius: 50%; background: var(--bg-card); border: 1px solid var(--border);
+      display: grid; place-items: center; font-size: 0.7rem; font-weight: 800; color: var(--gold);
+    }
+    .panel-header h2 { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.02em; }
+    .panel-header .ph-name { font-size: 0.8rem; color: var(--text-muted); }
+    button.panel-close { padding: 0.4rem 0.65rem; min-width: 36px; justify-content: center; }
+    .panel-body { flex: 1; overflow-y: auto; padding: 1.25rem 1.35rem 2rem; }
+    .panel-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.65rem; margin-bottom: 1.25rem; }
+    .panel-stat {
+      background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm);
+      padding: 0.75rem; text-align: center;
+    }
+    .panel-stat .ps-label { font-size: 0.625rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.25rem; }
+    .panel-stat .ps-value { font-size: 1rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .panel-section {
+      margin-bottom: 1.15rem; padding: 1rem; background: var(--bg-card);
+      border: 1px solid var(--border-subtle); border-radius: var(--radius);
+    }
+    .panel-section h3 {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.55rem;
+    }
+    .panel-section p { font-size: 0.84rem; color: var(--text-muted); line-height: 1.55; }
+    .panel-section .placeholder-box {
+      margin-top: 0.5rem; padding: 0.75rem; border: 1px dashed var(--border); border-radius: var(--radius-sm);
+      font-size: 0.78rem; color: var(--text-dim); background: rgba(0,0,0,0.2); text-align: center;
+    }
+    .tok-status {
+      display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.75rem; font-weight: 600;
+      padding: 0.3rem 0.65rem; border-radius: 999px; margin-bottom: 0.5rem;
+    }
+    .tok-status.pending { color: var(--gold-bright); background: var(--gold-dim); border: 1px solid rgba(212, 160, 23, 0.3); }
+    .tok-status.queued-no { color: var(--text-muted); background: rgba(139, 147, 167, 0.1); border: 1px solid var(--border); }
+    .sector-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.5rem; }
+    .sector-tags span {
+      font-size: 0.65rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+      color: var(--text-muted); background: var(--bg-elevated); border: 1px solid var(--border);
+      padding: 0.2rem 0.5rem; border-radius: 999px;
+    }
+    @media (max-width: 480px) {
+      .container { padding: 0.75rem 0.85rem 2rem; }
+      .sticky-chrome { margin: -0.75rem -0.85rem 1rem; padding: 0.65rem 0.85rem 0; }
+      .brand h1 { font-size: 1.15rem; }
+      .panel-stats { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="sticky-chrome">
+      <header class="app-header">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">CK</div>
+          <div>
+            <h1>Crypto King</h1>
+            <div class="subtitle">Command Center · Research Desk</div>
+          </div>
+        </div>
+        <div class="header-meta">
+          <div class="updated" id="updatedLabel">
+            <span class="status-dot" id="statusDot"></span>
+            <span id="updatedText">Loading market data…</span>
+          </div>
+          <button type="button" class="refresh-btn" id="refreshBtn" title="Refresh live prices">
+            <span id="refreshIcon">↻</span> Refresh
+          </button>
+        </div>
+      </header>
+      <nav class="nav-tabs" role="tablist" aria-label="Dashboard views">
+        <button type="button" class="nav-tab active" role="tab" aria-selected="true" data-view="overview" id="tab-overview">Overview</button>
+        <button type="button" class="nav-tab" role="tab" aria-selected="false" data-view="watchlist" id="tab-watchlist">Watchlist</button>
+        <button type="button" class="nav-tab" role="tab" aria-selected="false" data-view="narratives" id="tab-narratives">Narratives</button>
+        <button type="button" class="nav-tab" role="tab" aria-selected="false" data-view="tokenomics" id="tab-tokenomics">Tokenomics</button>
+        <button type="button" class="nav-tab" role="tab" aria-selected="false" data-view="projects" id="tab-projects">New Projects</button>
+      </nav>
+    </div>
+    <div class="api-banner" id="apiBanner" role="status"></div>
+
+    <div class="view active" id="view-overview" role="tabpanel" aria-labelledby="tab-overview">
+      <section class="section" aria-labelledby="overview-title">
+        <div class="section-head">
+          <h2 id="overview-title">Market Overview</h2>
+          <span class="hint">Live via CoinGecko · Fear &amp; Greed via Alternative.me</span>
+        </div>
+        <div class="overview-grid">
+          <div class="card stat-card accent-btc">
+            <div class="label">Bitcoin</div>
+            <div class="value" id="ov-btc-price">—</div>
+            <div class="change flat" id="ov-btc-chg">—</div>
+          </div>
+          <div class="card stat-card accent-eth">
+            <div class="label">Ethereum</div>
+            <div class="value" id="ov-eth-price">—</div>
+            <div class="change flat" id="ov-eth-chg">—</div>
+          </div>
+          <div class="card stat-card accent-sol">
+            <div class="label">Solana</div>
+            <div class="value" id="ov-sol-price">—</div>
+            <div class="change flat" id="ov-sol-chg">—</div>
+          </div>
+          <div class="card stat-card accent-gold">
+            <div class="label">Total Market Cap</div>
+            <div class="value" id="ov-mcap">—</div>
+            <div class="change flat" id="ov-mcap-chg">24h</div>
+          </div>
+          <div class="card stat-card accent-gold">
+            <div class="label">BTC Dominance</div>
+            <div class="value" id="ov-dom">—</div>
+            <div class="change flat" id="ov-dom-sub">Share of total mcap</div>
+          </div>
+          <div class="card stat-card accent-red">
+            <div class="label">Fear &amp; Greed</div>
+            <div class="value" id="ov-fg">—</div>
+            <div class="change flat" id="ov-fg-label">Index</div>
+          </div>
+        </div>
+      </section>
+      <section class="section" aria-labelledby="heat-title-ov">
+        <div class="section-head">
+          <h2 id="heat-title-ov">Sector / Narrative Heat</h2>
+          <span class="hint">Click a sector to filter the watchlist</span>
+        </div>
+        <div class="heat-grid" id="heatGridOverview"></div>
+      </section>
+      <section class="section" aria-labelledby="brief-title">
+        <div class="section-head">
+          <h2 id="brief-title">Narrative Briefing</h2>
+          <span class="hint">Week of 22–28 Sep 2026</span>
+        </div>
+        <div class="two-col">
+          <article class="card briefing-card">
+            <span class="tag">Desk briefing</span>
+            <h3>Risk-on, selective rotation — not full alt season</h3>
+            <p>
+              Markets are risk-on but discriminating. Liquidity is rotating into specific narratives (L2s, AI, DePIN, privacy/institutional wrappers)
+              rather than flooding the long-tail. BTC and ETH have been relatively softer versus selective alts and ETF-adjacent flows.
+              Desk now tracks a rank-climber watchlist alongside core majors.
+            </p>
+            <ul>
+              <li>L2 / scaling names leading the selective alt rotation.</li>
+              <li>Rank-climber sleeve live — VIRTUAL, GEOD, GRASS, AIOZ, CAP; AI thermometer FET (skip-primary).</li>
+              <li>First leg-one ticket: RENDER on dip (armed candidate · research-only until clear).</li>
+              <li>Institutional ETF-style flows into ZEC, SOL, XRP while BTC/ETH softer.</li>
+              <li>Circle’s Arc mainnet launched 16 Sep 2026 — new L1 to watch (speculative).</li>
+            </ul>
+          </article>
+          <article class="card briefing-card">
+            <span class="tag" style="color: var(--gold); background: var(--gold-dim); border-color: rgba(212,160,23,0.3);">Desk posture</span>
+            <h3>How Crypto King is framing it</h3>
+            <p>
+              Prefer liquid names with clear catalysts. Deep-dives on supply, unlocks, and burns come before any invest sizing —
+              queue prioritizes RENDER (armed), VIRTUAL, GEOD, AIOZ, CAP; FET kept as AI thermometer with skip-primary status.
+            </p>
+            <ul>
+              <li>Leg-one: $500→$10K Binance spot, 4–5% risk, no leverage — research only until clear.</li>
+              <li>Favor narrative leaders / rank climbers over low-float meme beta.</li>
+              <li>Track ETF / institutional flow prints alongside price.</li>
+              <li>Arc / Asentum / PEPE Solana = speculative watch only.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </div>
+
+    <div class="view" id="view-watchlist" role="tabpanel" aria-labelledby="tab-watchlist" hidden>
+      <section class="section" aria-labelledby="watch-title">
+        <div class="section-head">
+          <h2 id="watch-title">Desk Watchlist</h2>
+          <span class="hint">Rank climbers + core · 24h / 7d / 30d · click card or row for detail</span>
+        </div>
+
+        <div class="desk-banner" id="deskRulesBanner">
+          <div class="db-label">Leg-one desk rules</div>
+          <h3>Research-only rank climbers · RENDER first ticket on dip</h3>
+          <p>
+            Leg-one mandate: $500 → $10K on Binance spot, 4–5% risk, no leverage.
+            First armed idea: <strong>RENDERUSDT on dip</strong> — research only until tokenomics, liquidity, and pullback are clear.
+          </p>
+          <ul>
+            <li>No buys until tokenomics + liquidity + pullback clear</li>
+            <li>Binance spot only · no leverage</li>
+            <li>4–5% risk per idea</li>
+            <li>Monday 9am scan (Europe/London)</li>
+          </ul>
+        </div>
+
+        <div class="section-head" style="margin-top:0.25rem;">
+          <h2 style="font-size:0.8rem;">Rank Climbers</h2>
+          <span class="hint">Shortlist · status badges</span>
+        </div>
+        <div class="rank-grid" id="rankClimberGrid"></div>
+
+        <div class="filter-pills" id="watchFilterPills" role="group" aria-label="Watchlist sleeve filter">
+          <button type="button" class="filter-pill active" data-wl-filter="all">All</button>
+          <button type="button" class="filter-pill" data-wl-filter="rank">Rank Climbers</button>
+          <button type="button" class="filter-pill" data-wl-filter="core">Core</button>
+          <button type="button" class="filter-pill" data-wl-filter="armed">Armed</button>
+          <button type="button" class="filter-pill" data-wl-filter="needs">Needs tokenomics</button>
+        </div>
+
+        <div class="watch-toolbar">
+          <div class="search-wrap">
+            <span class="search-icon" aria-hidden="true">⌕</span>
+            <input type="search" id="watchSearch" placeholder="Search ticker or name…" autocomplete="off" aria-label="Filter watchlist" />
+          </div>
+          <div class="filter-chip hidden" id="sectorChip">
+            <span id="sectorChipLabel">Sector</span>
+            <button type="button" id="clearSectorFilter" title="Clear sector filter" aria-label="Clear sector filter">×</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="watchlist" id="watchTable">
+            <thead>
+              <tr>
+                <th>Ticker</th>
+                <th>Status</th>
+                <th>Binance</th>
+                <th class="num">Price</th>
+                <th class="num">24h</th>
+                <th class="num">7d</th>
+                <th class="num">30d</th>
+                <th class="num">Market Cap</th>
+              </tr>
+            </thead>
+            <tbody id="watchBody"></tbody>
+          </table>
+          <div class="empty-filter" id="emptyFilter">No tokens match this filter.</div>
+        </div>
+      </section>
+    </div>
+
+    <div class="view" id="view-narratives" role="tabpanel" aria-labelledby="tab-narratives" hidden>
+      <section class="section" aria-labelledby="heat-title">
+        <div class="section-head">
+          <h2 id="heat-title">Sector / Narrative Heat</h2>
+          <span class="hint">As of 22–23 Sep 2026 · click to filter watchlist</span>
+        </div>
+        <div class="heat-grid" id="heatGridNarratives"></div>
+      </section>
+      <section class="section">
+        <div class="section-head">
+          <h2>Narrative Briefing</h2>
+          <span class="hint">Week of 22–28 Sep 2026</span>
+        </div>
+        <div class="two-col">
+          <article class="card briefing-card">
+            <span class="tag">Desk briefing</span>
+            <h3>Risk-on, selective rotation — not full alt season</h3>
+            <p>
+              Markets are risk-on but discriminating. Liquidity is rotating into specific narratives (L2s, AI, DePIN, privacy/institutional wrappers)
+              rather than flooding the long-tail. BTC and ETH have been relatively softer versus selective alts and ETF-adjacent flows.
+              Desk now tracks a rank-climber watchlist alongside core majors.
+            </p>
+            <ul>
+              <li>L2 / scaling names leading the selective alt rotation.</li>
+              <li>Rank-climber sleeve live — VIRTUAL, GEOD, GRASS, AIOZ, CAP; AI thermometer FET (skip-primary).</li>
+              <li>First leg-one ticket: RENDER on dip (armed candidate · research-only until clear).</li>
+              <li>Institutional ETF-style flows into ZEC, SOL, XRP while BTC/ETH softer.</li>
+              <li>Circle’s Arc mainnet launched 16 Sep 2026 — new L1 to watch (speculative).</li>
+            </ul>
+          </article>
+          <article class="card briefing-card">
+            <span class="tag" style="color: var(--gold); background: var(--gold-dim); border-color: rgba(212,160,23,0.3);">Desk posture</span>
+            <h3>How Crypto King is framing it</h3>
+            <p>
+              Prefer liquid names with clear catalysts. Deep-dives on supply, unlocks, and burns come before any invest sizing —
+              queue prioritizes RENDER (armed), VIRTUAL, GEOD, AIOZ, CAP; FET kept as AI thermometer with skip-primary status.
+            </p>
+            <ul>
+              <li>Leg-one: $500→$10K Binance spot, 4–5% risk, no leverage — research only until clear.</li>
+              <li>Favor narrative leaders / rank climbers over low-float meme beta.</li>
+              <li>Track ETF / institutional flow prints alongside price.</li>
+              <li>Arc / Asentum / PEPE Solana = speculative watch only.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </div>
+
+    <div class="view" id="view-tokenomics" role="tabpanel" aria-labelledby="tab-tokenomics" hidden>
+      <section class="section" aria-labelledby="token-title">
+        <div class="section-head">
+          <h2 id="token-title">Tokenomics Deep-Dive Queue</h2>
+          <span class="hint">Upcoming invest research · click to open detail</span>
+        </div>
+        <div class="tokenomics-grid">
+          <button type="button" class="card token-slot" data-open-id="render-token">
+            <div class="slot-ticker">RENDER</div>
+            <div class="slot-status">Armed · pending deep-dive</div>
+            <div class="slot-note">Leg-one primary · supply · unlocks · burns</div>
+          </button>
+          <button type="button" class="card token-slot" data-open-id="virtual-protocol">
+            <div class="slot-ticker">VIRTUAL</div>
+            <div class="slot-status">Pending deep-dive</div>
+            <div class="slot-note">AI agents · supply · unlocks</div>
+          </button>
+          <button type="button" class="card token-slot" data-open-id="geodnet">
+            <div class="slot-ticker">GEOD</div>
+            <div class="slot-status">Pending deep-dive</div>
+            <div class="slot-note">DePIN GNSS · liquidity check</div>
+          </button>
+          <button type="button" class="card token-slot" data-open-id="aioz-network">
+            <div class="slot-ticker">AIOZ</div>
+            <div class="slot-status">Needs tokenomics</div>
+            <div class="slot-note">DePIN/AI streaming · heater-adjacent</div>
+          </button>
+          <button type="button" class="card token-slot" data-open-id="cap-4">
+            <div class="slot-ticker">CAP</div>
+            <div class="slot-status">Needs tokenomics</div>
+            <div class="slot-note">DeFi credit · FDV overhang</div>
+          </button>
+        </div>
+        <p class="tokenomics-note">
+          Crypto King delivers supply schedules, unlock calendars, burn mechanics, and whitepaper notes before invest.
+          RENDER is the armed leg-one candidate; VIRTUAL / GEOD / AIOZ / CAP are queued. FET is skip-primary (rebrand/Ocean/exploit) — kept as AI thermometer only, not a primary slot.
+        </p>
+      </section>
+    </div>
+
+    <div class="view" id="view-projects" role="tabpanel" aria-labelledby="tab-projects" hidden>
+      <section class="section" aria-labelledby="new-title">
+        <div class="section-head">
+          <h2 id="new-title">New Projects Watch</h2>
+          <span class="hint">Speculative · not invest-ready</span>
+        </div>
+        <div class="projects-grid">
+          <article class="card project-card">
+            <span class="spec-badge">Speculative</span>
+            <h3>Arc</h3>
+            <div class="meta">Circle · Mainnet launched 16 Sep 2026</div>
+            <p>
+              Circle’s new L1 / chain initiative. Early mainnet — track USDC rail integration, developer tooling, and whether Arc becomes a
+              settlement layer for Circle’s stablecoin stack. High uncertainty; narrative-driven until usage data lands.
+            </p>
+          </article>
+          <article class="card project-card">
+            <span class="spec-badge">Speculative</span>
+            <h3>Asentum / Auras</h3>
+            <div class="meta">Early-stage · narrative watch</div>
+            <p>
+              Early project cluster on the desk radar. Treat as speculative only — confirm token design, team transparency, and audit status
+              before any allocation discussion with Crypto King.
+            </p>
+          </article>
+          <article class="card project-card">
+            <span class="spec-badge">Speculative</span>
+            <h3>PEPE (Solana canonical)</h3>
+            <div class="meta">Meme · Solana · high beta</div>
+            <p>
+              Solana-canonical PEPE narrative as meme beta / liquidity thermometer — not a fundamentals play. Size (if at all) as speculative
+              risk capital only; expect extreme volatility and copycat risk.
+            </p>
+          </article>
+        </div>
+      </section>
+    </div>
+
+    <footer class="app-footer">
+      <p class="disclaimer">Not financial advice · For research with Crypto King</p>
+      <p>Data: CoinGecko (prices) · Alternative.me (Fear &amp; Greed) · Narratives curated for Matthew · Sep 2026</p>
+    </footer>
+  </div>
+
+  <div class="panel-backdrop" id="panelBackdrop" aria-hidden="true"></div>
+  <aside class="side-panel" id="sidePanel" role="dialog" aria-modal="true" aria-labelledby="panelTitle" aria-hidden="true">
+    <div class="panel-header">
+      <div class="ph-left">
+        <div class="ph-sym" id="panelSym">—</div>
+        <div>
+          <h2 id="panelTitle">—</h2>
+          <div class="ph-name" id="panelName">—</div>
+        </div>
+      </div>
+      <button type="button" class="panel-close" id="panelClose" title="Close (Esc)" aria-label="Close panel">✕</button>
+    </div>
+    <div class="panel-body">
+      <div class="panel-stats">
+        <div class="panel-stat">
+          <div class="ps-label">Price</div>
+          <div class="ps-value" id="panelPrice">—</div>
+        </div>
+        <div class="panel-stat">
+          <div class="ps-label">24h</div>
+          <div class="ps-value" id="panel24h">—</div>
+        </div>
+        <div class="panel-stat">
+          <div class="ps-label">7d</div>
+          <div class="ps-value" id="panel7d">—</div>
+        </div>
+        <div class="panel-stat">
+          <div class="ps-label">30d</div>
+          <div class="ps-value" id="panel30d">—</div>
+        </div>
+      </div>
+      <div class="panel-section">
+        <h3>Narrative</h3>
+        <p id="panelNarrative">—</p>
+        <div class="sector-tags" id="panelTags"></div>
+      </div>
+      <div class="panel-section">
+        <h3>Tokenomics status</h3>
+        <div id="panelTokStatus"></div>
+        <p id="panelTokNote" style="font-size:0.8rem;color:var(--text-muted);"></p>
+      </div>
+      <div class="panel-section">
+        <h3>Supply</h3>
+        <div class="placeholder-box">Full report from Crypto King before invest</div>
+      </div>
+      <div class="panel-section">
+        <h3>Unlocks</h3>
+        <div class="placeholder-box">Full report from Crypto King before invest</div>
+      </div>
+      <div class="panel-section">
+        <h3>Burns</h3>
+        <div class="placeholder-box">Full report from Crypto King before invest</div>
+      </div>
+      <div class="panel-section">
+        <h3>Market cap</h3>
+        <p id="panelMcap" style="font-weight:700;color:var(--text);font-variant-numeric:tabular-nums;">—</p>
+      </div>
+    </div>
+  </aside>
+
+  <script>
+(function () {
+  "use strict";
+
+  const COIN_IDS = [
+    "bitcoin", "ethereum", "solana", "near", "arbitrum", "ethena",
+    "avalanche-2", "uniswap", "zcash",
+    "virtual-protocol", "geodnet", "grass", "aioz-network", "cap-4",
+    "fetch-ai", "render-token", "bittensor"
+  ];
+
+  const DEEP_DIVE = {
+    "render-token": 1, "virtual-protocol": 1, geodnet: 1,
+    "aioz-network": 1, "cap-4": 1, near: 1, arbitrum: 1, ethena: 1, zcash: 1
+  };
+
+  const STATUS_LABEL = {
+    armed: "Armed candidate",
+    watch: "Watch",
+    needs: "Needs tokenomics",
+    skip: "Skip primary",
+    core: "Core"
+  };
+
+  const META = {
+    bitcoin:        { ticker: "BTC",    name: "Bitcoin",           short: "BTC",  sectors: ["majors"], status: "core", binance: "Yes", sleeve: "core", narrative: "Macro reserve asset and liquidity benchmark. Desk context major — not a rank climber." },
+    ethereum:       { ticker: "ETH",    name: "Ethereum",          short: "ETH",  sectors: ["majors", "l2"], status: "core", binance: "Yes", sleeve: "core", narrative: "Settlement + L2 settlement layer. Desk context major — watch fee revenue and staking flows." },
+    solana:         { ticker: "SOL",    name: "Solana",            short: "SOL",  sectors: ["l1", "privacy"], status: "core", binance: "Yes", sleeve: "core", narrative: "L1 rotation leader and ETF-adjacent institutional flow name. Desk context major / meme thermometer." },
+    near:           { ticker: "NEAR",   name: "NEAR",              short: "NEAR", sectors: ["l1"], status: "core", binance: "Yes", sleeve: "core", narrative: "L1 relative-value name on the desk. Chain abstraction + AI adjacency; core context." },
+    arbitrum:       { ticker: "ARB",    name: "Arbitrum",          short: "ARB",  sectors: ["l2"], status: "core", binance: "Yes", sleeve: "core", narrative: "Flagship L2 / scaling proxy. Desk context — throughput and fee compression thesis." },
+    ethena:         { ticker: "ENA",    name: "Ethena",            short: "ENA",  sectors: ["defi"], status: "core", binance: "Yes", sleeve: "core", narrative: "Stablecoin / synthetic USD stack. Selective DeFi — desk context core." },
+    "avalanche-2":  { ticker: "AVAX",   name: "Avalanche",         short: "AVAX", sectors: ["l1"], status: "core", binance: "Yes", sleeve: "core", narrative: "L1 relative-value sleeve. Desk context core alongside NEAR/SOL." },
+    uniswap:        { ticker: "UNI",    name: "Uniswap",           short: "UNI",  sectors: ["defi"], status: "core", binance: "Yes", sleeve: "core", narrative: "Governance / liquidity beta for selective DeFi. Desk context core." },
+    zcash:          { ticker: "ZEC",    name: "Zcash",             short: "ZEC",  sectors: ["privacy"], status: "core", binance: "Yes", sleeve: "core", narrative: "Privacy + institutional/ETF-style flow sleeve. Desk context core." },
+    "virtual-protocol": { ticker: "VIRTUAL", name: "Virtual Protocol", short: "VIR", sectors: ["ai"], status: "watch", binance: "Yes", sleeve: "rank", why: "AI agents narrative; ~$470M mcap; Binance spot listed.", narrative: "Rank climber — AI agents. Watch sleeve; Binance spot Yes. Research-only until tokenomics/liquidity/pullback clear." },
+    geodnet:        { ticker: "GEOD",   name: "Geodnet",           short: "GEO",  sectors: ["depin"], status: "watch", binance: "Unknown", sleeve: "rank", why: "DePIN GNSS; ~$118M; Binance listing unknown.", narrative: "Rank climber — DePIN GNSS. Watch; confirm Binance spot liquidity before any sizing." },
+    grass:          { ticker: "GRASS",  name: "Grass",             short: "GRS",  sectors: ["depin", "ai"], status: "watch", binance: "No", sleeve: "rank", why: "DePIN AI bandwidth; ~$302M; futures only on Binance.", narrative: "Rank climber — DePIN AI bandwidth. Binance spot No (futures only) — stay research-only; spot rail required for leg-one." },
+    "aioz-network": { ticker: "AIOZ",   name: "AIOZ Network",      short: "AIZ",  sectors: ["depin", "ai"], status: "needs", binance: "Unknown", sleeve: "rank", why: "DePIN/AI streaming; heater-adjacent; needs tokenomics.", narrative: "Rank climber — DePIN/AI streaming, heater-adjacent. Needs tokenomics clarity before arming." },
+    "cap-4":        { ticker: "CAP",    name: "Cap",               short: "CAP",  sectors: ["defi"], status: "needs", binance: "Unknown", sleeve: "rank", why: "DeFi credit; FDV overhang; needs tokenomics.", narrative: "Rank climber — DeFi credit. Needs tokenomics; FDV overhang is the key risk to map before any ticket." },
+    "fetch-ai":     { ticker: "FET",    name: "Fetch.ai",          short: "FET",  sectors: ["ai"], status: "skip", binance: "Yes", sleeve: "rank", why: "AI thermometer only; skip-primary (rebrand/Ocean/exploit).", narrative: "Skip primary — rebrand / Ocean / exploit overhang. Keep on list as AI thermometer only; not a leg-one candidate." },
+    "render-token": { ticker: "RENDER", name: "Render",            short: "RNDR", sectors: ["ai"], status: "armed", binance: "Yes", sleeve: "ai-primary", why: "Primary leg-one: RENDERUSDT on dip; Binance spot Yes.", narrative: "Armed candidate / primary leg-one — RENDERUSDT on dip. Research only until tokenomics, liquidity, and pullback are clear. Binance spot Yes · 4–5% risk · no leverage." },
+    bittensor:      { ticker: "TAO",    name: "Bittensor",         short: "TAO",  sectors: ["ai"], status: "watch", binance: "Yes", sleeve: "rank", why: "Watch pullback; Binance Yes (awkward lot size).", narrative: "Rank climber — watch pullback. Binance spot Yes but awkward lot size; size carefully if ever armed." }
+  };
+
+  const RANK_CLIMBER_IDS = [
+    "virtual-protocol", "geodnet", "grass", "aioz-network", "cap-4",
+    "fetch-ai", "render-token", "bittensor"
+  ];
+
+  const SECTORS = [
+    { id: "l2", heat: "hot", title: "Layer 2 / Scaling", blurb: "L2s leading selective alt rotation. Throughput, fee compression, and sequencer decentralization remain the core thesis. Watch ARB flows and ecosystem TVL.", tickers: "ARB · OP · STRK · BASE", tags: ["l2"] },
+    { id: "l1", heat: "warm", title: "Layer 1 Rotation", blurb: "Capital rotating across L1s rather than a broad alt season. SOL strength vs softer majors; NEAR and AVAX as relative-value names on the desk.", tickers: "SOL · NEAR · AVAX · SUI", tags: ["l1"] },
+    { id: "ai", heat: "hot", title: "AI & Data", blurb: "AI narrative rotation active. RENDER armed as leg-one primary; VIRTUAL / TAO watch; FET skip-primary thermometer. Focus on usage metrics vs pure narrative beta.", tickers: "RENDER · VIRTUAL · TAO · FET", tags: ["ai"] },
+    { id: "depin", heat: "warm", title: "DePIN", blurb: "DePIN sleeve on the rank-climber shortlist: GRASS (AI bandwidth), GEOD (GNSS), AIOZ (streaming). Research-only — confirm spot liquidity and tokenomics before arming.", tickers: "GRASS · GEOD · AIOZ", tags: ["depin"] },
+    { id: "defi", heat: "watch", title: "DeFi", blurb: "Selective DeFi: ENA / UNI as core context; CAP (credit) needs tokenomics and FDV overhang mapped. Not a full DeFi summer — stay picky.", tickers: "ENA · UNI · CAP · AAVE", tags: ["defi"] },
+    { id: "privacy", heat: "warm", title: "Privacy / Institutional", blurb: "Institutional ETF-style flows into ZEC (and SOL/XRP) while BTC/ETH softer — privacy + regulated wrappers as a distinct sleeve.", tickers: "ZEC · SOL · XRP", tags: ["privacy"] }
+  ];
+
+  const CACHE_KEY = "ck_dashboard_cache_v3";
+  const CACHE_TTL_MS = 5 * 60 * 1000;
+
+  const FALLBACK = {
+    markets: {
+      bitcoin: { usd: 81148, usd_24h_change: -0.4, usd_7d_change: 1.1, usd_market_cap: 1.61e12, usd_30d_change: 2.5 },
+      ethereum: { usd: 2626,  usd_24h_change: -0.6, usd_7d_change: 0.5, usd_market_cap: 3.16e11, usd_30d_change: 1.8 },
+      solana: { usd: 110,   usd_24h_change: 1.8,  usd_7d_change: 4.2, usd_market_cap: 5.4e10, usd_30d_change: 8.5 },
+      near: { usd: 4.85,  usd_24h_change: 1.2,  usd_7d_change: 2.8, usd_market_cap: 5.7e9, usd_30d_change: 6.0 },
+      arbitrum: { usd: 0.68,  usd_24h_change: 2.9,  usd_7d_change: 7.4, usd_market_cap: 2.6e9, usd_30d_change: 14.0 },
+      ethena: { usd: 0.48,  usd_24h_change: -0.9, usd_7d_change: 1.8, usd_market_cap: 1.7e9, usd_30d_change: 4.0 },
+      "avalanche-2": { usd: 28.5,  usd_24h_change: 0.6,  usd_7d_change: 3.1, usd_market_cap: 1.15e10, usd_30d_change: 5.5 },
+      uniswap: { usd: 8.2,   usd_24h_change: -0.4, usd_7d_change: 0.9, usd_market_cap: 4.9e9, usd_30d_change: 2.0 },
+      zcash: { usd: 38,    usd_24h_change: 5.8,  usd_7d_change: 12.5, usd_market_cap: 6.2e8, usd_30d_change: 22.0 },
+      "virtual-protocol": { usd: 1.15,  usd_24h_change: 2.1,  usd_7d_change: 5.4, usd_market_cap: 4.7e8, usd_30d_change: 17.5 },
+      geodnet: { usd: 0.22,  usd_24h_change: 1.4,  usd_7d_change: 3.8, usd_market_cap: 1.18e8, usd_30d_change: 8.0 },
+      grass: { usd: 1.05,  usd_24h_change: -1.2, usd_7d_change: 2.0, usd_market_cap: 3.02e8, usd_30d_change: 48.0 },
+      "aioz-network": { usd: 0.45,  usd_24h_change: 3.2,  usd_7d_change: 8.1, usd_market_cap: 5.2e8, usd_30d_change: 12.0 },
+      "cap-4": { usd: 0.85,  usd_24h_change: -0.5, usd_7d_change: 1.2, usd_market_cap: 1.5e8, usd_30d_change: 3.0 },
+      "fetch-ai": { usd: 1.32,  usd_24h_change: 3.5,  usd_7d_change: 9.8, usd_market_cap: 3.2e9, usd_30d_change: 18.0 },
+      "render-token": { usd: 5.9,   usd_24h_change: 2.4,  usd_7d_change: 6.2, usd_market_cap: 3.1e9, usd_30d_change: 11.0 },
+      bittensor: { usd: 385,   usd_24h_change: 2.9,  usd_7d_change: 7.5, usd_market_cap: 2.9e9, usd_30d_change: 15.0 }
+    },
+    global: { total_market_cap_usd: 2.76e12, market_cap_change_24h: 0.5, btc_dominance: 58.8 },
+    fng: { value: 70, classification: "Greed" }
+  };
+
+  let latestMarkets = FALLBACK.markets;
+  let searchQuery = "";
+  let sectorFilter = null;
+  let sleeveFilter = "all";
+  let activeCoinId = null;
+
+  const els = {
+    refreshBtn: document.getElementById("refreshBtn"),
+    refreshIcon: document.getElementById("refreshIcon"),
+    updatedText: document.getElementById("updatedText"),
+    statusDot: document.getElementById("statusDot"),
+    apiBanner: document.getElementById("apiBanner"),
+    watchBody: document.getElementById("watchBody"),
+    watchSearch: document.getElementById("watchSearch"),
+    sectorChip: document.getElementById("sectorChip"),
+    sectorChipLabel: document.getElementById("sectorChipLabel"),
+    clearSectorFilter: document.getElementById("clearSectorFilter"),
+    emptyFilter: document.getElementById("emptyFilter"),
+    rankClimberGrid: document.getElementById("rankClimberGrid"),
+    watchFilterPills: document.getElementById("watchFilterPills"),
+    heatGridOverview: document.getElementById("heatGridOverview"),
+    heatGridNarratives: document.getElementById("heatGridNarratives"),
+    panelBackdrop: document.getElementById("panelBackdrop"),
+    sidePanel: document.getElementById("sidePanel"),
+    panelClose: document.getElementById("panelClose"),
+    panelSym: document.getElementById("panelSym"),
+    panelTitle: document.getElementById("panelTitle"),
+    panelName: document.getElementById("panelName"),
+    panelPrice: document.getElementById("panelPrice"),
+    panel24h: document.getElementById("panel24h"),
+    panel7d: document.getElementById("panel7d"),
+    panel30d: document.getElementById("panel30d"),
+    panelNarrative: document.getElementById("panelNarrative"),
+    panelTags: document.getElementById("panelTags"),
+    panelTokStatus: document.getElementById("panelTokStatus"),
+    panelTokNote: document.getElementById("panelTokNote"),
+    panelMcap: document.getElementById("panelMcap"),
+    ov: {
+      btcPrice: document.getElementById("ov-btc-price"),
+      btcChg: document.getElementById("ov-btc-chg"),
+      ethPrice: document.getElementById("ov-eth-price"),
+      ethChg: document.getElementById("ov-eth-chg"),
+      solPrice: document.getElementById("ov-sol-price"),
+      solChg: document.getElementById("ov-sol-chg"),
+      mcap: document.getElementById("ov-mcap"),
+      mcapChg: document.getElementById("ov-mcap-chg"),
+      dom: document.getElementById("ov-dom"),
+      fg: document.getElementById("ov-fg"),
+      fgLabel: document.getElementById("ov-fg-label")
+    }
+  };
+
+  function londonNow() {
+    try {
+      return new Date().toLocaleString("en-GB", {
+        timeZone: "Europe/London",
+        weekday: "short", day: "numeric", month: "short", year: "numeric",
+        hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false
+      }) + " Europe/London";
+    } catch (e) {
+      return new Date().toISOString();
+    }
+  }
+
+  function formatPrice(n) {
+    if (n == null || isNaN(n)) return "—";
+    if (n >= 1000) return "$" + n.toLocaleString("en-US", { maximumFractionDigits: 0 });
+    if (n >= 1) return "$" + n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    if (n >= 0.01) return "$" + n.toLocaleString("en-US", { minimumFractionDigits: 3, maximumFractionDigits: 4 });
+    return "$" + n.toLocaleString("en-US", { minimumFractionDigits: 4, maximumFractionDigits: 6 });
+  }
+
+  function formatMcap(n) {
+    if (n == null || isNaN(n)) return "—";
+    if (n >= 1e12) return "$" + (n / 1e12).toFixed(2) + "T";
+    if (n >= 1e9) return "$" + (n / 1e9).toFixed(2) + "B";
+    if (n >= 1e6) return "$" + (n / 1e6).toFixed(1) + "M";
+    return "$" + n.toLocaleString("en-US", { maximumFractionDigits: 0 });
+  }
+
+  function formatPct(n) {
+    if (n == null || isNaN(n)) return "—";
+    const sign = n > 0 ? "+" : "";
+    return sign + n.toFixed(2) + "%";
+  }
+
+  function pctClass(n) {
+    if (n == null || isNaN(n)) return "flat";
+    if (n > 0.05) return "up";
+    if (n < -0.05) return "down";
+    return "flat";
+  }
+
+  function setChange(el, pct) {
+    el.textContent = formatPct(pct);
+    el.className = "change " + pctClass(pct);
+  }
+
+  function showBanner(msg, isError) {
+    els.apiBanner.textContent = msg;
+    els.apiBanner.classList.add("visible");
+    els.apiBanner.classList.toggle("error", !!isError);
+  }
+
+  function hideBanner() {
+    els.apiBanner.classList.remove("visible", "error");
+    els.apiBanner.textContent = "";
+  }
+
+  function loadCache() {
+    try {
+      const raw = localStorage.getItem(CACHE_KEY);
+      if (!raw) return null;
+      return JSON.parse(raw);
+    } catch (e) { return null; }
+  }
+
+  function saveCache(payload) {
+    try {
+      localStorage.setItem(CACHE_KEY, JSON.stringify({ savedAt: Date.now(), data: payload }));
+    } catch (e) { /* ignore */ }
+  }
+
+  async function fetchJSON(url, timeoutMs) {
+    const ctrl = new AbortController();
+    const t = setTimeout(function () { ctrl.abort(); }, timeoutMs || 12000);
+    try {
+      const res = await fetch(url, { signal: ctrl.signal, headers: { Accept: "application/json" } });
+      if (!res.ok) {
+        const err = new Error("HTTP " + res.status);
+        err.status = res.status;
+        throw err;
+      }
+      return await res.json();
+    } finally { clearTimeout(t); }
+  }
+
+  function marketsFromArray(arr) {
+    const out = {};
+    (arr || []).forEach(function (c) {
+      out[c.id] = {
+        usd: c.current_price,
+        usd_24h_change: c.price_change_percentage_24h,
+        usd_7d_change: c.price_change_percentage_7d_in_currency,
+        usd_30d_change: c.price_change_percentage_30d_in_currency,
+        usd_market_cap: c.market_cap
+      };
+    });
+    return out;
+  }
+
+  async function fetchLive() {
+    const ids = COIN_IDS.join(",");
+    const marketsUrl =
+      "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=" +
+      encodeURIComponent(ids) +
+      "&order=market_cap_desc&sparkline=false&price_change_percentage=24h%2C7d%2C30d";
+    const globalUrl = "https://api.coingecko.com/api/v3/global";
+    const fngUrl = "https://api.alternative.me/fng/?limit=1";
+
+    const results = await Promise.allSettled([
+      fetchJSON(marketsUrl), fetchJSON(globalUrl), fetchJSON(fngUrl)
+    ]);
+
+    let markets = null, global = null, fng = null;
+    const notes = [];
+
+    if (results[0].status === "fulfilled") {
+      markets = marketsFromArray(results[0].value);
+    } else {
+      notes.push("markets:" + (results[0].reason && results[0].reason.status || "fail"));
+    }
+
+    if (results[1].status === "fulfilled" && results[1].value && results[1].value.data) {
+      const g = results[1].value.data;
+      global = {
+        total_market_cap_usd: g.total_market_cap && g.total_market_cap.usd,
+        market_cap_change_24h: g.market_cap_change_percentage_24h_usd,
+        btc_dominance: g.market_cap_percentage && g.market_cap_percentage.btc
+      };
+    } else {
+      notes.push("global:" + (results[1].reason && results[1].reason.status || "fail"));
+    }
+
+    if (results[2].status === "fulfilled" && results[2].value && results[2].value.data && results[2].value.data[0]) {
+      const d = results[2].value.data[0];
+      fng = { value: Number(d.value), classification: d.value_classification };
+    } else {
+      notes.push("fng:fail");
+    }
+
+    if (!markets) {
+      try {
+        const simpleUrl =
+          "https://api.coingecko.com/api/v3/simple/price?ids=" +
+          encodeURIComponent(ids) +
+          "&vs_currencies=usd&include_24hr_change=true&include_market_cap=true";
+        const simple = await fetchJSON(simpleUrl);
+        markets = {};
+        COIN_IDS.forEach(function (id) {
+          const row = simple[id];
+          if (!row) return;
+          markets[id] = {
+            usd: row.usd,
+            usd_24h_change: row.usd_24h_change,
+            usd_7d_change: null,
+            usd_30d_change: null,
+            usd_market_cap: row.usd_market_cap
+          };
+        });
+        notes.push("used simple/price");
+      } catch (e) {
+        notes.push("simple:fail");
+      }
+    }
+
+    return { markets: markets, global: global, fng: fng, notes: notes };
+  }
+
+  function rowMatchesFilters(id) {
+    const m = META[id];
+    if (!m) return false;
+    if (sleeveFilter && sleeveFilter !== "all") {
+      if (sleeveFilter === "rank") {
+        if (m.sleeve !== "rank" && m.sleeve !== "ai-primary") return false;
+      } else if (sleeveFilter === "core") {
+        if (m.sleeve !== "core") return false;
+      } else if (sleeveFilter === "armed") {
+        if (m.status !== "armed") return false;
+      } else if (sleeveFilter === "needs") {
+        if (m.status !== "needs") return false;
+      }
+    }
+    if (sectorFilter) {
+      const sector = SECTORS.find(function (s) { return s.id === sectorFilter; });
+      if (sector) {
+        const ok = sector.tags.some(function (t) {
+          return (m.sectors || []).indexOf(t) >= 0;
+        });
+        if (!ok) return false;
+      }
+    }
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      const hay = (m.ticker + " " + m.name + " " + m.short + " " + (m.status || "") + " " + (m.binance || "")).toLowerCase();
+      if (hay.indexOf(q) < 0) return false;
+    }
+    return true;
+  }
+
+  function applyRowVisibility() {
+    const rows = els.watchBody.querySelectorAll("tr[data-id]");
+    let visible = 0;
+    rows.forEach(function (tr) {
+      const id = tr.getAttribute("data-id");
+      const show = rowMatchesFilters(id);
+      tr.classList.toggle("hidden-row", !show);
+      if (show) visible++;
+    });
+    els.emptyFilter.classList.toggle("visible", visible === 0 && rows.length > 0);
+    if (els.rankClimberGrid) {
+      els.rankClimberGrid.querySelectorAll(".rank-card").forEach(function (card) {
+        const id = card.getAttribute("data-open-id");
+        const m = META[id];
+        var dim = false;
+        if (sleeveFilter && sleeveFilter !== "all" && m) {
+          if (sleeveFilter === "rank") dim = (m.sleeve !== "rank" && m.sleeve !== "ai-primary");
+          else if (sleeveFilter === "core") dim = true;
+          else if (sleeveFilter === "armed") dim = m.status !== "armed";
+          else if (sleeveFilter === "needs") dim = m.status !== "needs";
+        }
+        card.classList.toggle("dimmed", dim);
+      });
+    }
+  }
+
+  function updateSectorChip() {
+    if (sectorFilter) {
+      const s = SECTORS.find(function (x) { return x.id === sectorFilter; });
+      els.sectorChip.classList.remove("hidden");
+      els.sectorChipLabel.textContent = s ? s.title : sectorFilter;
+    } else {
+      els.sectorChip.classList.add("hidden");
+    }
+    document.querySelectorAll(".heat-card").forEach(function (card) {
+      card.classList.toggle("active-filter", card.getAttribute("data-sector") === sectorFilter);
+    });
+  }
+
+  function statusBadgeHtml(status) {
+    const st = status || "core";
+    const label = STATUS_LABEL[st] || st;
+    return '<span class="wl-badge ' + st + '">' + label + "</span>";
+  }
+
+  function renderRankClimberGrid() {
+    if (!els.rankClimberGrid) return;
+    els.rankClimberGrid.innerHTML = RANK_CLIMBER_IDS.map(function (id) {
+      const m = META[id];
+      if (!m) return "";
+      const sector = (m.sectors || []).join(" · ");
+      const why = m.why || m.narrative;
+      return (
+        '<button type="button" class="card rank-card" data-open-id="' + id + '" aria-label="Open ' + m.ticker + '">' +
+          '<div class="rc-top"><span class="rc-ticker">' + m.ticker + "</span>" + statusBadgeHtml(m.status) + "</div>" +
+          '<div class="rc-sector">' + sector + "</div>" +
+          '<div class="rc-why">' + why + "</div>" +
+          '<div class="rc-binance">Binance: ' + (m.binance || "—") + "</div>" +
+        "</button>"
+      );
+    }).join("");
+    applyRowVisibility();
+  }
+
+  function renderWatchlist(markets) {
+    latestMarkets = markets || latestMarkets;
+    const frag = document.createDocumentFragment();
+    COIN_IDS.forEach(function (id) {
+      const m = META[id];
+      if (!m) return;
+      const row = latestMarkets[id] || {};
+      const tr = document.createElement("tr");
+      tr.setAttribute("data-id", id);
+      tr.setAttribute("tabindex", "0");
+      tr.setAttribute("role", "button");
+      tr.setAttribute("aria-label", "Open details for " + m.ticker);
+      if (activeCoinId === id) tr.classList.add("selected");
+      const chg24 = row.usd_24h_change;
+      const chg7 = row.usd_7d_change;
+      const chg30 = row.usd_30d_change;
+      tr.innerHTML =
+        '<td><div class="ticker-cell">' +
+          '<span class="sym">' + m.short.slice(0, 3) + "</span>" +
+          "<div><span>" + m.ticker + ' <span class="row-hint">view →</span></span><span class="name">' + m.name + "</span></div>" +
+        "</div></td>" +
+        "<td>" + statusBadgeHtml(m.status) + "</td>" +
+        "<td>" + (m.binance || "—") + "</td>" +
+        '<td class="num">' + formatPrice(row.usd) + "</td>" +
+        '<td class="num ' + pctClass(chg24) + '">' + formatPct(chg24) + "</td>" +
+        '<td class="num ' + pctClass(chg7) + '">' + formatPct(chg7) + "</td>" +
+        '<td class="num ' + pctClass(chg30) + '">' + formatPct(chg30) + "</td>" +
+        '<td class="num">' + formatMcap(row.usd_market_cap) + "</td>";
+      frag.appendChild(tr);
+    });
+    els.watchBody.innerHTML = "";
+    els.watchBody.appendChild(frag);
+    applyRowVisibility();
+  }
+
+  function renderOverview(markets, global, fng) {
+    const btc = markets.bitcoin || {};
+    const eth = markets.ethereum || {};
+    const sol = markets.solana || {};
+
+    els.ov.btcPrice.textContent = formatPrice(btc.usd);
+    setChange(els.ov.btcChg, btc.usd_24h_change);
+    els.ov.ethPrice.textContent = formatPrice(eth.usd);
+    setChange(els.ov.ethChg, eth.usd_24h_change);
+    els.ov.solPrice.textContent = formatPrice(sol.usd);
+    setChange(els.ov.solChg, sol.usd_24h_change);
+
+    if (global) {
+      els.ov.mcap.textContent = formatMcap(global.total_market_cap_usd);
+      if (global.market_cap_change_24h != null) {
+        setChange(els.ov.mcapChg, global.market_cap_change_24h);
+        els.ov.mcapChg.textContent = formatPct(global.market_cap_change_24h) + " 24h";
+      } else {
+        els.ov.mcapChg.textContent = "24h";
+        els.ov.mcapChg.className = "change flat";
+      }
+      els.ov.dom.textContent =
+        global.btc_dominance != null ? global.btc_dominance.toFixed(1) + "%" : "—";
+    }
+
+    if (fng) {
+      els.ov.fg.textContent = String(fng.value);
+      els.ov.fgLabel.textContent = fng.classification || "Index";
+      const v = fng.value;
+      if (v >= 55) els.ov.fgLabel.className = "change up";
+      else if (v <= 45) els.ov.fgLabel.className = "change down";
+      else els.ov.fgLabel.className = "change flat";
+    }
+  }
+
+  function setStatus(mode, extra) {
+    els.statusDot.className = "status-dot " + (mode || "");
+    const when = londonNow();
+    if (mode === "live") {
+      els.updatedText.innerHTML = "Updated <strong>" + when + "</strong>" + (extra ? " · " + extra : "");
+    } else if (mode === "cached") {
+      els.updatedText.innerHTML = "Cached <strong>" + when + "</strong>" + (extra ? " · " + extra : "");
+    } else if (mode === "error") {
+      els.updatedText.innerHTML = "Offline fallback · " + when + (extra ? " · " + extra : "");
+    } else {
+      els.updatedText.textContent = extra || "…";
+    }
+  }
+
+  function applyData(payload, mode, note) {
+    const markets = payload.markets || FALLBACK.markets;
+    const global = payload.global || FALLBACK.global;
+    const fng = payload.fng || FALLBACK.fng;
+    latestMarkets = markets;
+    renderOverview(markets, global, fng);
+    renderWatchlist(markets);
+    renderRankClimberGrid();
+    if (activeCoinId) fillPanel(activeCoinId);
+    setStatus(mode, note);
+  }
+
+  let loading = false;
+
+  async function refresh(force) {
+    if (loading) return;
+    loading = true;
+    els.refreshBtn.disabled = true;
+    els.refreshIcon.classList.add("spin");
+
+    const cached = loadCache();
+    if (!force && cached && cached.data && (Date.now() - cached.savedAt) < CACHE_TTL_MS) {
+      applyData(cached.data, "cached", "from local cache");
+      showBanner("Showing cached data (< 5 min). Click Refresh to force a live fetch.", false);
+      loading = false;
+      els.refreshBtn.disabled = false;
+      els.refreshIcon.classList.remove("spin");
+      return;
+    }
+
+    try {
+      const live = await fetchLive();
+      const hasMarkets = live.markets && Object.keys(live.markets).length > 0;
+      const merged = {
+        markets: hasMarkets ? live.markets : (cached && cached.data && cached.data.markets) || FALLBACK.markets,
+        global: live.global || (cached && cached.data && cached.data.global) || FALLBACK.global,
+        fng: live.fng || (cached && cached.data && cached.data.fng) || FALLBACK.fng
+      };
+
+      if (hasMarkets || live.global || live.fng) saveCache(merged);
+
+      if (hasMarkets) {
+        hideBanner();
+        const note = live.notes.length ? live.notes.join(", ") : "live";
+        applyData(merged, "live", note.indexOf("fail") >= 0 || note.indexOf("simple") >= 0 ? note : null);
+        if (live.notes.some(function (n) { return /fail|429/.test(n); })) {
+          showBanner("Partial live data — some CoinGecko endpoints rate-limited (429). Mixed live + cache/fallback.", false);
+        }
+      } else if (cached && cached.data) {
+        applyData(cached.data, "cached", "API rate-limited");
+        showBanner("CoinGecko rate limit or unreachable. Showing last cached snapshot.", false);
+      } else {
+        applyData(FALLBACK, "error", "placeholder numbers");
+        showBanner("Could not reach CoinGecko. Showing placeholder fallback numbers — refresh when online.", true);
+      }
+    } catch (e) {
+      if (cached && cached.data) {
+        applyData(cached.data, "cached", "fetch error");
+        showBanner("Fetch failed (" + (e.message || "error") + "). Showing cache.", false);
+      } else {
+        applyData(FALLBACK, "error", "placeholder");
+        showBanner("Fetch failed. Showing placeholder fallback. Open online and Refresh.", true);
+      }
+    }
+
+    loading = false;
+    els.refreshBtn.disabled = false;
+    els.refreshIcon.classList.remove("spin");
+  }
+
+  function seedSkeleton() {
+    els.watchBody.innerHTML = COIN_IDS.map(function (id) {
+      const m = META[id];
+      return (
+        '<tr data-id="' + id + '"><td><div class="ticker-cell"><span class="sym">' +
+        m.short.slice(0, 3) + "</span><div><span>" + m.ticker +
+        '</span><span class="name">' + m.name +
+        "</span></div></div></td>" +
+        "<td>" + statusBadgeHtml(m.status) + "</td>" +
+        "<td>" + (m.binance || "—") + "</td>" +
+        '<td class="num"><span class="skeleton">0000</span></td>' +
+        '<td class="num"><span class="skeleton">00%</span></td>' +
+        '<td class="num"><span class="skeleton">00%</span></td>' +
+        '<td class="num"><span class="skeleton">$0B</span></td></tr>'
+      );
+    }).join("");
+    renderRankClimberGrid();
+  }
+
+  function switchView(viewId) {
+    document.querySelectorAll(".nav-tab").forEach(function (tab) {
+      const on = tab.getAttribute("data-view") === viewId;
+      tab.classList.toggle("active", on);
+      tab.setAttribute("aria-selected", on ? "true" : "false");
+    });
+    document.querySelectorAll(".view").forEach(function (v) {
+      const on = v.id === "view-" + viewId;
+      v.classList.toggle("active", on);
+      if (on) v.removeAttribute("hidden");
+      else v.setAttribute("hidden", "");
+    });
+  }
+
+  document.querySelectorAll(".nav-tab").forEach(function (tab) {
+    tab.addEventListener("click", function () {
+      switchView(tab.getAttribute("data-view"));
+    });
+  });
+
+  function renderHeatGrids() {
+    function cardHtml(s) {
+      return (
+        '<button type="button" class="card heat-card' +
+        (sectorFilter === s.id ? " active-filter" : "") +
+        '" data-sector="' + s.id + '" aria-label="Filter watchlist by ' + s.title + '">' +
+        '<span class="heat-badge ' + s.heat + '">● ' +
+        (s.heat === "hot" ? "Hot" : s.heat === "warm" ? "Warm" : "Watch") +
+        "</span>" +
+        "<h3>" + s.title + "</h3>" +
+        "<p>" + s.blurb + "</p>" +
+        '<div class="tickers">' + s.tickers + "</div>" +
+        '<div class="click-hint">Click to filter watchlist →</div>' +
+        "</button>"
+      );
+    }
+    const html = SECTORS.map(cardHtml).join("");
+    els.heatGridOverview.innerHTML = html;
+    els.heatGridNarratives.innerHTML = html;
+  }
+
+  function setSectorFilter(id) {
+    if (sectorFilter === id) sectorFilter = null;
+    else sectorFilter = id;
+    updateSectorChip();
+    applyRowVisibility();
+    renderHeatGrids();
+    if (sectorFilter) switchView("watchlist");
+  }
+
+  document.addEventListener("click", function (e) {
+    const heat = e.target.closest(".heat-card");
+    if (heat && heat.getAttribute("data-sector")) {
+      setSectorFilter(heat.getAttribute("data-sector"));
+      return;
+    }
+    const slot = e.target.closest("[data-open-id]");
+    if (slot) {
+      openPanel(slot.getAttribute("data-open-id"));
+      return;
+    }
+    const row = e.target.closest("#watchBody tr[data-id]");
+    if (row) openPanel(row.getAttribute("data-id"));
+  });
+
+  els.watchBody.addEventListener("keydown", function (e) {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    const row = e.target.closest("tr[data-id]");
+    if (!row) return;
+    e.preventDefault();
+    openPanel(row.getAttribute("data-id"));
+  });
+
+  els.watchSearch.addEventListener("input", function () {
+    searchQuery = (els.watchSearch.value || "").trim();
+    applyRowVisibility();
+  });
+
+  els.clearSectorFilter.addEventListener("click", function () {
+    sectorFilter = null;
+    updateSectorChip();
+    applyRowVisibility();
+    renderHeatGrids();
+  });
+
+  function fillPanel(id) {
+    const m = META[id];
+    if (!m) return;
+    const row = latestMarkets[id] || {};
+    els.panelSym.textContent = m.short.slice(0, 3);
+    els.panelTitle.textContent = m.ticker;
+    els.panelName.textContent = m.name;
+    els.panelPrice.textContent = formatPrice(row.usd);
+    els.panel24h.textContent = formatPct(row.usd_24h_change);
+    els.panel24h.className = "ps-value " + pctClass(row.usd_24h_change);
+    els.panel7d.textContent = formatPct(row.usd_7d_change);
+    els.panel7d.className = "ps-value " + pctClass(row.usd_7d_change);
+    if (els.panel30d) {
+      els.panel30d.textContent = formatPct(row.usd_30d_change);
+      els.panel30d.className = "ps-value " + pctClass(row.usd_30d_change);
+    }
+    els.panelNarrative.textContent = m.narrative;
+    const st = m.status || "core";
+    const stLabel = STATUS_LABEL[st] || st;
+    els.panelTags.innerHTML = (m.sectors || []).map(function (t) {
+      return "<span>" + t + "</span>";
+    }).join("") +
+      "<span>" + stLabel + "</span>" +
+      "<span>Binance " + (m.binance || "—") + "</span>";
+    els.panelMcap.textContent = formatMcap(row.usd_market_cap);
+
+    els.panelTokStatus.innerHTML = statusBadgeHtml(st) +
+      (DEEP_DIVE[id] ? ' <span class="tok-status pending">Pending deep-dive</span>' : "");
+
+    if (st === "armed") {
+      els.panelTokNote.textContent = "Armed candidate / primary leg-one (RENDERUSDT on dip). Research only until tokenomics, liquidity, and pullback are clear. Binance: " + (m.binance || "—") + " · 4–5% risk · no leverage.";
+    } else if (st === "needs") {
+      els.panelTokNote.textContent = "Needs tokenomics before any arming. Map supply, unlocks, FDV, and liquidity. Binance: " + (m.binance || "—") + ".";
+    } else if (st === "skip") {
+      els.panelTokNote.textContent = "Skip primary (rebrand / Ocean / exploit overhang). Kept as AI thermometer only — not a leg-one candidate. Binance: " + (m.binance || "—") + ".";
+    } else if (st === "watch") {
+      els.panelTokNote.textContent = "Watch sleeve — research-only rank climber. No buys until tokenomics + liquidity + pullback clear. Binance: " + (m.binance || "—") + ".";
+    } else if (DEEP_DIVE[id]) {
+      els.panelTokNote.textContent = "Core desk context · queued for Crypto King research: supply schedules, unlock calendars, and burn mechanics. Binance: " + (m.binance || "—") + ".";
+    } else {
+      els.panelTokNote.textContent = "Core desk context — not a rank climber. Binance: " + (m.binance || "—") + ".";
+    }
+  }
+
+  function openPanel(id) {
+    if (!META[id]) return;
+    activeCoinId = id;
+    fillPanel(id);
+    els.sidePanel.classList.add("open");
+    els.panelBackdrop.classList.add("open");
+    els.sidePanel.setAttribute("aria-hidden", "false");
+    els.panelBackdrop.setAttribute("aria-hidden", "false");
+    document.body.classList.add("panel-open");
+    els.watchBody.querySelectorAll("tr").forEach(function (tr) {
+      tr.classList.toggle("selected", tr.getAttribute("data-id") === id);
+    });
+    els.panelClose.focus();
+  }
+
+  function closePanel() {
+    activeCoinId = null;
+    els.sidePanel.classList.remove("open");
+    els.panelBackdrop.classList.remove("open");
+    els.sidePanel.setAttribute("aria-hidden", "true");
+    els.panelBackdrop.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("panel-open");
+    els.watchBody.querySelectorAll("tr.selected").forEach(function (tr) {
+      tr.classList.remove("selected");
+    });
+  }
+
+  els.panelClose.addEventListener("click", closePanel);
+  els.panelBackdrop.addEventListener("click", closePanel);
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && els.sidePanel.classList.contains("open")) {
+      e.preventDefault();
+      closePanel();
+    }
+  });
+
+  function setSleeveFilter(key) {
+    sleeveFilter = key || "all";
+    if (els.watchFilterPills) {
+      els.watchFilterPills.querySelectorAll(".filter-pill").forEach(function (btn) {
+        btn.classList.toggle("active", btn.getAttribute("data-wl-filter") === sleeveFilter);
+      });
+    }
+    applyRowVisibility();
+  }
+
+  if (els.watchFilterPills) {
+    els.watchFilterPills.addEventListener("click", function (e) {
+      const btn = e.target.closest(".filter-pill");
+      if (!btn) return;
+      setSleeveFilter(btn.getAttribute("data-wl-filter"));
+    });
+  }
+
+  els.refreshBtn.addEventListener("click", function () {
+    hideBanner();
+    refresh(true);
+  });
+
+  renderHeatGrids();
+  updateSectorChip();
+  seedSkeleton();
+  refresh(false);
+
+  setInterval(function () {
+    if (document.visibilityState === "visible") refresh(false);
+  }, 3 * 60 * 1000);
+})();
+  </script>
+</body>
+</html>
