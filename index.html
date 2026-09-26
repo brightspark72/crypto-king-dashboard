@@ -489,6 +489,93 @@
     .pf-plan li b { color: var(--text); }
     .pf-plan li::before { counter-increment: step; content: counter(step); position: absolute; left: 0.8rem; top: 0.7rem; width: 1.3rem; height: 1.3rem; border-radius: 50%; background: var(--gold-dim); color: var(--gold-bright); font-size: 0.72rem; font-weight: 800; display: grid; place-items: center; }
     .pf-hidden { display: none !important; }
+    /* ---- Rebalance planner (local-only) ---- */
+    .rb-targets { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.6rem; margin-bottom: 0.5rem; }
+    @media (max-width: 640px) { .rb-targets { grid-template-columns: repeat(2, 1fr); } }
+    .ck-field label { display: block; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.25rem; }
+    .ck-field input, .ck-field select, .ck-field textarea { width: 100%; appearance: none; border: 1px solid var(--border); background: var(--bg-elevated); color: var(--text); border-radius: var(--radius-sm); padding: 0.55rem 0.65rem; font: inherit; font-size: 16px; min-height: 42px; font-variant-numeric: tabular-nums; }
+    .ck-field textarea { min-height: 64px; resize: vertical; font-size: 15px; }
+    .ck-field input:focus, .ck-field select:focus, .ck-field textarea:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212,160,23,0.15); }
+    .ck-field small { display: block; font-size: 0.66rem; color: var(--text-dim); margin-top: 0.2rem; }
+    .rb-note { font-size: 0.74rem; color: var(--text-dim); }
+    .rb-note.warn { color: var(--gold-bright); }
+    .rb-group { padding: 0.7rem 0; border-bottom: 1px solid var(--border-subtle); }
+    .rb-group:last-child { border-bottom: none; }
+    .rb-g1 { display: flex; justify-content: space-between; align-items: baseline; gap: 0.5rem; flex-wrap: wrap; }
+    .rb-g1 .nm { font-weight: 800; letter-spacing: 0.02em; }
+    .rb-g1 .nm i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 0.4rem; vertical-align: middle; }
+    .rb-g1 .vals { font-size: 0.8rem; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+    .rb-g1 .vals b { color: var(--text); }
+    .rb-track { position: relative; height: 12px; background: var(--bg-elevated); border: 1px solid var(--border-subtle); border-radius: 999px; margin: 0.45rem 0 0.35rem; overflow: hidden; }
+    .rb-track .band { position: absolute; top: 0; bottom: 0; background: rgba(255,255,255,0.07); }
+    .rb-track .fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 999px; }
+    .rb-track .mark { position: absolute; top: -2px; bottom: -2px; width: 2px; background: var(--gold-bright); }
+    .rb-gap { font-size: 0.78rem; font-weight: 700; }
+    .rb-gap.under { color: #7fb0ff; } .rb-gap.over { color: var(--gold-bright); } .rb-gap.ok { color: var(--green); } .rb-gap.bad { color: #f87171; }
+    .rb-alt { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.1rem 0.6rem; padding: 0.5rem 0; border-bottom: 1px solid var(--border-subtle); font-size: 0.8rem; }
+    .rb-alt:last-child { border-bottom: none; }
+    .rb-alt .tk { font-weight: 700; }
+    .rb-alt .num { text-align: right; font-variant-numeric: tabular-nums; color: var(--text-muted); }
+    .rb-alt .num b { color: var(--text); }
+    .rb-alt .rb-track { grid-column: 1 / -1; height: 8px; margin: 0.25rem 0 0; }
+    .rb-alt .flag { grid-column: 1 / -1; font-size: 0.74rem; font-weight: 700; color: #f87171; }
+    .rb-act { list-style: none; }
+    .rb-act li { display: flex; justify-content: space-between; gap: 0.75rem; padding: 0.55rem 0.1rem; border-bottom: 1px solid var(--border-subtle); font-size: 0.82rem; color: var(--text-muted); }
+    .rb-act li:last-child { border-bottom: none; }
+    .rb-act li b { color: var(--text); }
+    .rb-act li .amt { font-weight: 800; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .rb-act li .amt.sell { color: #f87171; } .rb-act li .amt.buy { color: var(--green); }
+    .rb-act li small { display: block; font-size: 0.7rem; color: var(--text-dim); }
+    .rb-act h4 { font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin: 0.75rem 0 0.2rem; }
+    .rb-disclaim { font-size: 0.76rem; color: var(--text-muted); padding: 0.65rem 0.85rem; background: var(--gold-dim); border: 1px solid rgba(212,160,23,0.3); border-radius: var(--radius-sm); margin-bottom: 0.6rem; }
+    .rb-disclaim b { color: var(--gold-bright); }
+    .rb-tag { display: inline-block; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.05rem 0.4rem; border-radius: 999px; border: 1px solid var(--border); color: var(--text-muted); margin-left: 0.3rem; vertical-align: middle; }
+    .rb-tag.dex { color: #f0abfc; border-color: rgba(240,171,252,0.4); }
+    /* ---- Leg-one journal (local-only) ---- */
+    .jn-banner { padding: 0.65rem 0.85rem; border-radius: var(--radius-sm); font-size: 0.82rem; font-weight: 600; margin-bottom: 0.5rem; border: 1px solid; }
+    .jn-banner.amber { color: var(--gold-bright); background: var(--gold-dim); border-color: rgba(212,160,23,0.4); }
+    .jn-banner.red { color: #fca5a5; background: var(--red-dim); border-color: rgba(230,57,70,0.5); }
+    .jn-banner.green { color: #86efac; background: var(--green-dim); border-color: rgba(34,197,94,0.4); }
+    .jn-banner.blue { color: #93c5fd; background: rgba(59,130,246,0.12); border-color: rgba(59,130,246,0.4); }
+    .jn-stats { grid-template-columns: repeat(4, 1fr); }
+    @media (max-width: 800px) { .jn-stats { grid-template-columns: repeat(2, 1fr); } }
+    .jn-stats .value { font-size: 1.1rem; }
+    .jn-prog { height: 14px; border-radius: 999px; background: var(--bg-elevated); border: 1px solid var(--border-subtle); overflow: hidden; margin: 0.5rem 0 0.3rem; }
+    .jn-prog span { display: block; height: 100%; background: linear-gradient(90deg, var(--red), var(--gold)); }
+    .jn-chart { position: relative; width: 100%; height: 190px; }
+    .jn-chart svg { width: 100%; height: 100%; display: block; }
+    .jn-chart .yl { position: absolute; left: 4px; font-size: 0.66rem; color: var(--text-dim); font-variant-numeric: tabular-nums; background: rgba(22,25,34,0.8); padding: 0 3px; border-radius: 3px; }
+    .jn-empty { font-size: 0.82rem; color: var(--text-dim); padding: 1rem; text-align: center; border: 1px dashed var(--border); border-radius: var(--radius-sm); }
+    .jn-form { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.6rem; }
+    .jn-form .span2 { grid-column: span 2; } .jn-form .span4 { grid-column: 1 / -1; }
+    @media (max-width: 700px) { .jn-form { grid-template-columns: repeat(2, 1fr); } .jn-form .span2 { grid-column: 1 / -1; } }
+    .jn-helper { grid-column: 1 / -1; background: var(--bg-elevated); border: 1px solid var(--border-subtle); border-left: 3px solid var(--gold); border-radius: var(--radius-sm); padding: 0.75rem; }
+    .jn-helper h3 { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
+    .jn-hrow { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.6rem; align-items: end; }
+    .jn-out { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.4rem; margin-top: 0.6rem; }
+    @media (max-width: 480px) { .jn-out { grid-template-columns: repeat(2, 1fr); } }
+    .jn-out div { background: var(--bg-card); border-radius: 6px; padding: 0.35rem 0.5rem; }
+    .jn-out span { display: block; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim); }
+    .jn-out b { font-size: 0.85rem; font-family: var(--mono); font-weight: 600; }
+    .jn-warn { font-size: 0.76rem; margin-top: 0.4rem; }
+    .jn-warn div { margin-top: 0.2rem; }
+    .jn-warn .w { color: var(--gold-bright); } .jn-warn .e { color: #f87171; } .jn-warn .i { color: var(--text-dim); }
+    .jn-trade { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius); padding: 0.8rem 0.9rem; margin-bottom: 0.6rem; }
+    .jn-trade.open { border-left: 3px solid var(--blue); }
+    .jn-trade .r1 { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+    .jn-trade .pair { font-weight: 800; letter-spacing: 0.03em; }
+    .jn-trade .pl { font-weight: 800; font-variant-numeric: tabular-nums; }
+    .jn-trade .r2 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.35rem; margin: 0.5rem 0; }
+    @media (max-width: 600px) { .jn-trade .r2 { grid-template-columns: repeat(3, 1fr); } }
+    .jn-trade .r2 div { background: var(--bg-elevated); border-radius: 6px; padding: 0.25rem 0.4rem; min-width: 0; }
+    .jn-trade .r2 span { display: block; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim); }
+    .jn-trade .r2 b { font-size: 0.76rem; font-family: var(--mono); font-weight: 600; overflow-wrap: anywhere; }
+    .jn-trade .nt { font-size: 0.76rem; color: var(--text-muted); line-height: 1.4; overflow-wrap: anywhere; }
+    .jn-trade .pf-actions { margin-top: 0.4rem; }
+    .jn-trade .pf-btn { min-height: 34px; padding: 0.35rem 0.8rem; font-size: 0.76rem; }
+    .jn-st { display: inline-block; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.15rem 0.5rem; border-radius: 999px; border: 1px solid; }
+    .jn-st.open { color: #7fb0ff; background: rgba(59,130,246,0.12); border-color: rgba(59,130,246,0.35); }
+    .jn-st.closed { color: var(--text-muted); background: rgba(139,147,167,0.1); border-color: var(--border); }
   </style>
 </head>
 <body>
@@ -519,6 +606,7 @@
         <button type="button" class="nav-tab" role="tab" aria-selected="false" data-view="tokenomics" id="tab-tokenomics">Tokenomics</button>
         <button type="button" class="nav-tab" role="tab" aria-selected="false" data-view="projects" id="tab-projects">New Projects</button>
         <button type="button" class="nav-tab" role="tab" aria-selected="false" data-view="portfolio" id="tab-portfolio">Portfolio</button>
+        <button type="button" class="nav-tab" role="tab" aria-selected="false" data-view="journal" id="tab-journal">Journal</button>
       </nav>
     </div>
     <div class="api-banner" id="apiBanner" role="status"></div>
@@ -975,6 +1063,32 @@
             </table>
           </div>
           <div class="pf-cards" id="pfCards"></div>
+          <div id="rbSection" class="pf-hidden" style="margin-top:1.25rem">
+            <div class="section-head"><h2 id="rb-title">Rebalance planner</h2><span class="hint" id="rbSrc">—</span></div>
+            <div class="card" style="margin-bottom:1rem">
+              <div class="section-head" style="margin-bottom:0.6rem"><h2 style="font-size:0.8rem">Targets</h2><span class="hint">Saved on this device</span></div>
+              <div class="rb-targets">
+                <div class="ck-field"><label for="rbBtc">BTC %</label><input id="rbBtc" type="number" inputmode="decimal" step="0.5" min="0" max="100"><small>Rule range 30–35</small></div>
+                <div class="ck-field"><label for="rbEth">ETH %</label><input id="rbEth" type="number" inputmode="decimal" step="0.5" min="0" max="100"><small>Rule range 20–25</small></div>
+                <div class="ck-field"><label for="rbSt">Stables %</label><input id="rbSt" type="number" inputmode="decimal" step="0.5" min="0" max="100"><small>Rule range 15–20</small></div>
+                <div class="ck-field"><label for="rbCap">Single-alt cap %</label><input id="rbCap" type="number" inputmode="decimal" step="0.5" min="1" max="100"><small>Max per alt</small></div>
+              </div>
+              <div class="pf-actions" style="margin-top:0.3rem"><span class="rb-note" id="rbTNote"></span><button type="button" class="pf-btn" id="rbReset" style="margin-left:auto">Reset defaults</button></div>
+            </div>
+            <div class="card" style="margin-bottom:1rem">
+              <div class="section-head" style="margin-bottom:0.2rem"><h2 style="font-size:0.8rem">Current vs target</h2><span class="hint">Bar = current · gold line = target · shaded = range</span></div>
+              <div id="rbGroups"></div>
+            </div>
+            <div class="card" style="margin-bottom:1rem">
+              <div class="section-head" style="margin-bottom:0.2rem"><h2 style="font-size:0.8rem">Alts, per coin</h2><span class="hint" id="rbAltHint">—</span></div>
+              <div id="rbAlts"></div>
+            </div>
+            <div class="card">
+              <div class="section-head" style="margin-bottom:0.4rem"><h2 style="font-size:0.8rem">Suggested actions</h2><span class="hint">A plan, not advice</span></div>
+              <div class="rb-disclaim"><b>This is a plan, not advice to execute blindly.</b> It is simple arithmetic on your stored holdings and current prices. Check liquidity, fees, tax and timing before selling anything, and stage trades rather than doing it all at once.</div>
+              <div id="rbActions"></div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -989,6 +1103,105 @@
           <li><b>Redeploy only on rules.</b> Tokenomics checked first (FDV/MC, unlocks, emissions), Binance Spot liquidity confirmed, spot only, no leverage, staged entries.</li>
           <li><b>Dust.</b> Positions under ~£5 are not worth fees or time; use Binance "Convert small balances" where supported or ignore them.</li>
           <li><b>UK tax: worth checking.</b> Realised losses can generally offset gains for Capital Gains Tax if reported to HMRC. Keep records of every disposal and check the rules (or ask an adviser) before year-end. This is not tax advice.</li>
+        </ol>
+      </section>
+    </div>
+
+    <div class="view" id="view-journal" role="tabpanel" aria-labelledby="tab-journal" hidden>
+      <section class="section" aria-labelledby="jn-title">
+        <div class="section-head"><h2 id="jn-title">Leg one · $10K tracker</h2><span class="hint" id="jnHint">Stored only in this browser</span></div>
+        <div class="pf-privacy"><b>Private by design.</b> Trades are saved only in this browser's local storage on this device and never uploaded. Because of that, use <b>Export</b> below regularly to keep a backup.</div>
+        <div id="jnBanners" role="status"></div>
+        <div class="pf-summary jn-stats">
+          <div class="card stat-card accent-gold"><div class="label">Equity</div><div class="value" id="jnEq">—</div><div class="pf-src" id="jnEqSub">—</div></div>
+          <div class="card stat-card accent-green" style="border-top:2px solid var(--green)"><div class="label">Peak equity</div><div class="value" id="jnPeak">—</div><div class="pf-src" id="jnDd">—</div></div>
+          <div class="card stat-card accent-red"><div class="label">Win rate</div><div class="value" id="jnWin">—</div><div class="pf-src" id="jnWinSub">—</div></div>
+          <div class="card stat-card accent-btc"><div class="label">Average R</div><div class="value" id="jnAvgR">—</div><div class="pf-src" id="jnStreak">—</div></div>
+        </div>
+        <div class="card" style="margin-bottom:1rem">
+          <div class="section-head" style="margin-bottom:0"><h2 style="font-size:0.8rem">Progress to $10,000</h2><span class="hint" id="jnProgTxt">—</span></div>
+          <div class="jn-prog" role="progressbar" aria-valuemin="0" aria-valuemax="100" id="jnProgBar"><span id="jnProgFill" style="width:0"></span></div>
+          <div class="pf-src" id="jnProgSub">—</div>
+        </div>
+        <div class="card" style="margin-bottom:1rem">
+          <div class="section-head" style="margin-bottom:0.4rem"><h2 style="font-size:0.8rem">Equity curve</h2><span class="hint">Closed trades · dashed = peak</span></div>
+          <div id="jnChart"></div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="jn-form-title">
+        <div class="section-head"><h2 id="jn-form-title">Add trade</h2><span class="hint">Spot only · long</span></div>
+        <form class="card jn-form" id="jnForm" autocomplete="off" novalidate>
+          <div class="ck-field"><label for="jnDate">Date</label><input id="jnDate" type="date" required></div>
+          <div class="ck-field"><label for="jnPair">Pair</label><input id="jnPair" type="text" placeholder="e.g. XXXUSDT" autocapitalize="characters" spellcheck="false"></div>
+          <div class="ck-field"><label for="jnEntry">Entry</label><input id="jnEntry" type="number" inputmode="decimal" step="any" min="0"></div>
+          <div class="ck-field"><label for="jnStop">Stop</label><input id="jnStop" type="number" inputmode="decimal" step="any" min="0"></div>
+          <div class="jn-helper">
+            <h3>Position-size helper</h3>
+            <div class="jn-hrow">
+              <div class="ck-field"><label>Current equity</label><input id="jnHEq" type="text" readonly tabindex="-1"></div>
+              <div class="ck-field"><label for="jnHRisk">Risk %</label><input id="jnHRisk" type="number" inputmode="decimal" step="0.5" min="0" max="100"><small id="jnHRiskWhy">—</small></div>
+            </div>
+            <div class="jn-out">
+              <div><span>$ risk</span><b id="jnORisk">—</b></div>
+              <div><span>Stop distance</span><b id="jnOStop">—</b></div>
+              <div><span>Position $</span><b id="jnOSize">—</b></div>
+              <div><span>Units</span><b id="jnOUnits">—</b></div>
+              <div><span>2R price</span><b id="jnO2R">—</b></div>
+              <div><span>Bank 1/3 at</span><b id="jnOBank">—</b></div>
+            </div>
+            <div class="jn-warn" id="jnHWarn"></div>
+            <div class="pf-actions"><button type="button" class="pf-btn" id="jnApply">Use in trade ↓</button></div>
+          </div>
+          <div class="ck-field span2"><label for="jnTargets">Planned target(s)</label><input id="jnTargets" type="text" inputmode="decimal" placeholder="e.g. 1.25, 1.40"><small>First target is used for the planned R check</small></div>
+          <div class="ck-field"><label for="jnRisk">Risk $</label><input id="jnRisk" type="number" inputmode="decimal" step="any" min="0"></div>
+          <div class="ck-field"><label for="jnSize">Position size $</label><input id="jnSize" type="number" inputmode="decimal" step="any" min="0"></div>
+          <div class="ck-field"><label for="jnStatus">Status</label><select id="jnStatus"><option value="open">Open</option><option value="closed">Closed</option></select></div>
+          <div class="ck-field"><label for="jnExits">Exit price(s)</label><input id="jnExits" type="text" inputmode="decimal" placeholder="e.g. 1.30@33%, 1.22"><small>price@% of position; rest split evenly</small></div>
+          <div class="ck-field span2"><label for="jnPnl">Realised P/L $ (overrides exits)</label><input id="jnPnl" type="number" inputmode="decimal" step="any"><small id="jnPnlCalc">—</small></div>
+          <div class="ck-field span4"><label for="jnNotes">Notes</label><textarea id="jnNotes" placeholder="Thesis, setup, what went right or wrong"></textarea></div>
+          <div class="span4">
+            <div class="jn-warn" id="jnFormWarn"></div>
+            <div class="pf-actions">
+              <button type="submit" class="pf-btn primary" id="jnSave">Add trade</button>
+              <button type="button" class="pf-btn pf-hidden" id="jnCancel">Cancel edit</button>
+            </div>
+            <div class="pf-msg" id="jnMsg" role="status"></div>
+          </div>
+        </form>
+      </section>
+
+      <section class="section" aria-labelledby="jn-list-title">
+        <div class="section-head"><h2 id="jn-list-title">Trades</h2><span class="hint" id="jnCount">—</span></div>
+        <div id="jnList"></div>
+      </section>
+
+      <section class="section" aria-labelledby="jn-set-title">
+        <div class="section-head"><h2 id="jn-set-title">Settings &amp; backup</h2><span class="hint">JSON text backup</span></div>
+        <div class="card pf-box">
+          <div class="ck-field" style="max-width:220px"><label for="jnStart">Starting equity (USD)</label><input id="jnStart" type="number" inputmode="decimal" step="any" min="1"></div>
+          <textarea id="jnIO" spellcheck="false" autocomplete="off" autocapitalize="off" placeholder="Export fills this box. To restore, paste a backup here and press Import." aria-label="Journal backup JSON" style="margin-top:0.75rem"></textarea>
+          <div class="pf-actions">
+            <button type="button" class="pf-btn" id="jnExport">Export</button>
+            <button type="button" class="pf-btn" id="jnCopy">Copy</button>
+            <button type="button" class="pf-btn" id="jnDownload">Download .json</button>
+            <button type="button" class="pf-btn" id="jnImport">Import</button>
+            <button type="button" class="pf-btn danger" id="jnClear">Clear journal</button>
+          </div>
+          <div class="pf-msg" id="jnIOMsg" role="status"></div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="jn-rules-title">
+        <div class="section-head"><h2 id="jn-rules-title">Leg-one rules (locked)</h2><span class="hint">Not financial advice</span></div>
+        <ol class="pf-plan">
+          <li><b>Start $500 USDT on Binance Spot; goal $10,000.</b> Spot only, no leverage. One idea at a time.</li>
+          <li><b>Risk 4–5% of current equity per trade:</b> 5% at equity highs, 4% in drawdown. Never raise risk after a hot streak.</li>
+          <li><b>At least 2R</b> planned, stops around 12–15%. No averaging down on stopped trades.</li>
+          <li><b>Bank about 1/3 at 2R, then trail.</b> TP1 profits go to USDT.</li>
+          <li><b>Two losers in a row:</b> the next trade goes at 4%.</li>
+          <li><b>Drawdown of ~15% from the equity peak: PAUSE.</b> Review before trading again.</li>
+          <li><b>At $10K:</b> bank 20% and roll 80% into leg two.</li>
         </ol>
       </section>
     </div>
@@ -1931,6 +2144,127 @@
     render();
   }
   var priceSrc_at = 0;
+  /* ---- Rebalance planner ---- */
+  var TKEY = "ck_rebalance_targets_v1";
+  var TDEF = { btc: 32.5, eth: 22.5, st: 17.5, cap: 15 };
+  var TRANGE = { btc: [30, 35], eth: [20, 25], st: [15, 20] };
+  var STABLE_T = { USDT: 1, USDC: 1, FDUSD: 1, DAI: 1, TUSD: 1, USDE: 1, USDS: 1, PYUSD: 1, USDP: 1, BUSD: 1, USD1: 1, RLUSD: 1, FRAX: 1, LUSD: 1, GUSD: 1, USDD: 1, EURC: 1, EURI: 1 };
+  var STABLE_ID = { "true-usd": 1, "paypal-usd": 1, usds: 1, "binance-usd": 1, "paxos-standard": 1, frax: 1, "liquity-usd": 1, "gemini-dollar": 1, usdd: 1, "usd1-wlfi": 1, "ripple-usd": 1, "euro-coin": 1 };
+  var rbT = loadTargets(), lastRows = null, lastTotal = 0;
+  function loadTargets() {
+    var t = {}; var s = null;
+    try { s = JSON.parse(localStorage.getItem(TKEY) || "null"); } catch (e) {}
+    Object.keys(TDEF).forEach(function (k) { var v = s && Number(s[k]); t[k] = s && isFinite(v) && v >= 0 && v <= 100 ? v : TDEF[k]; });
+    return t;
+  }
+  function groupOf(h) {
+    var t = String(h.t || "").toUpperCase(), id = h.id;
+    if (id === "bitcoin" || t === "BTC" || t === "WBTC" || t === "BTCB") return "btc";
+    if (id === "ethereum" || t === "ETH" || t === "WETH" || t === "BETH") return "eth";
+    if (STABLE[id] || STABLE_ID[id] || STABLE_T[t]) return "st";
+    return "alt";
+  }
+  function syncTargetInputs() { $("rbBtc").value = rbT.btc; $("rbEth").value = rbT.eth; $("rbSt").value = rbT.st; $("rbCap").value = rbT.cap; }
+  function onTargetChange() {
+    [["rbBtc", "btc"], ["rbEth", "eth"], ["rbSt", "st"], ["rbCap", "cap"]].forEach(function (p) {
+      var v = parseFloat($(p[0]).value); if (isFinite(v) && v >= 0 && v <= 100) rbT[p[1]] = v;
+    });
+    try { localStorage.setItem(TKEY, JSON.stringify(rbT)); } catch (e) {}
+    if (lastRows) renderRebalance(lastRows, lastTotal);
+  }
+  ["rbBtc", "rbEth", "rbSt", "rbCap"].forEach(function (id) { $(id).addEventListener("change", onTargetChange); $(id).addEventListener("input", function () { clearTimeout(onTargetChange._t); onTargetChange._t = setTimeout(onTargetChange, 400); }); });
+  $("rbReset").addEventListener("click", function () { rbT = { btc: TDEF.btc, eth: TDEF.eth, st: TDEF.st, cap: TDEF.cap }; try { localStorage.removeItem(TKEY); } catch (e) {} syncTargetInputs(); if (lastRows) renderRebalance(lastRows, lastTotal); });
+  syncTargetInputs();
+
+  function track(cur, tgt, scale, color, rng) {
+    var f = function (x) { return Math.max(0, Math.min(100, x / scale * 100)).toFixed(2) + "%"; };
+    return '<div class="rb-track">' + (rng ? '<span class="band" style="left:' + f(rng[0]) + ";width:" + (Math.max(0, Math.min(100, (rng[1] - rng[0]) / scale * 100))).toFixed(2) + '%"></span>' : "") +
+      '<span class="fill" style="width:' + f(cur) + ";background:" + color + '"></span>' + (tgt != null ? '<span class="mark" style="left:calc(' + f(tgt) + ' - 1px)"></span>' : "") + "</div>";
+  }
+  function renderRebalance(rows, total) {
+    lastRows = rows; lastTotal = total;
+    var sec = $("rbSection");
+    if (!rows || !rows.length || !(total > 0)) { sec.classList.add("pf-hidden"); return; }
+    sec.classList.remove("pf-hidden");
+    var T = rbT, altT = Math.max(0, 100 - T.btc - T.eth - T.st);
+    var notes = [];
+    if (T.btc + T.eth + T.st > 100) notes.push("BTC + ETH + stables targets exceed 100%.");
+    ["btc", "eth", "st"].forEach(function (k) { if (T[k] < TRANGE[k][0] || T[k] > TRANGE[k][1]) notes.push((k === "st" ? "Stables" : k.toUpperCase()) + " target is outside the " + TRANGE[k][0] + "–" + TRANGE[k][1] + "% rule range."); });
+    $("rbTNote").textContent = notes.length ? notes.join(" ") : "Alts get the remainder: " + altT.toFixed(1) + "% combined, max " + T.cap + "% in any one.";
+    $("rbTNote").className = "rb-note" + (notes.length ? " warn" : "");
+    var anySnap = rows.some(function (r) { return r.src === "snapshot"; });
+    $("rbSrc").textContent = priceSrc === "live" && !anySnap ? "Live prices · local only" : priceSrc === "live" ? "Live prices (some snapshot) · local only" : priceSrc === "cached" ? "Cached prices · local only" : "Snapshot prices · refresh for live";
+
+    var g = { btc: 0, eth: 0, st: 0, alt: 0 }, alts = [];
+    rows.forEach(function (r) { var k = groupOf(r.h); g[k] += r.v || 0; if (k === "alt") alts.push(r); });
+    var G = [
+      { k: "btc", name: "BTC", color: "#f7931a", t: T.btc, rng: TRANGE.btc },
+      { k: "eth", name: "ETH", color: "#627eea", t: T.eth, rng: TRANGE.eth },
+      { k: "st", name: "Stables", color: "#22c55e", t: T.st, rng: TRANGE.st },
+      { k: "alt", name: "Alts (combined)", color: "#a855f7", t: altT, rng: null }
+    ];
+    var maxP = 0; G.forEach(function (x) { maxP = Math.max(maxP, g[x.k] / total * 100, x.t, x.rng ? x.rng[1] : 0); });
+    var scale = Math.min(100, Math.ceil((maxP + 5) / 10) * 10);
+    var tol = Math.max(1, total * 0.0025);
+    $("rbGroups").innerHTML = G.map(function (x) {
+      var v = g[x.k], p = v / total * 100, gap = x.t / 100 * total - v;
+      var gapTxt, gc;
+      if (Math.abs(gap) < tol) { gapTxt = x.name + " on target"; gc = "ok"; }
+      else if (gap > 0) { gapTxt = x.name + " " + gbp(gap) + " under target"; gc = "under"; }
+      else { gapTxt = x.name + " " + gbp(-gap) + " over target"; gc = "over"; }
+      if (x.rng && p >= x.rng[0] && p <= x.rng[1] && gc !== "ok") gapTxt += " (inside " + x.rng[0] + "–" + x.rng[1] + "% range)";
+      return '<div class="rb-group"><div class="rb-g1"><span class="nm"><i style="background:' + x.color + '"></i>' + esc(x.name) + '</span><span class="vals"><b>' + gbp(v) + "</b> · <b>" + pct(p) + "</b> vs " + x.t.toFixed(1) + "%" + (x.k === "alt" ? " (remainder)" : "") + "</span></div>" +
+        track(p, x.t, scale, x.color, x.rng) + '<div class="rb-gap ' + gc + '">' + esc(gapTxt) + "</div></div>";
+    }).join("");
+
+    var capV = T.cap / 100 * total, over = 0;
+    alts.sort(function (a, b) { return (b.v || 0) - (a.v || 0); });
+    var altScale = Math.min(100, Math.max(T.cap * 1.6, alts.length ? (alts[0].v || 0) / total * 100 * 1.1 : 0));
+    $("rbAlts").innerHTML = alts.length ? alts.map(function (r) {
+      var v = r.v || 0, p = v / total * 100, isOver = v > capV + 0.005;
+      if (isOver) over++;
+      return '<div class="rb-alt"><span class="tk">' + esc(r.h.t) + ' <span class="pf-bk ' + r.bk.cls + '">' + esc(r.bk.id) + "</span>" + (r.h.bn ? "" : '<span class="rb-tag dex">not Binance</span>') + '</span><span class="num"><b>' + gbp(v) + "</b> · " + pct(p) + "</span>" +
+        track(p, T.cap, altScale, isOver ? "#e63946" : "#a855f7", null) +
+        (isOver ? '<span class="flag">Over ' + T.cap + "% cap: trim " + gbp(v - capV) + "</span>" : "") + "</div>";
+    }).join("") : '<div class="rb-note" style="padding:0.5rem 0">No alts held.</div>';
+    $("rbAltHint").textContent = alts.length + " alts · " + (over ? over + " over " + T.cap + "% cap" : "none over " + T.cap + "% cap") + " · gold line = cap";
+
+    var sells = [];
+    alts.forEach(function (r) {
+      var v = r.v || 0; if (!(v > 0)) return;
+      var bk = r.bk.id;
+      if (bk === "RECYCLE") sells.push({ r: r, amt: v, why: "RECYCLE bucket: exit position" });
+      else if (bk === "DUST") sells.push({ r: r, amt: v, why: "DUST: fees may cost more than it's worth; convert small balances or ignore", dust: true });
+      else if (v > capV + 0.005) sells.push({ r: r, amt: v - capV, why: "over " + T.cap + "% cap: trim to " + gbp(capV) });
+    });
+    G.slice(0, 2).forEach(function (x) { var p = g[x.k] / total * 100; if (p > x.rng[1]) sells.push({ name: x.name, amt: g[x.k] - x.t / 100 * total, why: "above " + x.rng[1] + "% range: optional trim to target", opt: true }); });
+    var buys = G.slice(0, 3).map(function (x) { return { x: x, need: Math.max(0, x.t / 100 * total - g[x.k]) }; }).filter(function (b) { return b.need >= tol; });
+    var freed = sells.reduce(function (s, a) { return s + (a.opt || a.dust ? 0 : a.amt); }, 0);
+    var dustV = sells.reduce(function (s, a) { return s + (a.dust ? a.amt : 0); }, 0);
+    var need = buys.reduce(function (s, b) { return s + b.need; }, 0);
+    var h = "";
+    h += "<h4>1 · Sell (proceeds to USDT first)</h4>";
+    h += sells.length ? '<ul class="rb-act">' + sells.map(function (a) {
+      var nm = a.r ? a.r.h.t : a.name;
+      var tags = a.r && !a.r.h.bn ? '<span class="rb-tag dex">DEX / other exchange</span>' : "";
+      return "<li><span><b>" + esc(nm) + "</b>" + tags + "<small>" + esc(a.why) + "</small></span><span class=\"amt sell\">−" + gbp(a.amt) + "</span></li>";
+    }).join("") + "</ul>" : '<div class="rb-note">Nothing flagged: no RECYCLE/DUST coins and no alt over the cap.</div>';
+    h += "<h4>2 · Add to core (to hit targets)</h4>";
+    h += buys.length ? '<ul class="rb-act">' + buys.map(function (b) {
+      var funded = need > 0 ? Math.min(b.need, b.need / need * freed) : 0;
+      var sub = b.x.k === "st" ? "keep this much of the sale proceeds in USDT" : "buy on Binance Spot, staged";
+      if (freed < need) sub += " · pro-rata from sells: " + gbp(funded);
+      return "<li><span><b>" + esc(b.x.name) + "</b> to " + b.x.t.toFixed(1) + "%<small>" + sub + "</small></span><span class=\"amt buy\">+" + gbp(b.need) + "</span></li>";
+    }).join("") + "</ul>" : '<div class="rb-note">BTC, ETH and stables are at or above target.</div>';
+    h += "<h4>3 · Net</h4><ul class=\"rb-act\">";
+    h += "<li><span>Freed by sells" + (dustV ? " <small>(excludes " + gbp(dustV) + " dust)</small>" : "") + "</span><span class=\"amt\">" + gbp(freed) + "</span></li>";
+    h += "<li><span>Needed for core targets</span><span class=\"amt\">" + gbp(need) + "</span></li>";
+    var diff = freed - need;
+    h += "<li><span>" + (diff >= 0 ? "Left over: hold in USDT as extra dry powder or top up kept alts under the cap" : "Shortfall: needs new cash, or trim KEEP-REVIEW alts over time") + "</span><span class=\"amt " + (diff >= 0 ? "buy" : "sell") + "\">" + gbp(Math.abs(diff)) + "</span></li></ul>";
+    var nonBn = sells.filter(function (a) { return a.r && !a.r.h.bn; }).length;
+    h += '<div class="rb-note" style="margin-top:0.6rem">Notes: DUST coins may cost more in fees than they\'re worth. ' + (nonBn ? nonBn + " coin(s) to sell are not on Binance (bn=0) and need a DEX or another exchange. " : "Coins marked not-Binance need a DEX or another exchange. ") + "Percentages assume the total stays the same (fees and slippage ignored). Uses live prices after a refresh, otherwise snapshot prices.</div>";
+    $("rbActions").innerHTML = h;
+  }
 
   function render() {
     var box = $("pfImportBox"), dv = $("pfData");
@@ -1988,6 +2322,7 @@
         '<div class="r2"><div><span>Qty</span><b>' + qty(r.h.q) + "</b></div><div><span>% port</span><b>" + pct(share) + '</b></div><div><span>24h</span><b class="' + cls(r.c24) + '" style="color:' + (r.c24 > 0 ? "var(--green)" : r.c24 < 0 ? "var(--red)" : "inherit") + '">' + pct(r.c24, true) + "</b></div><div><span>vs ATH</span><b>" + pct(r.ath) + "</b></div></div>" +
         '<div class="vd"><b style="color:var(--text-dim);font-size:0.65rem">BINANCE: ' + (r.h.bn ? "YES" : "NO") + "</b> · " + esc(r.h.v) + "</div></div>";
     }).join("");
+    renderRebalance(rows, total);
   }
 
   $("pfImportBtn").addEventListener("click", function () {
@@ -2029,6 +2364,318 @@
   })();
   render();
   if (data) refreshPrices();
+})();
+  </script>
+  <script>
+(function () {
+  "use strict";
+  /* Leg-one trade journal: all data lives in this browser's localStorage only. */
+  var JKEY = "ck_journal_v1";
+  var GOAL = 10000;
+  function $(id) { return document.getElementById(id); }
+  if (!$("view-journal")) return;
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function num(x) { if (x == null || x === "") return null; var n = typeof x === "number" ? x : parseFloat(String(x).replace(/,/g, "")); return isFinite(n) ? n : null; }
+  function usd(n, signed) {
+    if (n == null || !isFinite(n)) return "—";
+    var d = Math.abs(n) >= 10000 ? 0 : 2;
+    return (n < 0 ? "−" : signed && n > 0 ? "+" : "") + "$" + Math.abs(n).toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
+  }
+  function px(n) {
+    if (n == null || !isFinite(n)) return "—";
+    var a = Math.abs(n), d = a >= 1000 ? 2 : a >= 1 ? 4 : a >= 0.01 ? 6 : 8;
+    return String(parseFloat(n.toFixed(d)));
+  }
+  function units(n) { if (n == null || !isFinite(n)) return "—"; return n >= 1000 ? n.toLocaleString("en-US", { maximumFractionDigits: 0 }) : n >= 1 ? String(parseFloat(n.toFixed(3))) : n.toPrecision(4); }
+  function rfmt(r) { return r == null || !isFinite(r) ? "—" : (r > 0 ? "+" : "") + r.toFixed(2) + "R"; }
+  function todayStr() { var d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+  function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+
+  function sanitizeTrade(x) {
+    var s = function (v, n) { return String(v == null ? "" : v).slice(0, n); };
+    var o = { id: s(x.id || uid(), 40), date: /^\d{4}-\d{2}-\d{2}$/.test(x.date) ? x.date : todayStr(), pair: s(x.pair, 24).toUpperCase(),
+      entry: num(x.entry), stop: num(x.stop), targets: s(x.targets, 80), risk: num(x.risk), size: num(x.size),
+      status: x.status === "closed" ? "closed" : "open", exits: s(x.exits, 120), pnl: num(x.pnl), notes: s(x.notes, 2000), created: num(x.created) || Date.now() };
+    return o;
+  }
+  function loadJ() {
+    var d = null;
+    try { d = JSON.parse(localStorage.getItem(JKEY) || "null"); } catch (e) {}
+    if (!d || typeof d !== "object") d = {};
+    return { v: 1, start: num(d.start) > 0 ? num(d.start) : 500, trades: Array.isArray(d.trades) ? d.trades.map(sanitizeTrade) : [] };
+  }
+  function saveJ() { try { localStorage.setItem(JKEY, JSON.stringify(J)); } catch (e) { $("jnMsg").textContent = "Could not save (storage full or blocked)."; } }
+  var J = loadJ(), editId = null, riskTouched = false;
+
+  function parseList(s) { return String(s || "").split(/[,;\s]+/).map(num).filter(function (n) { return n != null; }); }
+  function parseExits(s) {
+    var parts = String(s || "").split(/[,;]+/).map(function (p) { return p.trim(); }).filter(Boolean);
+    var out = [], given = 0, free = 0;
+    parts.forEach(function (p) {
+      var m = p.split("@"), price = num(m[0]);
+      if (price == null) return;
+      var f = null;
+      if (m.length > 1) { var raw = num(m[1].replace("%", "")); if (raw != null) f = /%/.test(m[1]) || raw > 1 ? raw / 100 : raw; }
+      if (f != null) given += f; else free++;
+      out.push({ p: price, f: f });
+    });
+    if (!out.length) return [];
+    if (free) { var each = Math.max(0, 1 - given) / free; out.forEach(function (e) { if (e.f == null) e.f = each; }); }
+    else if (given > 0) out.forEach(function (e) { e.f = e.f / given; });
+    return out;
+  }
+  function calc(t) {
+    var e = t.entry, s = t.stop;
+    var dist = e > 0 && s > 0 && e > s ? e - s : null;
+    var risk = t.risk > 0 ? t.risk : null;
+    var size = t.size > 0 ? t.size : null;
+    var u = size && e > 0 ? size / e : risk && dist ? risk / dist : null;
+    if (!risk && u && dist) risk = u * dist;
+    if (!size && u && e) size = u * e;
+    var pnl = null, pnlFromExits = null;
+    var ex = parseExits(t.exits);
+    if (ex.length && u && e > 0) pnlFromExits = ex.reduce(function (a, x) { return a + x.f * u * (x.p - e); }, 0);
+    if (t.status === "closed") pnl = t.pnl != null ? t.pnl : pnlFromExits;
+    var tg = parseList(t.targets);
+    return { dist: dist, risk: risk, size: size, units: u, pnl: pnl, pnlFromExits: pnlFromExits, R: pnl != null && risk ? pnl / risk : null,
+      plannedR: dist && tg.length ? (tg[0] - e) / dist : null, stopPct: dist ? dist / e * 100 : null };
+  }
+  function sortedTrades() {
+    return J.trades.slice().sort(function (a, b) { return a.date < b.date ? -1 : a.date > b.date ? 1 : a.created - b.created; });
+  }
+  function stats() {
+    var start = J.start, eq = start, peak = start, pts = [start];
+    var closed = [], open = [], missing = 0;
+    sortedTrades().forEach(function (t) {
+      var c = calc(t);
+      if (t.status === "open") { open.push({ t: t, c: c }); return; }
+      if (c.pnl == null) { missing++; return; }
+      eq += c.pnl; if (eq > peak) peak = eq; pts.push(eq); closed.push({ t: t, c: c });
+    });
+    var dd = peak > 0 ? Math.max(0, (peak - eq) / peak * 100) : 0;
+    var streak = 0; for (var i = closed.length - 1; i >= 0 && closed[i].c.pnl < 0; i--) streak++;
+    var wins = closed.filter(function (x) { return x.c.pnl > 0; }).length;
+    var rs = closed.filter(function (x) { return x.c.R != null; }).map(function (x) { return x.c.R; });
+    var atHigh = eq >= peak - 0.005;
+    var sugg = !atHigh || streak >= 2 ? 4 : 5;
+    var why = streak >= 2 ? "4%: two losers in a row" : !atHigh ? "4%: in drawdown" : "5%: at equity high";
+    return { start: start, eq: eq, peak: peak, dd: dd, pts: pts, closed: closed, open: open, missing: missing, streak: streak,
+      winRate: closed.length ? wins / closed.length * 100 : null, wins: wins, avgR: rs.length ? rs.reduce(function (a, b) { return a + b; }, 0) / rs.length : null,
+      sugg: sugg, why: why, atHigh: atHigh };
+  }
+
+  function banners(S) {
+    var b = [];
+    if (S.dd >= 15) b.push(["red", "PAUSE: drawdown at " + S.dd.toFixed(1) + "% from the " + usd(S.peak) + " peak. At 15% pause trading and review before the next trade."]);
+    else if (S.dd >= 10) b.push(["amber", "Drawdown at " + S.dd.toFixed(1) + "%: at 15% pause trading."]);
+    if (S.streak >= 2) b.push(["amber", (S.streak === 2 ? "Two" : S.streak) + " losers in a row: next trade at 4%. No averaging down, no revenge trades."]);
+    if (S.open.length === 1) b.push(["blue", "Open trade exists (" + (S.open[0].t.pair || "unnamed") + "): one idea at a time."]);
+    else if (S.open.length > 1) b.push(["red", S.open.length + " open trades: the rule is one idea at a time."]);
+    S.open.forEach(function (o) {
+      var nm = o.t.pair || "Open trade";
+      if (o.c.plannedR != null && o.c.plannedR < 2) b.push(["amber", nm + ": planned target is " + o.c.plannedR.toFixed(2) + "R, below the 2R minimum."]);
+      if (o.c.risk != null && S.eq > 0 && o.c.risk / S.eq * 100 > 5.005) b.push(["red", nm + ": risk " + usd(o.c.risk) + " is " + (o.c.risk / S.eq * 100).toFixed(1) + "% of equity, above the 5% max."]);
+    });
+    if (S.missing) b.push(["amber", S.missing + " closed trade(s) have no P/L (add exit price(s) or realised P/L) and are not counted."]);
+    if (S.eq >= GOAL) b.push(["green", "Leg one complete: bank 20% (" + usd(S.eq * 0.2) + "), roll 80% (" + usd(S.eq * 0.8) + ") into leg two."]);
+    $("jnBanners").innerHTML = b.map(function (x) { return '<div class="jn-banner ' + x[0] + '">' + esc(x[1]) + "</div>"; }).join("");
+  }
+
+  function chart(S) {
+    var el = $("jnChart"), p = S.pts;
+    if (p.length < 2) { el.innerHTML = '<div class="jn-empty">The equity curve appears after your first closed trade. Starting equity ' + esc(usd(S.start)) + ".</div>"; return; }
+    var W = 600, H = 190, pad = 10;
+    var lo = Math.min.apply(null, p.concat([S.start])), hi = Math.max.apply(null, p.concat([S.peak]));
+    if (hi - lo < 1) { hi += 1; lo -= 1; }
+    var span = hi - lo; lo -= span * 0.08; hi += span * 0.08;
+    var x = function (i) { return (i / (p.length - 1)) * W; };
+    var y = function (v) { return pad + (1 - (v - lo) / (hi - lo)) * (H - 2 * pad); };
+    var line = p.map(function (v, i) { return x(i).toFixed(1) + "," + y(v).toFixed(1); }).join(" ");
+    var up = S.eq >= S.start, col = up ? "#22c55e" : "#e63946";
+    var svg = '<svg viewBox="0 0 ' + W + " " + H + '" preserveAspectRatio="none" role="img" aria-label="Equity curve">' +
+      '<defs><linearGradient id="jnGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' + col + '" stop-opacity="0.35"/><stop offset="1" stop-color="' + col + '" stop-opacity="0"/></linearGradient></defs>' +
+      '<line x1="0" x2="' + W + '" y1="' + y(S.start).toFixed(1) + '" y2="' + y(S.start).toFixed(1) + '" stroke="#5c6578" stroke-width="1" vector-effect="non-scaling-stroke"/>' +
+      '<line x1="0" x2="' + W + '" y1="' + y(S.peak).toFixed(1) + '" y2="' + y(S.peak).toFixed(1) + '" stroke="#d4a017" stroke-width="1" stroke-dasharray="5 4" vector-effect="non-scaling-stroke"/>' +
+      '<polygon points="0,' + H + " " + line + " " + W + "," + H + '" fill="url(#jnGrad)"/>' +
+      '<polyline points="' + line + '" fill="none" stroke="' + col + '" stroke-width="2.5" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg>';
+    var lab = function (v, t) { return '<span class="yl" style="top:calc(' + (y(v) / H * 100).toFixed(1) + '% - 0.5em)">' + esc(t) + "</span>"; };
+    el.innerHTML = '<div class="jn-chart">' + svg + lab(S.peak, "Peak " + usd(S.peak)) + (Math.abs(y(S.peak) - y(S.start)) > 22 ? lab(S.start, "Start " + usd(S.start)) : "") + "</div>" +
+      '<div class="pf-src">' + (p.length - 1) + " closed trade(s) · now " + esc(usd(S.eq)) + "</div>";
+  }
+
+  function tradeCard(t, S) {
+    var c = calc(t), open = t.status === "open";
+    var plTxt = open ? "open" : usd(c.pnl, true);
+    var plCol = open || c.pnl == null ? "var(--text-muted)" : c.pnl > 0 ? "var(--green)" : c.pnl < 0 ? "var(--red)" : "var(--text-muted)";
+    var cell = function (k, v) { return "<div><span>" + k + "</span><b>" + v + "</b></div>"; };
+    var extra = [];
+    if (t.targets) extra.push("<b>Targets:</b> " + esc(t.targets));
+    if (t.exits) extra.push("<b>Exits:</b> " + esc(t.exits));
+    if (t.notes) extra.push(esc(t.notes));
+    return '<div class="jn-trade' + (open ? " open" : "") + '"><div class="r1"><span><span class="pair">' + esc(t.pair || "—") + '</span> <span class="jn-st ' + t.status + '">' + t.status + '</span></span><span class="pl" style="color:' + plCol + '">' + plTxt + "</span></div>" +
+      '<div class="r2">' + cell("Date", esc(t.date.slice(5).replace("-", "/")) ) + cell("Entry", px(t.entry)) + cell("Stop", px(t.stop) + (c.stopPct != null ? " <small style=\"color:var(--text-dim)\">(" + c.stopPct.toFixed(1) + "%)</small>" : "")) +
+      cell("Risk", usd(c.risk)) + cell("Size", usd(c.size)) + cell(open ? "Plan R" : "R", open ? (c.plannedR != null ? c.plannedR.toFixed(2) + "R" : "—") : rfmt(c.R)) + "</div>" +
+      (extra.length ? '<div class="nt">' + extra.join(" · ") + "</div>" : "") +
+      '<div class="pf-actions"><button type="button" class="pf-btn" data-jn-edit="' + esc(t.id) + '">Edit</button><button type="button" class="pf-btn danger" data-jn-del="' + esc(t.id) + '">Delete</button></div></div>';
+  }
+
+  function render() {
+    var S = stats();
+    banners(S);
+    $("jnEq").textContent = usd(S.eq);
+    $("jnEqSub").textContent = "start " + usd(S.start) + " · " + (S.eq >= S.start ? "+" : "") + ((S.eq / S.start - 1) * 100).toFixed(1) + "%";
+    $("jnPeak").textContent = usd(S.peak);
+    $("jnDd").textContent = "drawdown " + S.dd.toFixed(1) + "% from peak";
+    $("jnDd").style.color = S.dd >= 15 ? "#f87171" : S.dd >= 10 ? "var(--gold-bright)" : "";
+    $("jnWin").textContent = S.winRate == null ? "—" : S.winRate.toFixed(0) + "%";
+    $("jnWinSub").textContent = S.closed.length + " closed · " + S.wins + " won · " + S.open.length + " open";
+    $("jnAvgR").textContent = S.avgR == null ? "—" : rfmt(S.avgR);
+    $("jnStreak").textContent = "losing streak: " + S.streak;
+    $("jnStreak").style.color = S.streak >= 2 ? "var(--gold-bright)" : "";
+    var prog = Math.max(0, Math.min(100, S.eq / GOAL * 100));
+    $("jnProgFill").style.width = prog.toFixed(2) + "%";
+    $("jnProgBar").setAttribute("aria-valuenow", prog.toFixed(1));
+    $("jnProgTxt").textContent = prog.toFixed(1) + "%";
+    $("jnProgSub").textContent = S.eq >= GOAL ? "Goal reached: " + usd(S.eq) : usd(S.eq) + " of $10,000 · " + usd(GOAL - S.eq) + " to go · " + (S.eq > 0 ? (Math.log(GOAL / S.eq) / Math.log(2)).toFixed(1) + " doublings left" : "");
+    $("jnHint").textContent = "Local only · " + J.trades.length + " trade" + (J.trades.length === 1 ? "" : "s");
+    $("jnCount").textContent = J.trades.length ? J.trades.length + " total · newest first" : "none yet";
+    chart(S);
+    var list = sortedTrades().reverse();
+    $("jnList").innerHTML = list.length ? list.map(function (t) { return tradeCard(t, S); }).join("") : '<div class="jn-empty">No trades yet. Add your first leg-one trade above. Everything stays on this device.</div>';
+    $("jnStart").value = J.start;
+    helper(S);
+  }
+
+  function formTrade() {
+    return sanitizeTrade({ id: editId || uid(), date: $("jnDate").value, pair: $("jnPair").value.trim(), entry: $("jnEntry").value, stop: $("jnStop").value,
+      targets: $("jnTargets").value.trim(), risk: $("jnRisk").value, size: $("jnSize").value, status: $("jnStatus").value,
+      exits: $("jnExits").value.trim(), pnl: $("jnPnl").value, notes: $("jnNotes").value.trim(),
+      created: editId ? (J.trades.find(function (x) { return x.id === editId; }) || {}).created : Date.now() });
+  }
+  function helper(S) {
+    S = S || stats();
+    $("jnHEq").value = usd(S.eq);
+    if (!riskTouched) $("jnHRisk").value = S.sugg;
+    $("jnHRiskWhy").textContent = "Suggested " + S.why;
+    var rp = num($("jnHRisk").value), e = num($("jnEntry").value), s = num($("jnStop").value);
+    var w = [];
+    var riskD = rp != null ? S.eq * rp / 100 : null;
+    var dist = e > 0 && s > 0 && e > s ? e - s : null;
+    var u = riskD && dist ? riskD / dist : null, size = u ? u * e : null;
+    $("jnORisk").textContent = usd(riskD);
+    $("jnOStop").textContent = dist ? (dist / e * 100).toFixed(1) + "%" : "—";
+    $("jnOSize").textContent = usd(size);
+    $("jnOUnits").textContent = units(u);
+    $("jnO2R").textContent = dist ? px(e + 2 * dist) : "—";
+    $("jnOBank").textContent = dist ? px(e + 2 * dist) + (u ? " (" + units(u / 3) + " u)" : "") : "—";
+    if (S.dd >= 15) w.push(["e", "PAUSE is active (drawdown " + S.dd.toFixed(1) + "%). No new trades until reviewed."]);
+    if (S.open.length && !(editId && S.open.some(function (o) { return o.t.id === editId; }))) w.push(["w", "You already have an open trade: one idea at a time."]);
+    if (rp != null && rp > 5) w.push(["e", "Risk above 5% breaks the rules."]);
+    else if (rp != null && rp > S.sugg) w.push(["w", "Rules suggest " + S.sugg + "% right now (" + S.why.replace(/^\d%: /, "") + ")."]);
+    if (e != null && s != null && e > 0 && s >= e) w.push(["e", "Stop must be below entry (spot long)."]);
+    if (dist) { var sp = dist / e * 100; if (sp < 12 || sp > 15) w.push(["i", "Stop is " + sp.toFixed(1) + "% away; the rule of thumb is about 12–15%."]); }
+    if (size && size > S.eq) w.push(["w", "Position " + usd(size) + " is bigger than equity: no leverage on spot, so the max is " + usd(S.eq) + " (risk will be lower)."]);
+    $("jnHWarn").innerHTML = w.map(function (x) { return '<div class="' + x[0] + '">' + esc(x[1]) + "</div>"; }).join("");
+    formWarn(S);
+    return { riskD: riskD, size: size, u: u, dist: dist };
+  }
+  function formWarn(S) {
+    var t = formTrade(), c = calc(t), w = [];
+    if (c.plannedR != null && c.plannedR < 2) w.push(["w", "Planned target is " + c.plannedR.toFixed(2) + "R: below the 2R minimum."]);
+    if (c.plannedR != null && c.plannedR >= 2) w.push(["i", "Planned target is " + c.plannedR.toFixed(2) + "R."]);
+    if (c.risk != null && S.eq > 0 && c.risk / S.eq * 100 > 5.005) w.push(["e", "Risk " + usd(c.risk) + " is " + (c.risk / S.eq * 100).toFixed(1) + "% of equity: above 5%."]);
+    $("jnFormWarn").innerHTML = w.map(function (x) { return '<div class="' + x[0] + '">' + esc(x[1]) + "</div>"; }).join("");
+    var calcTxt = "—";
+    if (t.status === "closed") calcTxt = c.pnlFromExits != null ? "From exits: " + usd(c.pnlFromExits, true) + (c.risk ? " = " + rfmt(c.pnlFromExits / c.risk) : "") : "Enter exit price(s) or P/L";
+    else calcTxt = "Only needed once closed";
+    $("jnPnlCalc").textContent = calcTxt;
+  }
+  function resetForm() {
+    editId = null; riskTouched = false;
+    $("jnForm").reset(); $("jnDate").value = todayStr();
+    $("jnSave").textContent = "Add trade"; $("jnCancel").classList.add("pf-hidden");
+    $("jn-form-title").textContent = "Add trade";
+    helper();
+  }
+  function fillForm(t) {
+    editId = t.id; riskTouched = false;
+    $("jnDate").value = t.date; $("jnPair").value = t.pair; $("jnEntry").value = t.entry == null ? "" : t.entry; $("jnStop").value = t.stop == null ? "" : t.stop;
+    $("jnTargets").value = t.targets; $("jnRisk").value = t.risk == null ? "" : t.risk; $("jnSize").value = t.size == null ? "" : t.size;
+    $("jnStatus").value = t.status; $("jnExits").value = t.exits; $("jnPnl").value = t.pnl == null ? "" : t.pnl; $("jnNotes").value = t.notes;
+    $("jnSave").textContent = "Save changes"; $("jnCancel").classList.remove("pf-hidden");
+    $("jn-form-title").textContent = "Edit trade";
+    helper();
+    $("jnForm").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  $("jnForm").addEventListener("input", function (e) { if (e.target.id === "jnHRisk") riskTouched = true; helper(); });
+  $("jnForm").addEventListener("change", function () { helper(); });
+  $("jnApply").addEventListener("click", function () {
+    var h = helper(); if (!h.riskD || !h.size) { $("jnMsg").textContent = "Enter entry and stop (below entry) first."; $("jnMsg").className = "pf-msg err"; return; }
+    var S = stats(), size = Math.min(h.size, S.eq), risk = h.dist ? size / num($("jnEntry").value) * h.dist : h.riskD;
+    $("jnRisk").value = +risk.toFixed(2); $("jnSize").value = +size.toFixed(2);
+    if (!$("jnTargets").value.trim() && h.dist) $("jnTargets").value = px(num($("jnEntry").value) + 2 * h.dist);
+    $("jnMsg").textContent = "Filled risk $, size $" + (size < h.size ? " (capped at equity)" : "") + "."; $("jnMsg").className = "pf-msg ok";
+    helper();
+  });
+  $("jnForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var t = formTrade();
+    if (!t.pair) { $("jnMsg").textContent = "Add a pair (e.g. XXXUSDT)."; $("jnMsg").className = "pf-msg err"; return; }
+    if (!(t.entry > 0)) { $("jnMsg").textContent = "Add an entry price."; $("jnMsg").className = "pf-msg err"; return; }
+    var i = J.trades.findIndex(function (x) { return x.id === t.id; });
+    if (i >= 0) J.trades[i] = t; else J.trades.push(t);
+    saveJ();
+    var was = editId; resetForm();
+    $("jnMsg").textContent = was ? "Trade updated." : "Trade added. Saved to this device only."; $("jnMsg").className = "pf-msg ok";
+    render();
+  });
+  $("jnCancel").addEventListener("click", function () { resetForm(); $("jnMsg").textContent = ""; });
+  $("jnList").addEventListener("click", function (e) {
+    var ed = e.target.closest("[data-jn-edit]"), dl = e.target.closest("[data-jn-del]");
+    if (ed) { var t = J.trades.find(function (x) { return x.id === ed.getAttribute("data-jn-edit"); }); if (t) fillForm(t); }
+    if (dl) {
+      var id = dl.getAttribute("data-jn-del"), tr = J.trades.find(function (x) { return x.id === id; });
+      if (tr && window.confirm("Delete this " + (tr.pair || "") + " trade?")) { J.trades = J.trades.filter(function (x) { return x.id !== id; }); if (editId === id) resetForm(); saveJ(); render(); }
+    }
+  });
+  $("jnStart").addEventListener("change", function () {
+    var v = num($("jnStart").value);
+    if (v > 0) { J.start = v; saveJ(); render(); } else $("jnStart").value = J.start;
+  });
+  function ioMsg(t, k) { $("jnIOMsg").textContent = t; $("jnIOMsg").className = "pf-msg" + (k ? " " + k : ""); }
+  function exportText() { return JSON.stringify({ kind: "ck-journal", v: 1, exported: new Date().toISOString(), start: J.start, trades: J.trades }, null, 1); }
+  $("jnExport").addEventListener("click", function () { $("jnIO").value = exportText(); ioMsg("Backup is in the box. Copy it or download it and keep it somewhere safe.", "ok"); });
+  $("jnCopy").addEventListener("click", function () {
+    if (!$("jnIO").value) $("jnIO").value = exportText();
+    var ta = $("jnIO");
+    var done = function () { ioMsg("Copied to clipboard.", "ok"); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(ta.value).then(done, function () { ta.select(); try { document.execCommand("copy"); done(); } catch (x) { ioMsg("Select the text and copy it manually.", "err"); } });
+    else { ta.select(); try { document.execCommand("copy"); done(); } catch (x) { ioMsg("Select the text and copy it manually.", "err"); } }
+  });
+  $("jnDownload").addEventListener("click", function () {
+    var blob = new Blob([exportText()], { type: "application/json" });
+    var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "ck-journal-" + todayStr() + ".json";
+    document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+    ioMsg("Downloaded.", "ok");
+  });
+  $("jnImport").addEventListener("click", function () {
+    var d;
+    try { d = JSON.parse($("jnIO").value.trim()); } catch (e) { ioMsg("That isn't valid JSON. Paste a full Export backup.", "err"); return; }
+    if (Array.isArray(d)) d = { trades: d };
+    if (!d || !Array.isArray(d.trades)) { ioMsg("No trades found in that backup.", "err"); return; }
+    if (J.trades.length && !window.confirm("Replace the " + J.trades.length + " trade(s) on this device with " + d.trades.length + " from the backup?")) return;
+    J = { v: 1, start: num(d.start) > 0 ? num(d.start) : J.start, trades: d.trades.map(sanitizeTrade) };
+    saveJ(); resetForm(); render(); ioMsg("Imported " + J.trades.length + " trade(s).", "ok");
+  });
+  $("jnClear").addEventListener("click", function () {
+    if (!window.confirm("Delete ALL journal trades and settings from this browser? Export a backup first if you want to keep them.")) return;
+    try { localStorage.removeItem(JKEY); } catch (e) {}
+    J = loadJ(); resetForm(); render(); $("jnIO").value = ""; ioMsg("Journal cleared from this device.", "ok");
+  });
+  window.ckJournalStats = stats;
+  resetForm();
+  render();
 })();
   </script>
 </body>
