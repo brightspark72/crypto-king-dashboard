@@ -2013,6 +2013,20 @@
   window.ckPortfolioExport = function () { return data ? encode(data) : null; };
 
   data = load();
+  (function hashImport() {
+    var h = location.hash || "";
+    var m = h.match(/^#pf=(.+)$/);
+    if (!m) return;
+    try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {}
+    try {
+      var obj = decode(decodeURIComponent(m[1]));
+      save(obj); data = obj; editing = false;
+      msg("Imported " + obj.h.length + " holdings from your private link. Saved to this device only.", "ok");
+    } catch (e) {
+      msg("Could not import from link: " + (e && e.message ? e.message : "invalid code"), "err");
+    }
+    setTimeout(function () { var t = document.querySelector('[data-view="portfolio"]'); if (t) t.click(); }, 50);
+  })();
   render();
   if (data) refreshPrices();
 })();
