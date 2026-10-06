@@ -577,6 +577,7 @@
     .jn-st.open { color: #7fb0ff; background: rgba(59,130,246,0.12); border-color: rgba(59,130,246,0.35); }
     .jn-st.closed { color: var(--text-muted); background: rgba(139,147,167,0.1); border-color: var(--border); }
   </style>
+  <link rel="stylesheet" href="trade-setups.css" />
 </head>
 <body>
   <div class="container">
@@ -602,6 +603,7 @@
       <nav class="nav-tabs" role="tablist" aria-label="Dashboard views">
         <button type="button" class="nav-tab active" role="tab" aria-selected="true" data-view="overview" id="tab-overview">Overview</button>
         <button type="button" class="nav-tab" role="tab" aria-selected="false" data-view="watchlist" id="tab-watchlist">Watchlist</button>
+        <button type="button" class="nav-tab" role="tab" aria-selected="false" data-view="setups" id="tab-setups">Trade setups</button>
         <button type="button" class="nav-tab" role="tab" aria-selected="false" data-view="narratives" id="tab-narratives">Narratives</button>
         <button type="button" class="nav-tab" role="tab" aria-selected="false" data-view="tokenomics" id="tab-tokenomics">Tokenomics</button>
         <button type="button" class="nav-tab" role="tab" aria-selected="false" data-view="projects" id="tab-projects">New Projects</button>
@@ -760,6 +762,24 @@
             <tbody id="watchBody"></tbody>
           </table>
           <div class="empty-filter" id="emptyFilter">No tokens match this filter.</div>
+        </div>
+      </section>
+    </div>
+
+    <div class="view" id="view-setups" role="tabpanel" aria-labelledby="tab-setups" hidden>
+      <section class="section" aria-labelledby="ts-title">
+        <div class="section-head"><h2 id="ts-title">Trade setups</h2><span class="hint">Setup levels only · live Binance Spot prices</span></div>
+        <div class="ts-toolbar">
+          <div class="ts-seg" role="group" aria-label="Candle interval">
+            <button type="button" class="on" data-iv="1d" aria-pressed="true">1D</button>
+            <button type="button" data-iv="4h" aria-pressed="false">4H</button>
+          </div>
+          <div class="ts-meta" id="tsMeta">Open this tab to load live charts.</div>
+        </div>
+        <div class="ts-grid" id="tsGrid"></div>
+        <div class="ts-footer">
+          <div>Setup levels only. Not financial advice. Prices live from Binance.</div>
+          <div class="u" id="tsUpdated">Last updated: —</div>
         </div>
       </section>
     </div>
@@ -2678,5 +2698,6 @@
   render();
 })();
   </script>
+  <script src="trade-setups.js" defer></script>
 </body>
 </html>
