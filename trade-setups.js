@@ -214,8 +214,8 @@
     row("🔥 " + (old ? "Old buy zone" : "Buy zone"), fmtP(s.zone[0]) + " – " + fmtP(s.zone[1]));
     if (isNum(s.entry)) row(old + "Entry", fmtP(s.entry));
     if (isNum(s.stop)) row("🛑 " + old + "Stop", withPct(s.stop, s.entry) + (isNum(s.stop_limit) ? ' <span class="dim">· limit ' + fmtP(s.stop_limit) + "</span>" : ""));
-    if (isNum(s.tp1)) row("🎯 " + old + "TP1", withPct(s.tp1, s.entry, isNum(s.tp1_r) ? s.tp1_r.toFixed(1) + "R" : ""));
-    if (isNum(s.tp2)) row("🎯 " + old + "TP2", withPct(s.tp2, s.entry, isNum(s.tp2_r) ? s.tp2_r.toFixed(1) + "R" : ""));
+    if (isNum(s.tp1)) row("🎯 " + old + "TP1", withPct(s.tp1, s.entry, isNum(s.tp1_r) ? parseFloat(s.tp1_r.toFixed(2)) + "R" : ""));
+    if (isNum(s.tp2)) row("🎯 " + old + "TP2", withPct(s.tp2, s.entry, isNum(s.tp2_r) ? parseFloat(s.tp2_r.toFixed(2)) + "R" : ""));
     if (isNum(s.swing_high)) row("Swing high", fmtP(s.swing_high) + (s.swing_high_date ? ' <span class="dim">(' + ukDate(s.swing_high_date).replace(/ \d{4}$/, "") + ")</span>" : ""));
     row("Setup date", s.setup_date ? ukDate(s.setup_date) : '<span class="dim">not armed</span>');
     return rows.join("");
