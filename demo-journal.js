@@ -19,10 +19,10 @@
       closedTitle: "Closed trades",
       footer: "Journal 2: £500 start, 4% risk per trade, 0.1% fee per fill, stop-limit fills modelled at the limit or worse. Not financial advice." },
     pyramid: { file: "pyramid_journal.json", title: "Pyramid · Journal 3",
-      hint: "Same 1h/4h entry trigger · Tom-style scale-in at +1R…+4R with a rising shared stop",
+      hint: "Same 1h/4h entry trigger · Tom-style scale-in every +2R (+2R/+4R/+6R/+8R) with a rising shared stop",
       openTitle: "Open pyramids", openHint: "Entries filled · shared stop · next add",
       closedTitle: "Closed pyramids",
-      footer: "Pyramid: £500 start, 4% risk on Entry1 (original 1R), adds at ½ size, shared stop rises before each add, 0.1% fee per fill. Not financial advice." }
+      footer: "Pyramid: £500 start, Entry1 sized at 4% risk but cash-capped so the full ladder fits (original 1R), adds of ½ size every +2R, shared stop lifts to the previous ladder price at each add, 0.1% fee per fill. Not financial advice." }
   };
 
   function $(id) { return document.getElementById(id); }
@@ -185,7 +185,10 @@
       var under = p.status === "pending"
         ? '<div class="u dj-flat">Entry1 limit ' + fmtP(p.limit) + (isNum(m.px) ? " · " + pct((m.px / p.limit - 1) * 100) + " away" : "") + "</div>"
         : '<div class="u ' + cls(m.R) + '">' + mark(m.R) + pct(m.pct) + " · " + rr(m.R) + " from Entry1</div>";
-      var next = isNum(p.next_add) ? fmtP(p.next_add) : "—";
+      var next = isNum(p.next_add)
+        ? fmtP(p.next_add) + '<div class="dj-fills">E' + p.next_add_n + (isNum(p.next_add_R) ? " +" + p.next_add_R + "R" : "") +
+          (isNum(p.next_stop_to) ? " · stop→" + fmtP(p.next_stop_to) : "") + "</div>"
+        : (p.status === "trailing" ? "trailing" : p.status === "pending" ? "after Entry1" : "—");
       var fills = (p.fills || []).map(function (f) { return "E" + f.n + "@" + fmtP(f.px); }).join(" · ") || "—";
       return '<article class="dj-card ' + k + '"><div class="hd"><div><h3>' + esc(p.coin) + '</h3><span class="dj-tag ' + tag + '">' + esc(p.status_label) + "</span>" +
         '<div class="dj-fills">' + esc(fills) + "</div></div>" +
