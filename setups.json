@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "updated": "2026-10-06T18:51:00+01:00",
-  "updated_label": "6 Oct 2026, 6:51pm UK",
+  "updated": "2026-10-07T08:49:00+01:00",
+  "updated_label": "7 Oct 2026, 8:49am UK",
   "source": "Watchlist buy-setup scan (Binance Spot daily candles, 60d swing high); synced by sync_setups.py",
   "chart": {
     "daily_limit": 120,
@@ -12,73 +12,24 @@
       "symbol": "ZECUSDT",
       "name": "Zcash",
       "state": "live",
-      "status_label": "Live (borderline 2.08R)",
-      "setup_date": "2026-10-06",
-      "setup_ts": "2026-10-06T18:51:00+01:00",
+      "status_label": "Live (2.36R)",
+      "setup_date": "2026-10-07",
+      "setup_ts": "2026-10-07T08:49:00+01:00",
       "zone": [
         1271.08,
-        1386.32
+        1349.49
       ],
-      "entry": 1359.14,
-      "stop": 1196.04,
-      "stop_limit": 1187.1,
-      "tp1": 1698.0,
-      "tp1_r": 2.08,
-      "tp2": 1929.97,
+      "entry": 1323.03,
+      "stop": 1164.26,
+      "stop_limit": 1155.5,
+      "tp1": 1640.55,
+      "tp1_r": 2.0,
+      "tp2": 1878.7,
       "tp2_r": 3.5,
       "swing_high": 1698.0,
       "swing_high_date": "2026-09-26",
       "notes": [
         "Wide daily swings, a 12% stop gets hit often. Size smaller."
-      ]
-    },
-    {
-      "symbol": "ENAUSDT",
-      "name": "Ethena",
-      "state": "live",
-      "status_label": "Live (borderline 2.05R)",
-      "setup_date": "2026-10-06",
-      "setup_ts": "2026-10-06T18:51:00+01:00",
-      "zone": [
-        0.2279,
-        0.2412
-      ],
-      "entry": 0.2365,
-      "stop": 0.2081,
-      "stop_limit": 0.2065,
-      "tp1": 0.2946,
-      "tp1_r": 2.05,
-      "tp2": 0.3358,
-      "tp2_r": 3.5,
-      "swing_high": 0.2946,
-      "swing_high_date": "2026-09-27",
-      "notes": [
-        "Borderline R:R. Don't chase above the zone."
-      ]
-    },
-    {
-      "symbol": "ARBUSDT",
-      "name": "Arbitrum",
-      "state": "live",
-      "status_label": "Live (borderline 2.01R)",
-      "setup_date": "2026-10-05",
-      "setup_ts": "2026-10-05T18:48:00+01:00",
-      "zone": [
-        0.1884,
-        0.21
-      ],
-      "entry": 0.2059,
-      "stop": 0.1811,
-      "stop_limit": 0.1797,
-      "tp1": 0.2555,
-      "tp1_r": 2.0,
-      "tp2": 0.2923,
-      "tp2_r": 3.48,
-      "swing_high": 0.2555,
-      "swing_high_date": "2026-09-23",
-      "notes": [
-        "Token unlock ~16 Oct.",
-        "Tends to move with OP (L2 correlation)."
       ]
     },
     {
@@ -103,6 +54,58 @@
       "swing_high_date": "2026-10-06",
       "notes": [
         "Not armed yet: entry, stop and targets get set when price is in the zone and a scan confirms."
+      ]
+    },
+    {
+      "symbol": "ARBUSDT",
+      "name": "Arbitrum",
+      "state": "invalidated",
+      "status_label": "Invalidated, don't chase",
+      "setup_date": "2026-10-05",
+      "setup_ts": "2026-10-05T18:48:00+01:00",
+      "invalidated_ts": "2026-10-07T08:49:00+01:00",
+      "zone": [
+        0.1884,
+        0.21
+      ],
+      "entry": 0.2059,
+      "stop": 0.1811,
+      "stop_limit": 0.1797,
+      "tp1": 0.2555,
+      "tp1_r": 2.0,
+      "tp2": 0.2923,
+      "tp2_r": 3.48,
+      "swing_high": 0.2555,
+      "swing_high_date": "2026-09-23",
+      "notes": [
+        "Old levels shown greyed for reference only.",
+        "Why: still falling hard through support pullback now 26.2% (>25%)"
+      ]
+    },
+    {
+      "symbol": "ENAUSDT",
+      "name": "Ethena",
+      "state": "invalidated",
+      "status_label": "Invalidated (stop hit, 1.98R), don't chase",
+      "setup_date": "2026-10-06",
+      "setup_ts": "2026-10-06T18:51:00+01:00",
+      "invalidated_ts": "2026-10-07T08:49:00+01:00",
+      "zone": [
+        0.2279,
+        0.2412
+      ],
+      "entry": 0.2365,
+      "stop": 0.2081,
+      "stop_limit": 0.2065,
+      "tp1": 0.2946,
+      "tp1_r": 2.05,
+      "tp2": 0.3358,
+      "tp2_r": 3.5,
+      "swing_high": 0.2946,
+      "swing_high_date": "2026-09-27",
+      "notes": [
+        "Old levels shown greyed for reference only.",
+        "Why: not yet stabilising; 12-15% stop only 1.98R to swing high (<2R) @ 0.2381"
       ]
     }
   ]
