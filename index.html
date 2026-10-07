@@ -788,15 +788,22 @@
 
     <div class="view" id="view-demo" role="tabpanel" aria-labelledby="tab-demo" hidden>
       <section class="section" aria-labelledby="dj-title">
-        <div class="section-head"><h2 id="dj-title">Journal 2 · leg-one</h2><span class="hint">Every qualifying 1h setup under the leg-one rules · live Binance Spot prices</span></div>
+        <div class="section-head">
+          <h2 id="dj-title">Paper journals</h2>
+          <span class="hint" id="djHint">Virtual accounts on live Binance Spot · no real money</span>
+        </div>
+        <div class="dj-switch" role="tablist" aria-label="Choose paper journal">
+          <button type="button" class="dj-sw active" role="tab" aria-selected="true" data-journal="j2" id="djSwJ2">Journal 2</button>
+          <button type="button" class="dj-sw" role="tab" aria-selected="false" data-journal="pyramid" id="djSwPyr">Pyramid</button>
+        </div>
         <div class="ts-toolbar"><div class="ts-meta" id="djMeta">Open this tab to load the journal.</div></div>
         <div class="dj-stats" id="djStats"></div>
         <div class="dj-chart" id="djChart"><div class="ts-msg">Loading equity curve…</div></div>
-        <div class="dj-sub"><div class="section-head"><h2>Open positions</h2><span class="hint">Unrealised P&amp;L at live price</span></div><div class="dj-pos" id="djOpen"></div></div>
-        <div class="dj-sub"><div class="section-head"><h2>Closed trades</h2><span class="hint">Newest first · R after fees</span></div><div id="djClosed"></div></div>
+        <div class="dj-sub"><div class="section-head"><h2 id="djOpenTitle">Open positions</h2><span class="hint" id="djOpenHint">Unrealised P&amp;L at live price</span></div><div class="dj-pos" id="djOpen"></div></div>
+        <div class="dj-sub"><div class="section-head"><h2 id="djClosedTitle">Closed trades</h2><span class="hint">Newest first · R after fees</span></div><div id="djClosed"></div></div>
         <div class="dj-sub"><div class="section-head"><h2>Skipped / blocked today</h2><span class="hint">Why it didn't trade</span></div><div id="djLog"></div></div>
         <div class="ts-footer">
-          <div>Journal 2: £500 start, 4% risk per trade, 0.1% fee per fill, stop-limit fills modelled at the limit or worse. Not financial advice.</div>
+          <div id="djFooterNote">Journal 2: £500 start, 4% risk per trade, 0.1% fee per fill, stop-limit fills modelled at the limit or worse. Not financial advice.</div>
           <div class="u" id="djUpdated">Journal updated —</div>
         </div>
       </section>

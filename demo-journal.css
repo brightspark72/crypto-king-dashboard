@@ -43,3 +43,12 @@
 .dj-log .t { font-family: var(--mono); font-size: 0.74rem; color: var(--text-dim); white-space: nowrap; }
 .dj-log .c { font-family: var(--mono); font-weight: 800; }
 .dj-sub { margin-top: 1.25rem; }
+
+/* Journal switcher (Journal 2 ↔ Pyramid) */
+.dj-switch { display: inline-flex; gap: 0.35rem; margin: 0 0 0.85rem; padding: 0.25rem; background: var(--bg-elevated); border: 1px solid var(--border-subtle); border-radius: 999px; }
+.dj-sw { appearance: none; border: 0; background: transparent; color: var(--text-muted); font: inherit; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.02em; padding: 0.4rem 0.95rem; border-radius: 999px; cursor: pointer; }
+.dj-sw.active { background: var(--gold-dim); color: var(--gold-bright); border: 1px solid rgba(212,160,23,0.35); }
+.dj-sw:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.dj-fills { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.15rem; font-family: var(--mono); }
+.dj-lv5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+@media (max-width: 430px) { .dj-lv5 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
