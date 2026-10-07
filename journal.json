@@ -2,8 +2,8 @@
  "schema": 1,
  "name": "Journal 2",
  "description": "Virtual leg-one journal: every qualifying 1h setup taken under the leg-one rules, simulated on live Binance Spot prices. No real money.",
- "updated": "2026-10-07T17:14:14+01:00",
- "updated_label": "7 Oct 2026, 17:14 UK",
+ "updated": "2026-10-07T20:09:42+01:00",
+ "updated_label": "7 Oct 2026, 20:09 UK",
  "start": {
   "date": "2026-10-07T01:07:52+01:00",
   "gbp": 500.0,
@@ -96,6 +96,21 @@
    1791389654,
    660.95,
    498.35
+  ],
+  [
+   1791393085,
+   660.95,
+   498.35
+  ],
+  [
+   1791396984,
+   660.95,
+   498.35
+  ],
+  [
+   1791400182,
+   660.95,
+   498.35
   ]
  ],
  "open": [],
@@ -124,6 +139,12 @@
    "ts": "2026-10-07T17:14:14+01:00",
    "reasons": [
     "macro window: FOMC minutes Wed 07 Oct 19:00 UK",
+    "BTC below 4h EMA50"
+   ]
+  },
+  {
+   "ts": "2026-10-07T20:09:42+01:00",
+   "reasons": [
     "BTC below 4h EMA50"
    ]
   }
