@@ -1,0 +1,45 @@
+/* Demo tab: Journal 2 (virtual leg-one journal; no real holdings or balances) */
+.dj-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.6rem; margin-bottom: 0.875rem; }
+@media (max-width: 760px) { .dj-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.dj-stat { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius); padding: 0.7rem 0.8rem; min-width: 0; }
+.dj-stat.hero { grid-column: span 2; border-top: 2px solid var(--gold); }
+.dj-stat .l { font-size: 0.64rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.2rem; }
+.dj-stat .v { font-size: 1.15rem; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; overflow-wrap: anywhere; }
+.dj-stat.hero .v { font-size: 1.5rem; }
+.dj-stat .s { font-size: 0.78rem; color: var(--text-muted); font-variant-numeric: tabular-nums; margin-top: 0.1rem; }
+.dj-up { color: var(--green); } .dj-down { color: var(--red); } .dj-flat { color: var(--text-muted); }
+.dj-chart { position: relative; width: 100%; height: 260px; border-radius: var(--radius-sm); overflow: hidden; background: var(--bg-elevated); border: 1px solid var(--border-subtle); }
+@media (max-width: 640px) { .dj-chart { height: 220px; } }
+.dj-chart .ts-msg { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 1rem; font-size: 0.8rem; color: var(--text-dim); }
+.dj-pos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem; }
+@media (max-width: 760px) { .dj-pos { grid-template-columns: minmax(0, 1fr); } }
+.dj-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-top: 3px solid var(--border); border-radius: var(--radius); padding: 0.8rem 0.9rem; display: flex; flex-direction: column; gap: 0.5rem; min-width: 0; }
+.dj-card.k-green { border-top-color: var(--green); } .dj-card.k-red { border-top-color: var(--red); } .dj-card.k-amber { border-top-color: var(--gold); }
+.dj-card .hd { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; }
+.dj-card h3 { font-size: 1.05rem; font-weight: 800; font-family: var(--mono); }
+.dj-card .px { text-align: right; font-variant-numeric: tabular-nums; }
+.dj-card .px .p { font-size: 1.1rem; font-weight: 800; }
+.dj-card .px .u { font-size: 0.82rem; font-weight: 700; }
+.dj-lv { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.35rem; }
+@media (max-width: 430px) { .dj-lv { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.dj-lv div { background: var(--bg-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0.35rem 0.4rem; text-align: center; min-width: 0; }
+.dj-lv .l { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-dim); }
+.dj-lv .v { font-size: 0.78rem; font-weight: 700; font-family: var(--mono); overflow-wrap: anywhere; }
+.dj-card .why { font-size: 0.76rem; color: var(--text-muted); }
+.dj-empty { padding: 0.9rem 1rem; border: 1px dashed var(--border); border-radius: var(--radius); color: var(--text-muted); font-size: 0.85rem; text-align: center; }
+.dj-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--border-subtle); border-radius: var(--radius); background: var(--bg-card); }
+.dj-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; font-variant-numeric: tabular-nums; }
+.dj-table th { text-align: left; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-dim); padding: 0.55rem 0.6rem; border-bottom: 1px solid var(--border); white-space: nowrap; }
+.dj-table td { padding: 0.5rem 0.6rem; border-bottom: 1px solid var(--border-subtle); white-space: nowrap; vertical-align: top; }
+.dj-table td.num, .dj-table th.num { text-align: right; }
+.dj-table td.why { white-space: normal; min-width: 180px; color: var(--text-muted); font-size: 0.74rem; }
+.dj-table tr:last-child td { border-bottom: none; }
+.dj-tag { display: inline-block; font-size: 0.64rem; font-weight: 700; letter-spacing: 0.04em; padding: 0.12rem 0.45rem; border-radius: 999px; border: 1px solid var(--border); color: var(--text-muted); }
+.dj-tag.g { color: #4ade80; border-color: rgba(34,197,94,0.4); background: var(--green-dim); }
+.dj-tag.r { color: #f87171; border-color: rgba(230,57,70,0.45); background: var(--red-dim); }
+.dj-tag.a { color: var(--gold-bright); border-color: rgba(212,160,23,0.4); background: var(--gold-dim); }
+.dj-log { list-style: none; display: flex; flex-direction: column; gap: 0.35rem; }
+.dj-log li { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0.45rem 0.65rem; font-size: 0.8rem; display: flex; gap: 0.6rem; align-items: baseline; }
+.dj-log .t { font-family: var(--mono); font-size: 0.74rem; color: var(--text-dim); white-space: nowrap; }
+.dj-log .c { font-family: var(--mono); font-weight: 800; }
+.dj-sub { margin-top: 1.25rem; }
