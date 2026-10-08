@@ -1,37 +1,13 @@
 {
   "schema": 1,
-  "updated": "2026-10-07T08:49:00+01:00",
-  "updated_label": "7 Oct 2026, 8:49am UK",
+  "updated": "2026-10-08T08:48:00+01:00",
+  "updated_label": "8 Oct 2026, 8:48am UK",
   "source": "Watchlist buy-setup scan (Binance Spot daily candles, 60d swing high); synced by sync_setups.py",
   "chart": {
     "daily_limit": 120,
     "h4_limit": 180
   },
   "setups": [
-    {
-      "symbol": "ZECUSDT",
-      "name": "Zcash",
-      "state": "live",
-      "status_label": "Live (2.36R)",
-      "setup_date": "2026-10-07",
-      "setup_ts": "2026-10-07T08:49:00+01:00",
-      "zone": [
-        1271.08,
-        1349.49
-      ],
-      "entry": 1323.03,
-      "stop": 1164.26,
-      "stop_limit": 1155.5,
-      "tp1": 1640.55,
-      "tp1_r": 2.0,
-      "tp2": 1878.7,
-      "tp2_r": 3.5,
-      "swing_high": 1698.0,
-      "swing_high_date": "2026-09-26",
-      "notes": [
-        "Wide daily swings, a 12% stop gets hit often. Size smaller."
-      ]
-    },
     {
       "symbol": "RENDERUSDT",
       "name": "Render",
@@ -80,6 +56,32 @@
       "notes": [
         "Old levels shown greyed for reference only.",
         "Why: still falling hard through support pullback now 26.2% (>25%)"
+      ]
+    },
+    {
+      "symbol": "ZECUSDT",
+      "name": "Zcash",
+      "state": "invalidated",
+      "status_label": "Invalidated, don't chase",
+      "setup_date": "2026-10-07",
+      "setup_ts": "2026-10-07T08:49:00+01:00",
+      "invalidated_ts": "2026-10-08T08:50:00+01:00",
+      "zone": [
+        1271.08,
+        1349.49
+      ],
+      "entry": 1323.03,
+      "stop": 1164.26,
+      "stop_limit": 1155.5,
+      "tp1": 1640.55,
+      "tp1_r": 2.0,
+      "tp2": 1878.7,
+      "tp2_r": 3.5,
+      "swing_high": 1698.0,
+      "swing_high_date": "2026-09-26",
+      "notes": [
+        "Old levels shown greyed for reference only.",
+        "Why: pullback now 26.8% (>25%) still cascading below zone (1243.29 < 1271.08)"
       ]
     },
     {
