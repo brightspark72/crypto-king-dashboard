@@ -2,8 +2,8 @@
  "schema": 1,
  "name": "Journal 2",
  "description": "Virtual leg-one journal: every watchlist buy-setup alert sent, taken at the alert's exact levels, plus every qualifying 1h setup, under the leg-one rules, simulated on live Binance Spot prices. No real money.",
- "updated": "2026-10-11T09:06:54+01:00",
- "updated_label": "11 Oct 2026, 09:06 UK",
+ "updated": "2026-10-11T11:05:36+01:00",
+ "updated_label": "11 Oct 2026, 11:05 UK",
  "start": {
   "date": "2026-10-07T01:07:52+01:00",
   "gbp": 500.0,
@@ -11,11 +11,11 @@
   "fx_gbp_usd": 1.321904
  },
  "summary": {
-  "equity_usdt": 630.3,
-  "equity_gbp": 476.44,
+  "equity_usdt": 637.48,
+  "equity_gbp": 481.86,
   "fx_gbp_usd": 1.322935,
   "cash_usdt": 211.98,
-  "since_start_pct": -4.64,
+  "since_start_pct": -3.55,
   "trades": 1,
   "wins": 0,
   "win_rate": 0.0,
@@ -29,7 +29,7 @@
    "stopouts": 0,
    "closed": 0,
    "R": 0,
-   "day_pnl_pct": -0.38,
+   "day_pnl_pct": 0.75,
    "breaker": false,
    "entries_left": 1
   }
@@ -341,6 +341,16 @@
    1791706014,
    630.3,
    476.44
+  ],
+  [
+   1791709533,
+   633.59,
+   478.92
+  ],
+  [
+   1791713136,
+   637.48,
+   481.86
   ]
  ],
  "open": [
@@ -363,7 +373,7 @@
    "realized_R": 0.0,
    "reason": "Watchlist alert 11 Oct 08:50 UK, alert levels; daily pullback -23.5% from 0.2555; price already below entry, filled at market",
    "source": "watchlist alert",
-   "last_price": 0.1939,
+   "last_price": 0.1988,
    "units": 1076.9,
    "stop_gapped": false
   },
@@ -386,7 +396,7 @@
    "realized_R": 0.0,
    "reason": "Watchlist alert 11 Oct 08:50 UK, alert levels; daily pullback -24.9% from 0.2946; price already below entry, filled at market",
    "source": "watchlist alert",
-   "last_price": 0.2207,
+   "last_price": 0.2227,
    "units": 949.3,
    "stop_gapped": false
   }
