@@ -1,37 +1,13 @@
 {
   "schema": 1,
-  "updated": "2026-10-12T14:04:00+01:00",
-  "updated_label": "12 Oct 2026, 2:04pm UK",
+  "updated": "2026-10-12T18:57:00+01:00",
+  "updated_label": "12 Oct 2026, 6:57pm UK",
   "source": "Watchlist buy-setup scan (Binance Spot daily candles, 60d swing high); synced by sync_setups.py",
   "chart": {
     "daily_limit": 120,
     "h4_limit": 180
   },
   "setups": [
-    {
-      "symbol": "ENAUSDT",
-      "name": "Ethena",
-      "state": "live",
-      "status_label": "Live (2.43R)",
-      "setup_date": "2026-10-12",
-      "setup_ts": "2026-10-12T14:04:00+01:00",
-      "zone": [
-        0.1941,
-        0.2326
-      ],
-      "entry": 0.2281,
-      "stop": 0.2007,
-      "stop_limit": 0.1991,
-      "tp1": 0.2828,
-      "tp1_r": 2.0,
-      "tp2": 0.3239,
-      "tp2_r": 3.5,
-      "swing_high": 0.2946,
-      "swing_high_date": "2026-09-27",
-      "notes": [
-        "Borderline R:R. Don't chase above the zone."
-      ]
-    },
     {
       "symbol": "ZECUSDT",
       "name": "Zcash",
@@ -79,6 +55,30 @@
       "notes": [
         "Token unlock ~16 Oct.",
         "Tends to move with OP (L2 correlation)."
+      ]
+    },
+    {
+      "symbol": "ENAUSDT",
+      "name": "Ethena",
+      "state": "live",
+      "status_label": "Live (2.77R)",
+      "setup_date": "2026-10-11",
+      "setup_ts": "2026-10-11T08:50:00+01:00",
+      "zone": [
+        0.1941,
+        0.2255
+      ],
+      "entry": 0.2211,
+      "stop": 0.1945,
+      "stop_limit": 0.193,
+      "tp1": 0.2741,
+      "tp1_r": 1.99,
+      "tp2": 0.3139,
+      "tp2_r": 3.49,
+      "swing_high": 0.2946,
+      "swing_high_date": "2026-09-27",
+      "notes": [
+        "Borderline R:R. Don't chase above the zone."
       ]
     },
     {
