@@ -1,13 +1,35 @@
 {
   "schema": 1,
-  "updated": "2026-10-12T18:57:00+01:00",
-  "updated_label": "12 Oct 2026, 6:57pm UK",
+  "updated": "2026-10-14T13:46:00+01:00",
+  "updated_label": "14 Oct 2026, 1:46pm UK",
   "source": "Watchlist buy-setup scan (Binance Spot daily candles, 60d swing high); synced by sync_setups.py",
   "chart": {
     "daily_limit": 120,
     "h4_limit": 180
   },
   "setups": [
+    {
+      "symbol": "SUIUSDT",
+      "name": "Sui",
+      "state": "live",
+      "status_label": "Live (borderline 2.12R)",
+      "setup_date": "2026-10-14",
+      "setup_ts": "2026-10-14T13:46:00+01:00",
+      "zone": [
+        0.9935,
+        1.0528
+      ],
+      "entry": 1.0322,
+      "stop": 0.9083,
+      "stop_limit": 0.9014,
+      "tp1": 1.2947,
+      "tp1_r": 2.12,
+      "tp2": 1.4657,
+      "tp2_r": 3.5,
+      "swing_high": 1.2947,
+      "swing_high_date": "2026-09-27",
+      "notes": []
+    },
     {
       "symbol": "ZECUSDT",
       "name": "Zcash",
