@@ -3,8 +3,8 @@
  "name": "Pyramid",
  "kind": "pyramid",
  "description": "Virtual Pyramid journal (Journal 3): same 1h/4h entry trigger as Journal 2, then Tom-style scale-in every +2R (4 adds of half size) with the shared stop lifted to the previous ladder price at each add. Simulated on live Binance Spot prices. No real money.",
- "updated": "2026-10-14T15:11:02+01:00",
- "updated_label": "14 Oct 2026, 15:11 UK",
+ "updated": "2026-10-14T22:13:48+01:00",
+ "updated_label": "14 Oct 2026, 22:13 UK",
  "start": {
   "date": "2026-10-07T01:38:44+01:00",
   "gbp": 500.0,
@@ -613,6 +613,36 @@
    1791987062,
    660.95,
    498.83
+  ],
+  [
+   1791990390,
+   660.95,
+   498.83
+  ],
+  [
+   1791994509,
+   660.95,
+   498.83
+  ],
+  [
+   1791997968,
+   660.95,
+   498.83
+  ],
+  [
+   1792004925,
+   660.95,
+   498.83
+  ],
+  [
+   1792008617,
+   660.95,
+   498.83
+  ],
+  [
+   1792012428,
+   660.95,
+   498.83
   ]
  ],
  "open": [],
@@ -652,6 +682,13 @@
   {
    "ts": "2026-10-14T15:11:02+01:00",
    "reasons": [
+    "BTC below 4h EMA50"
+   ]
+  },
+  {
+   "ts": "2026-10-14T22:13:48+01:00",
+   "reasons": [
+    "outside entry hours (08:00-22:00 UK)",
     "BTC below 4h EMA50"
    ]
   }
