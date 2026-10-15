@@ -3,8 +3,8 @@
  "name": "Pyramid",
  "kind": "pyramid",
  "description": "Virtual Pyramid journal (Journal 3): same 1h/4h entry trigger as Journal 2, then Tom-style scale-in every +2R (4 adds of half size) with the shared stop lifted to the previous ladder price at each add. Simulated on live Binance Spot prices. No real money.",
- "updated": "2026-10-14T22:13:48+01:00",
- "updated_label": "14 Oct 2026, 22:13 UK",
+ "updated": "2026-10-15T08:06:13+01:00",
+ "updated_label": "15 Oct 2026, 08:06 UK",
  "start": {
   "date": "2026-10-07T01:38:44+01:00",
   "gbp": 500.0,
@@ -13,8 +13,8 @@
  },
  "summary": {
   "equity_usdt": 660.95,
-  "equity_gbp": 498.83,
-  "fx_gbp_usd": 1.324993,
+  "equity_gbp": 499.78,
+  "fx_gbp_usd": 1.322471,
   "cash_usdt": 660.95,
   "since_start_pct": 0.0,
   "trades": 0,
@@ -24,7 +24,7 @@
   "avg_R": null,
   "max_drawdown_pct": 0.0,
   "today": {
-   "date": "2026-10-14",
+   "date": "2026-10-15",
    "entries": 0,
    "fills": 0,
    "adds": 0,
@@ -643,6 +643,11 @@
    1792012428,
    660.95,
    498.83
+  ],
+  [
+   1792047973,
+   660.95,
+   499.78
   ]
  ],
  "open": [],
@@ -650,45 +655,8 @@
  "skipped_today": [],
  "blocked_today": [
   {
-   "ts": "2026-10-14T08:16:05+01:00",
-   "reasons": []
-  },
-  {
-   "ts": "2026-10-14T10:13:05+01:00",
+   "ts": "2026-10-15T08:06:13+01:00",
    "reasons": [
-    "BTC below 4h EMA50"
-   ]
-  },
-  {
-   "ts": "2026-10-14T12:14:45+01:00",
-   "reasons": [
-    "macro window: US CPI Wed 14 Oct 13:30 UK",
-    "BTC below 4h EMA50"
-   ]
-  },
-  {
-   "ts": "2026-10-14T13:12:58+01:00",
-   "reasons": [
-    "macro window: US CPI Wed 14 Oct 13:30 UK"
-   ]
-  },
-  {
-   "ts": "2026-10-14T14:10:24+01:00",
-   "reasons": [
-    "macro window: US CPI Wed 14 Oct 13:30 UK",
-    "BTC below 4h EMA50"
-   ]
-  },
-  {
-   "ts": "2026-10-14T15:11:02+01:00",
-   "reasons": [
-    "BTC below 4h EMA50"
-   ]
-  },
-  {
-   "ts": "2026-10-14T22:13:48+01:00",
-   "reasons": [
-    "outside entry hours (08:00-22:00 UK)",
     "BTC below 4h EMA50"
    ]
   }
