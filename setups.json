@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "updated": "2026-10-14T13:46:00+01:00",
-  "updated_label": "14 Oct 2026, 1:46pm UK",
+  "updated": "2026-10-15T08:45:00+01:00",
+  "updated_label": "15 Oct 2026, 8:45am UK",
   "source": "Watchlist buy-setup scan (Binance Spot daily candles, 60d swing high); synced by sync_setups.py",
   "chart": {
     "daily_limit": 120,
@@ -31,30 +31,6 @@
       "notes": []
     },
     {
-      "symbol": "ZECUSDT",
-      "name": "Zcash",
-      "state": "live",
-      "status_label": "Live (2.60R)",
-      "setup_date": "2026-10-11",
-      "setup_ts": "2026-10-11T18:43:00+01:00",
-      "zone": [
-        1112.77,
-        1320.29
-      ],
-      "entry": 1294.41,
-      "stop": 1139.08,
-      "stop_limit": 1130.5,
-      "tp1": 1605.06,
-      "tp1_r": 2.0,
-      "tp2": 1838.06,
-      "tp2_r": 3.5,
-      "swing_high": 1698.0,
-      "swing_high_date": "2026-09-26",
-      "notes": [
-        "Wide daily swings, a 12% stop gets hit often. Size smaller."
-      ]
-    },
-    {
       "symbol": "ARBUSDT",
       "name": "Arbitrum",
       "state": "live",
@@ -80,30 +56,6 @@
       ]
     },
     {
-      "symbol": "ENAUSDT",
-      "name": "Ethena",
-      "state": "live",
-      "status_label": "Live (2.77R)",
-      "setup_date": "2026-10-11",
-      "setup_ts": "2026-10-11T08:50:00+01:00",
-      "zone": [
-        0.1941,
-        0.2255
-      ],
-      "entry": 0.2211,
-      "stop": 0.1945,
-      "stop_limit": 0.193,
-      "tp1": 0.2741,
-      "tp1_r": 1.99,
-      "tp2": 0.3139,
-      "tp2_r": 3.49,
-      "swing_high": 0.2946,
-      "swing_high_date": "2026-09-27",
-      "notes": [
-        "Borderline R:R. Don't chase above the zone."
-      ]
-    },
-    {
       "symbol": "RENDERUSDT",
       "name": "Render",
       "state": "waiting",
@@ -125,6 +77,58 @@
       "swing_high_date": "2026-10-06",
       "notes": [
         "Not armed yet: entry, stop and targets get set when price is in the zone and a scan confirms."
+      ]
+    },
+    {
+      "symbol": "ZECUSDT",
+      "name": "Zcash",
+      "state": "invalidated",
+      "status_label": "Invalidated (stop hit), don't chase",
+      "setup_date": "2026-10-11",
+      "setup_ts": "2026-10-11T18:43:00+01:00",
+      "invalidated_ts": "2026-10-15T08:45:00+01:00",
+      "zone": [
+        1112.77,
+        1320.29
+      ],
+      "entry": 1294.41,
+      "stop": 1139.08,
+      "stop_limit": 1130.5,
+      "tp1": 1605.06,
+      "tp1_r": 2.0,
+      "tp2": 1838.06,
+      "tp2_r": 3.5,
+      "swing_high": 1698.0,
+      "swing_high_date": "2026-09-26",
+      "notes": [
+        "Old levels shown greyed for reference only.",
+        "Why: broke stop 1139.08 (price 1102.8)"
+      ]
+    },
+    {
+      "symbol": "ENAUSDT",
+      "name": "Ethena",
+      "state": "invalidated",
+      "status_label": "Invalidated (stop hit), don't chase",
+      "setup_date": "2026-10-11",
+      "setup_ts": "2026-10-11T08:50:00+01:00",
+      "invalidated_ts": "2026-10-15T08:45:00+01:00",
+      "zone": [
+        0.1941,
+        0.2255
+      ],
+      "entry": 0.2211,
+      "stop": 0.1945,
+      "stop_limit": 0.193,
+      "tp1": 0.2741,
+      "tp1_r": 1.99,
+      "tp2": 0.3139,
+      "tp2_r": 3.49,
+      "swing_high": 0.2946,
+      "swing_high_date": "2026-09-27",
+      "notes": [
+        "Old levels shown greyed for reference only.",
+        "Why: broke stop 0.1945 (price 0.1847)"
       ]
     }
   ]
