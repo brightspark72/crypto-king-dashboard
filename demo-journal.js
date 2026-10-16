@@ -168,7 +168,7 @@
       var under = p.status === "pending"
         ? '<div class="u dj-flat">limit ' + fmtP(p.limit) + (isNum(m.px) ? " · " + pct((m.px / p.limit - 1) * 100) + " away" : "") + "</div>"
         : '<div class="u ' + cls(m.R) + '">' + mark(m.R) + pct(m.pct) + " · " + rr(m.R) + "</div>";
-      return '<article class="dj-card ' + k + '"><div class="hd"><div><h3>' + esc(p.coin) + '</h3><span class="dj-tag ' + tag + '">' + esc(p.status_label) + "</span></div>" +
+      return '<article class="dj-card ' + k + '"><div class="hd"><div><h3>' + esc(p.coin) + '</h3><span class="dj-tag ' + tag + '">' + esc(p.status_label) + "</span> " + stratTag(p.strategy) + "</div>" +
         '<div class="px"><div class="p">' + fmtP(m.px) + "</div>" + under + "</div></div>" +
         '<div class="dj-lv"><div><div class="l">Entry</div><div class="v">' + fmtP(p.entry) + '</div></div><div><div class="l">🛑 Stop</div><div class="v">' + fmtP(p.stop) +
         '</div></div><div><div class="l">🎯 TP1</div><div class="v">' + fmtP(p.tp1) + '</div></div><div><div class="l">🎯 TP2</div><div class="v">' + fmtP(p.tp2) + "</div></div></div>" +
@@ -209,6 +209,10 @@
     else renderOpenJ2();
   }
 
+  function stratTag(st) {
+    if (!st) return "";
+    return st === "momentum" ? '<span class="dj-tag g">🚀 momentum</span>' : '<span class="dj-tag">dip</span>';
+  }
   function howTag(h) {
     var c = h === "TP1+TP2" || h === "trail" || h === "ladder-stop" ? "g" : h === "stop" ? "r" : h === "expired" ? "" : "a";
     return '<span class="dj-tag ' + c + '">' + esc(h) + "</span>";
@@ -218,14 +222,14 @@
     if (!rows.length) { $("djClosed").innerHTML = '<div class="dj-empty">No closed ' + (which === "pyramid" ? "pyramids" : "trades") + " yet.</div>"; return; }
     var head = which === "pyramid"
       ? '<th>Closed (UK)</th><th>Coin</th><th class="num">Entry1</th><th class="num">Exit</th><th class="num">Fills</th><th class="num">R</th><th class="num">%</th><th>How</th><th>Why taken</th>'
-      : '<th>Closed (UK)</th><th>Coin</th><th class="num">Entry</th><th class="num">Exit</th><th class="num">R</th><th class="num">%</th><th>How</th><th>Why taken</th>';
+      : '<th>Closed (UK)</th><th>Coin</th><th>Strategy</th><th class="num">Entry</th><th class="num">Exit</th><th class="num">R</th><th class="num">%</th><th>How</th><th>Why taken</th>';
     $("djClosed").innerHTML = '<div class="dj-table-wrap"><table class="dj-table"><thead><tr>' + head + "</tr></thead><tbody>" +
       rows.map(function (t) {
         if (which === "pyramid") {
           return "<tr><td>" + esc(ukT(t.closed_ts, true)) + '</td><td><b style="font-family:var(--mono)">' + esc(t.coin) + '</b></td><td class="num">' + fmtP(t.entry) + '</td><td class="num">' + fmtP(t.exit) +
             '</td><td class="num">' + (t.n_fills || "—") + '</td><td class="num ' + cls(t.R) + '"><b>' + rr(t.R) + '</b></td><td class="num ' + cls(t.pct) + '">' + pct(t.pct) + "</td><td>" + howTag(t.how) + '</td><td class="why">' + esc(t.reason) + "</td></tr>";
         }
-        return "<tr><td>" + esc(ukT(t.closed_ts, true)) + '</td><td><b style="font-family:var(--mono)">' + esc(t.coin) + '</b></td><td class="num">' + fmtP(t.entry) + '</td><td class="num">' + fmtP(t.exit) +
+        return "<tr><td>" + esc(ukT(t.closed_ts, true)) + '</td><td><b style="font-family:var(--mono)">' + esc(t.coin) + '</b></td><td>' + stratTag(t.strategy || "dip") + '</td><td class="num">' + fmtP(t.entry) + '</td><td class="num">' + fmtP(t.exit) +
           '</td><td class="num ' + cls(t.R) + '"><b>' + rr(t.R) + '</b></td><td class="num ' + cls(t.pct) + '">' + pct(t.pct) + "</td><td>" + howTag(t.how) + '</td><td class="why">' + esc(t.reason) + "</td></tr>";
       }).join("") + "</tbody></table></div>";
   }
